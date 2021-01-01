@@ -1,0 +1,65 @@
+package sey.a.rasp3.service;
+
+import java.util.ArrayList;
+
+import sey.a.rasp3.model.Lesson;
+import sey.a.rasp3.model.Schedule;
+import sey.a.rasp3.model.Time;
+import sey.a.rasp3.shell.Clocks;
+import sey.a.rasp3.shell.Xmls;
+
+public class TimeService {
+    private static Long maxId = 0L;
+
+    public Time create(Schedule schedule, String name, Clocks start, Clocks end) {
+        Time time = new Time();
+        time.setId(++maxId);
+        time.setSchedule(schedule);
+        schedule.getTimes().add(time);
+        time.setName(name);
+        time.setStartTime(start);
+        time.setEndTime(end);
+        time.setHide(0);
+        time.setLessons(new ArrayList<Lesson>());
+        return time;
+    }
+
+    public Time fastCreate() {
+        return null;
+    }
+
+    public Time update() {
+        return null;
+    }
+
+    public boolean hide() {
+        return false;
+    }
+
+    public void delete() {
+
+    }
+
+    public String toXML(Time time) {
+        StringBuilder xml = new StringBuilder();
+        xml.append(Xmls.stringToXml("id", time.getId().toString()));
+        xml.append(Xmls.stringToXml("name", time.getName()));
+        xml.append(Xmls.stringToXml("startTime", time.getStartTime().toString()));
+        xml.append(Xmls.stringToXml("endTime", time.getEndTime().toString()));
+        xml.append(Xmls.stringToXml("hide", time.getHide().toString()));
+        return xml.toString();
+    }
+
+    public Time fromXML(String text, Schedule schedule) {
+        Time time = new Time();
+        time.setSchedule(schedule);
+        time.setId(Xmls.extractLong("id", text));
+        maxId = Math.max(maxId, time.getId());
+        time.setName(Xmls.extractString("name", text));
+        time.setStartTime(new Clocks(Xmls.extractString("startTime", text)));
+        time.setEndTime(new Clocks(Xmls.extractString("endTime", text)));
+        time.setHide(Xmls.extractInteger("hide", text));
+        time.setLessons(new ArrayList<Lesson>());
+        return time;
+    }
+}

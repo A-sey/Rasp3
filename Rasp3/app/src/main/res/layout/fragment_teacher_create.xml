@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
+
+    <EditText
+        android:id="@+id/fullName"
+        android:hint="@string/teacher_full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:importantForAutofill="no" />
+    <EditText
+        android:id="@+id/shortName"
+        android:hint="@string/teacher_short_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAutofill="no"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/comment"
+        android:hint="@string/teacher_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAutofill="no"
+        android:inputType="text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/cancel"
+            android:text="Отмена"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:layout_width="100dp" />
+        <Button
+            android:id="@+id/ok"
+            android:text="OK"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:layout_width="100dp" />
+    </LinearLayout>
+</LinearLayout>

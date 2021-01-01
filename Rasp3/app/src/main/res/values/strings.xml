@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Rasp3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">A-Sey</string>
+    <string name="nav_header_subtitle">https://github.com/A-sey/</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_select_schedule">Выбрать расписание</string>
+
+    <string name="menu_schedule">Расписание</string>
+    <string name="menu_teachers">Преподаватели</string>
+    <string name="menu_disciplines">Предметы</string>
+    <string name="menu_types">Типы пар</string>
+    <string name="menu_times">Времена пар</string>
+    <string name="menu_group_communicate">Передача</string>
+    <string name="menu_send">Отправить</string>
+    <string name="teacher_full_name">Полное имя</string>
+    <string name="teacher_short_name">Сокращённое имя</string>
+    <string name="teacher_comment">Комментарий</string>
+    <string name="discipline_comment">Комментарий</string>
+    <string name="discipline_short_name">Сокращённое название</string>
+    <string name="discipline_full_name">Полное название</string>
+    <string name="add">ДОБАВИТЬ</string>
+    <string name="name">Название</string>
+</resources>
