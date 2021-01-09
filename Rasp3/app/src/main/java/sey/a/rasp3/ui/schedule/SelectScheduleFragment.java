@@ -1,6 +1,8 @@
 package sey.a.rasp3.ui.schedule;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,21 @@ public class SelectScheduleFragment extends Activity {
         setContentView(R.layout.fragment_discipline_list);
 
         Button add = findViewById((R.id.add));
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ScheduleCreate scheduleCreate = new ScheduleCreate();
+                AlertDialog.Builder adb = new AlertDialog.Builder(SelectScheduleFragment.this);
+                adb.setView(scheduleCreate.createForm(SelectScheduleFragment.this));
+                adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        scheduleCreate.positiveClick();
+                    }
+                });
+                adb.create().show();
+            }
+        });
 
         showList();
     }

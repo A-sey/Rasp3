@@ -7,7 +7,7 @@ import java.util.List;
 import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.LessonDate;
-import sey.a.rasp3.model.Note;
+import sey.a.rasp3.model.RawLesson;
 import sey.a.rasp3.model.Schedule;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Time;
@@ -15,11 +15,45 @@ import sey.a.rasp3.model.Type;
 import sey.a.rasp3.shell.Xmls;
 
 public class LessonService {
-    private static Long maxIdLesson = 0L;
-    private static Long maxIdLessonDate = 0L;
+    private static LessonDateService lessonDateService = new LessonDateService();
+    private static Long maxId = 0L;
 
+    public Lesson create(Schedule schedule, RawLesson raw){
+        Lesson lesson = new Lesson();
+        lesson.setId(++maxId);
+        lesson.setSchedule(schedule);
+        schedule.getLessons().add(lesson);
+        lesson.setDiscipline(raw.getDiscipline());
+        lesson.setTeachers(raw.getTeachers());
+        lesson.setType(raw.getType());
+        lesson.setTime(raw.getTime());
+        lesson.setAuditorium(raw.getAuditorium());
+        lesson.setHide(0);
+        lesson.setLessonDates(new ArrayList<LessonDate>());
+        if(raw.getDates().size()==0){
+            raw.generateDates(schedule.getStartDate());
+        }
+        for (Calendar d : raw.getDates()) {
+            lesson.getLessonDates().add(lessonDateService.create(lesson, d));
+        }
+        return lesson;
+    }
     public Lesson create(Schedule schedule, List<Calendar> dates, Discipline discipline, List<Teacher> teachers, Type type, Time time, String auditorium) {
-        return null;
+        Lesson lesson = new Lesson();
+        lesson.setId(++maxId);
+        lesson.setSchedule(schedule);
+        schedule.getLessons().add(lesson);
+        lesson.setDiscipline(discipline);
+        lesson.setTeachers(teachers);
+        lesson.setType(type);
+        lesson.setTime(time);
+        lesson.setAuditorium(auditorium);
+        lesson.setHide(0);
+        lesson.setLessonDates(new ArrayList<LessonDate>());
+        for (Calendar d : dates) {
+            lesson.getLessonDates().add(lessonDateService.create(lesson, d));
+        }
+        return lesson;
     }
 
     public Lesson fastCreate() {
@@ -48,30 +82,21 @@ public class LessonService {
         xml.append(Xmls.stringToXml("timeId", lesson.getTime().getId().toString()));
         xml.append(Xmls.stringToXml("typeId", lesson.getType().getId().toString()));
         xml.append(Xmls.stringToXml("hide", lesson.getHide().toString()));
+        xml.append(Xmls.stringToXml("auditorium", lesson.getAuditorium()));
         for (LessonDate ld : lesson.getLessonDates()) {
-            xml.append(Xmls.stringToXml("lessonDate", lessonDateToXml(ld)));
+            xml.append(Xmls.stringToXml("lessonDate", lessonDateService.toXml(ld)));
         }
         return xml.toString();
     }
 
-    private String lessonDateToXml(LessonDate lessonDate) {
-        NoteService noteService = new NoteService();
-        StringBuffer xml = new StringBuffer();
-        xml.append(Xmls.stringToXml("id", lessonDate.getId().toString()));
-        xml.append(Xmls.dateToXml("date", lessonDate.getDate()));
-        xml.append(Xmls.stringToXml("hide", lessonDate.getHide().toString()));
-        for (Note n : lessonDate.getNotes()) {
-            xml.append(Xmls.stringToXml("note", noteService.toXML(n)));
-        }
-        return xml.toString();
-    }
 
     public Lesson fromXML(String text, Schedule schedule) {
         Lesson lesson = new Lesson();
         lesson.setSchedule(schedule);
         lesson.setId(Xmls.extractLong("id", text));
-        maxIdLesson = Math.max(maxIdLesson, lesson.getId());
+        maxId = Math.max(maxId, lesson.getId());
         lesson.setHide(Xmls.extractInteger("hide", text));
+        lesson.setAuditorium(Xmls.extractString("auditorium", text));
 
         Long disciplineId = Xmls.extractLong("disciplineId", text);
         for (Discipline d : schedule.getDisciplines()) {
@@ -113,19 +138,10 @@ public class LessonService {
 
         lesson.setLessonDates(new ArrayList<LessonDate>());
         for (String ld : Xmls.extractStringList("lessonDate", text)) {
-            lesson.getLessonDates().add(lessonDateFromXml(text, lesson));
+            lesson.getLessonDates().add(lessonDateService.fromXml(text, lesson));
         }
         return lesson;
     }
 
-    private LessonDate lessonDateFromXml(String text, Lesson lesson) {
-        LessonDate ld = new LessonDate();
-        ld.setLesson(lesson);
-        ld.setId(Xmls.extractLong("id", text));
-        maxIdLessonDate = Math.max(maxIdLessonDate, ld.getId());
-        ld.setHide(Xmls.extractInteger("hide", text));
-        ld.setDate(Xmls.extractDate("date", text));
-        ld.setNotes(new ArrayList<Note>());
-        return ld;
-    }
+
 }

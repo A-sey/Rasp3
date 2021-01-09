@@ -15,6 +15,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 
+import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.lesson.LessonCreate;
 import sey.a.rasp3.ui.schedule.SelectScheduleFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        General.createFiles(getBaseContext());
     }
 
     @Override
@@ -61,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SelectScheduleFragment.class);
             startActivity(intent);
             //startActivityForResult(intent, 2);
+        }
+        if(id==R.id.action_create_lesson){
+            Intent intent = new Intent(MainActivity.this, LessonCreate.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

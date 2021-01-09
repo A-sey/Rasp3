@@ -1,7 +1,6 @@
 package sey.a.rasp3.ui.schedule;
 
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,6 +28,7 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_schedule, container, false);
+
         date = Calendar.getInstance();
         showList();
         return root;
@@ -43,7 +43,7 @@ public class ScheduleFragment extends Fragment {
         LinearLayout LL = root.findViewById(R.id.layout);
         LL.removeAllViews();
 
-        date.set(2020, 8, 29);
+//        date.set(2020, 8, 29);
 
         List<Lesson> lessons = General.getSchedule().getLessons();
 
@@ -58,27 +58,48 @@ public class ScheduleFragment extends Fragment {
 
     }
 
-    private View drawLesson(LessonDate lessonDate) {
+    private View drawLesson(LessonDate lessonDate){
+        Lesson l = lessonDate.getLesson();
+        LinearLayout common = (LinearLayout) getLayoutInflater().inflate(R.layout.fragment_lesson, null, false);
+        TextView condition = common.findViewById(R.id.condition);
+        TextView startTime = common.findViewById(R.id.start_time);
+        TextView endTime = common.findViewById(R.id.end_time);
+        TextView lessonType = common.findViewById(R.id.lesson_type);
+        TextView lessonDiscipline = common.findViewById(R.id.lesson_discipline);
+        TextView lessonTeachers = common.findViewById(R.id.lesson_teachers);
+        TextView auditorium = common.findViewById(R.id.auditorium);
+
+        startTime.setText(l.getTime().getStartTime().toString());
+        endTime.setText(l.getTime().getEndTime().toString());
+        lessonType.setText(l.getType().getName());
+        lessonDiscipline.setText(l.getDiscipline().getShortName());
+        StringBuilder teachers = new StringBuilder();
+        for (Teacher t: l.getTeachers()){
+            teachers.append(t.getShortName()).append("\n");
+        }
+        lessonTeachers.setText(teachers.toString().trim());
+        auditorium.setText(l.getAuditorium());
+        return common;
+    }
+    private View drawLesson1(LessonDate lessonDate) {
         LinearLayout common = new LinearLayout(getContext());
         common.setOrientation(LinearLayout.HORIZONTAL);
         common.setGravity(Gravity.CENTER);
-        common.setWeightSum(1f);
+//        common.setWeightSum(1f);
 
         ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         LinearLayout c1 = new LinearLayout(getContext());
         c1.setOrientation(LinearLayout.VERTICAL);
-        c1.setGravity(Gravity.CENTER);
         LinearLayout c2 = new LinearLayout(getContext());
         c2.setOrientation(LinearLayout.VERTICAL);
-        c2.setGravity(Gravity.CENTER);
 
         ViewGroup.LayoutParams pc1 = new LinearLayout.LayoutParams(-2,-2);
-        ViewGroup.LayoutParams pc2 = new LinearLayout.LayoutParams(-1,-2);
-        common.addView(c1/*, pc1*/);
-        common.addView(c2/*, pc2*/);
+        ViewGroup.LayoutParams pc2 = new LinearLayout.LayoutParams(-2,-2);
+        common.addView(c1, pc1);
+        common.addView(c2, pc2);
 
-        c1.setWeightSum(0.3f);
-        c2.setWeightSum(0.7f);
+//        c1.setWeightSum(0.3f);
+//        c2.setWeightSum(0.7f);
 
         TextView condition = new TextView(getContext());
         condition.setText("TODO...");

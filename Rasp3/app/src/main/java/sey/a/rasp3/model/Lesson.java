@@ -18,7 +18,7 @@ public class Lesson {
     private Type type;
     private Integer hide;
     // Params
-    // ...
+    private String auditorium;
     // Depended
     private List<LessonDate> lessonDates;
 }

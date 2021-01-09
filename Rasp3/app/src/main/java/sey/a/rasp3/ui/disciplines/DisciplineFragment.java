@@ -14,10 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Discipline;
-import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.shell.General;
-import sey.a.rasp3.ui.teacher.TeacherCreate;
-import sey.a.rasp3.ui.teacher.TeacherFragment;
 
 public class DisciplineFragment extends Fragment {
     View root;
@@ -37,10 +34,11 @@ public class DisciplineFragment extends Fragment {
         showList();
         return root;
     }
+
     private void showList() {
         LinearLayout LL = root.findViewById(R.id.layout);
         LL.removeAllViews();
-        if(General.getSchedule()==null){
+        if (General.getSchedule() == null) {
             return;
         }
         for (Discipline d : General.getSchedule().getDisciplines()) {
