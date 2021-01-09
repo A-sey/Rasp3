@@ -42,7 +42,7 @@ public class Dates {
     public static int getWeekOfYear(Calendar date) {
         int offset = 0;
         if (date.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-            offset = 1;
+            offset = /*1*/0;
         }
         return date.get(Calendar.WEEK_OF_YEAR) - offset;
     }

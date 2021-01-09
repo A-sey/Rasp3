@@ -138,7 +138,7 @@ public class LessonService {
 
         lesson.setLessonDates(new ArrayList<LessonDate>());
         for (String ld : Xmls.extractStringList("lessonDate", text)) {
-            lesson.getLessonDates().add(lessonDateService.fromXml(text, lesson));
+            lesson.getLessonDates().add(lessonDateService.fromXml(ld, lesson));
         }
         return lesson;
     }

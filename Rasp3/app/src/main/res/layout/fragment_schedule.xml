@@ -9,22 +9,24 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
-            android:layout_weight="0.1"
-            android:orientation="horizontal"
+            android:id="@+id/date_navigation"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="76dp"
+            android:orientation="horizontal">
 
         </LinearLayout>
+
         <ScrollView
-            android:layout_weight="0.9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:id="@+id/layout"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             </LinearLayout>
         </ScrollView>
