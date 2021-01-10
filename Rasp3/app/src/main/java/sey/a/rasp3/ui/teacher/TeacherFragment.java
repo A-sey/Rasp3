@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.util.Collections;
+import java.util.List;
+
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.shell.General;
@@ -42,7 +45,9 @@ public class TeacherFragment extends Fragment {
         if(General.getSchedule()==null){
             return;
         }
-        for (Teacher t : General.getSchedule().getTeachers()) {
+        List<Teacher> teachers = General.getSchedule().getTeachers();
+        Collections.sort(teachers, Teacher.nameComparator);
+        for (Teacher t : teachers) {
             Button b = new Button(getContext());
             b.setText(t.getFullName());
             final String name = t.getShortName();

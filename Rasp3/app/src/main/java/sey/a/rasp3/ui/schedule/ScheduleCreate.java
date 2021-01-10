@@ -14,6 +14,7 @@ public class ScheduleCreate {
     private View root;
     public View createForm(Context context){
         root = View.inflate(context, R.layout.fragment_schedule_create, null);
+//        root = View.inflate(context, R.layout.fragment_lesson_create, null);
         return root;
     }
 

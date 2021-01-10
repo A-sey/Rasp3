@@ -1,5 +1,6 @@
 package sey.a.rasp3.model;
 
+import java.util.Comparator;
 import java.util.List;
 
 import lombok.Getter;
@@ -20,4 +21,12 @@ public class Teacher {
     // Depended
     private List<Lesson> lessons;
 
+    public static Comparator<Teacher> nameComparator = new Comparator<Teacher>() {
+        @Override
+        public int compare(Teacher t1, Teacher t2) {
+            if(t1.getFullName().equals(t2.getFullName()))
+                return 0;
+            return t1.getFullName().compareTo(t2.getFullName());
+        }
+    };
 }

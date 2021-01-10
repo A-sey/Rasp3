@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.util.Collections;
+import java.util.List;
+
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.shell.General;
@@ -41,7 +44,9 @@ public class DisciplineFragment extends Fragment {
         if (General.getSchedule() == null) {
             return;
         }
-        for (Discipline d : General.getSchedule().getDisciplines()) {
+        List<Discipline> disciplines = General.getSchedule().getDisciplines();
+        Collections.sort(disciplines, Discipline.nameComparator);
+        for (Discipline d : disciplines) {
             Button b = new Button(getContext());
             b.setText(d.getFullName());
             final String name = d.getShortName();

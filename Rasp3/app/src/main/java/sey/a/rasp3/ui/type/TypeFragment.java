@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.util.Collections;
+import java.util.List;
+
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Type;
@@ -41,7 +44,9 @@ public class TypeFragment extends Fragment {
         if(General.getSchedule()==null){
             return;
         }
-        for (Type t : General.getSchedule().getTypes()) {
+        List<Type> types = General.getSchedule().getTypes();
+        Collections.sort(types, Type.nameComparator);
+        for (Type t : types) {
             Button b = new Button(getContext());
             b.setText(t.getName());
             final String name = t.getName().toLowerCase();

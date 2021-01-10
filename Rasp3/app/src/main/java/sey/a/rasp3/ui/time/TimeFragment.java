@@ -12,6 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.shell.General;
@@ -22,6 +26,10 @@ public class TimeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_time_list, container, false);
+
+        if (General.getSchedule() == null) {
+            return root;
+        }
 
         Button addButton = root.findViewById(R.id.add);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -38,9 +46,8 @@ public class TimeFragment extends Fragment {
     private void showList() {
         LinearLayout LL = root.findViewById(R.id.layout);
         LL.removeAllViews();
-        if (General.getSchedule() == null) {
-            return;
-        }
+        List<Time> times = General.getSchedule().getTimes();
+        Collections.sort(times, Time.startTimeComparator);
         for (Time t : General.getSchedule().getTimes()) {
             Button b = new Button(getContext());
             b.setText(t.getName());
