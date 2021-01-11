@@ -2,12 +2,16 @@ package sey.a.rasp3.ui.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -58,6 +62,7 @@ public class ScheduleFragment extends Fragment {
         Button right = layout.findViewById(R.id.right_button);
         final TextView weekNumber = layout.findViewById(R.id.week_number);
         final TextView textDate = layout.findViewById(R.id.date);
+        final LinearLayout dateLayout = layout.findViewById(R.id.date_layout);
         writeDate(weekNumber, textDate);
         left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +96,14 @@ public class ScheduleFragment extends Fragment {
                 writeDate(weekNumber, textDate);
                 drawLessons();
                 return true;
+            }
+        });
+        dateLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                date = Calendar.getInstance();
+                writeDate(weekNumber, textDate);
+                drawLessons();
             }
         });
     }

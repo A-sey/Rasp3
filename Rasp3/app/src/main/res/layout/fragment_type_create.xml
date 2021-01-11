@@ -6,11 +6,11 @@
 
     <EditText
         android:id="@+id/fullName"
-        android:hint="@string/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:importantForAutofill="no" />
+        android:hint="@string/name"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences" />
 
     <LinearLayout
         android:layout_width="match_parent"

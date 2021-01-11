@@ -6,25 +6,27 @@
 
     <EditText
         android:id="@+id/fullName"
-        android:hint="@string/discipline_full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/discipline_full_name"
         android:importantForAutofill="no"
-        android:inputType="text" />
+        android:inputType="textCapWords" />
+
     <EditText
         android:id="@+id/shortName"
-        android:hint="@string/discipline_short_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/discipline_short_name"
         android:importantForAutofill="no"
-        android:inputType="text" />
+        android:inputType="textCapWords" />
+
     <EditText
         android:id="@+id/comment"
-        android:hint="@string/discipline_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/discipline_comment"
         android:importantForAutofill="no"
-        android:inputType="text" />
+        android:inputType="textCapSentences" />
 
     <LinearLayout
         android:orientation="horizontal"
