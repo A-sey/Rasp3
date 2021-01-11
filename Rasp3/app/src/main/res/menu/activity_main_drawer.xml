@@ -19,6 +19,9 @@
         <item
             android:id="@+id/nav_time"
             android:title="@string/menu_times" />
+        <item
+            android:id="@+id/nav_schedule_select"
+            android:title="@string/action_select_schedule" />
     </group>
 
     <item android:title="@string/menu_group_communicate"
