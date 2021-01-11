@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import sey.a.rasp3.R;
+import sey.a.rasp3.raw.RawType;
 import sey.a.rasp3.shell.General;
 
 public class TypeCreate extends Activity {
@@ -31,7 +32,7 @@ public class TypeCreate extends Activity {
             public void onClick(View view) {
                 String fN = name.getText().toString();
                 if (!fN.equals("")) {
-                    General.createType(fN);
+                    General.create(new RawType(fN));
                     setResult(0);
                     finish();
                 } else {

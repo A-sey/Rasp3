@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import sey.a.rasp3.R;
+import sey.a.rasp3.raw.RawTeacher;
 import sey.a.rasp3.shell.General;
 
 public class TeacherCreate extends Activity {
@@ -34,7 +35,8 @@ public class TeacherCreate extends Activity {
                 String sN = shortName.getText().toString();
                 String c = comment.getText().toString();
                 if (!fN.equals("") && !sN.equals("")) {
-                    General.createTeacher(fN, sN, c);
+//                    General.createTeacher(new RawTeacher(fN, sN, c));
+                    General.create(new RawTeacher(fN, sN, c));
                     setResult(0);
                     finish();
                 } else {

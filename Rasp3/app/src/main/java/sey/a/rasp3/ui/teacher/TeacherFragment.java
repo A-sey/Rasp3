@@ -49,7 +49,7 @@ public class TeacherFragment extends Fragment {
         Collections.sort(teachers, Teacher.nameComparator);
         for (Teacher t : teachers) {
             Button b = new Button(getContext());
-            b.setText(t.getFullName());
+            b.setText(t.getName());
             final String name = t.getShortName();
             b.setOnClickListener(new View.OnClickListener() {
                 @Override

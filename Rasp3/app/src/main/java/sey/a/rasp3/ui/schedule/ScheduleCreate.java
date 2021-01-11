@@ -7,6 +7,7 @@ import android.widget.EditText;
 import java.util.Calendar;
 
 import sey.a.rasp3.R;
+import sey.a.rasp3.raw.RawSchedule;
 import sey.a.rasp3.shell.Dates;
 import sey.a.rasp3.shell.General;
 
@@ -24,6 +25,6 @@ public class ScheduleCreate {
         EditText endDate = root.findViewById(R.id.end_date);
         Calendar sDate = Dates.parseDate(startDate.getText().toString(), "\\.");
         Calendar eDate = Dates.parseDate(endDate.getText().toString(), "\\.");
-        General.createSchedule(name.getText().toString(), sDate, eDate);
+        General.createSchedule(new RawSchedule(name.getText().toString(), sDate, eDate));
     }
 }

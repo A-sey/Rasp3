@@ -16,7 +16,7 @@ import java.util.List;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Discipline;
-import sey.a.rasp3.model.RawLesson;
+import sey.a.rasp3.raw.RawLesson;
 import sey.a.rasp3.model.Schedule;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Time;
@@ -142,7 +142,7 @@ public class LessonCreate extends Activity {
                     Toast.makeText(LessonCreate.this, "Неверный ввод", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                General.createLesson(raw);
+                General.create(raw);
                 finish();
             }
         });

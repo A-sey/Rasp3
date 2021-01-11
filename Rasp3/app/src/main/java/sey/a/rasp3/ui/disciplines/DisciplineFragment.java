@@ -48,7 +48,7 @@ public class DisciplineFragment extends Fragment {
         Collections.sort(disciplines, Discipline.nameComparator);
         for (Discipline d : disciplines) {
             Button b = new Button(getContext());
-            b.setText(d.getFullName());
+            b.setText(d.getName());
             final String name = d.getShortName();
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
