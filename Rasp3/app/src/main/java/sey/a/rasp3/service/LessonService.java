@@ -2,23 +2,22 @@ package sey.a.rasp3.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.LessonDate;
-import sey.a.rasp3.raw.RawLesson;
 import sey.a.rasp3.model.Schedule;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.model.Type;
+import sey.a.rasp3.raw.RawLesson;
 import sey.a.rasp3.shell.Xmls;
 
 public class LessonService implements CRUD<Lesson, RawLesson> {
     private static LessonDateService lessonDateService = new LessonDateService();
     private static Long maxId = 0L;
 
-    public Lesson create(Schedule schedule, RawLesson raw){
+    public Lesson create(Schedule schedule, RawLesson raw) {
         Lesson lesson = new Lesson();
         lesson.setId(++maxId);
         lesson.setSchedule(schedule);
@@ -30,7 +29,7 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
         lesson.setAuditorium(raw.getAuditorium());
         lesson.setHide(0);
         lesson.setLessonDates(new ArrayList<LessonDate>());
-        if(raw.getDates().size()==0){
+        if (raw.getDates().size() == 0) {
             raw.generateDates(schedule.getStartDate());
         }
         for (Calendar d : raw.getDates()) {

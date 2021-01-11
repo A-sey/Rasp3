@@ -14,7 +14,7 @@ import sey.a.rasp3.shell.Dates;
 
 @Getter
 @Setter
-public class RawLesson extends RawDefault {
+public class RawLesson {
     private List<Calendar> dates;
     private Calendar dateFrom;
     private Calendar dateTo;
@@ -63,15 +63,15 @@ public class RawLesson extends RawDefault {
         }
         Calendar date = dateFrom;
         // find first
-        while(!date.after(dateTo)){
-            if(checkDate(date, Dates.getWeekOfYear(date)-firstWeekNumber+1)){
+        while (!date.after(dateTo)) {
+            if (checkDate(date, Dates.getWeekOfYear(date) - firstWeekNumber + 1)) {
                 break;
             }
             date.add(Calendar.DAY_OF_YEAR, 1);
         }
         // find the rest
         while (!date.after(dateTo)) {
-            dates.add((Calendar)date.clone());
+            dates.add((Calendar) date.clone());
             date.add(Calendar.DAY_OF_YEAR, step);
         }
     }

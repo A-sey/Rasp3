@@ -12,17 +12,18 @@ import sey.a.rasp3.model.Schedule;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.model.Type;
+import sey.a.rasp3.raw.RawSchedule;
 import sey.a.rasp3.shell.Xmls;
 
-public class ScheduleService {
+public class ScheduleService implements CRUD<Schedule, RawSchedule> {
     private static Long maxId = 0L;
 
-    public Schedule create(String name, Calendar startDate, Calendar endDate) {
+    public Schedule create(Schedule non, RawSchedule raw) {
         Schedule schedule = new Schedule();
         schedule.setId(++maxId);
-        schedule.setName(name);
-        schedule.setStartDate(startDate);
-        schedule.setEndDate(endDate);
+        schedule.setName(raw.getName());
+        schedule.setStartDate(raw.getStart());
+        schedule.setEndDate(raw.getEnd());
         schedule.setHide(0);
         schedule.setDisciplines(new ArrayList<Discipline>());
         schedule.setTeachers(new ArrayList<Teacher>());
@@ -32,19 +33,23 @@ public class ScheduleService {
         return schedule;
     }
 
-    public Schedule fastCreate() {
+    @Override
+    public Schedule fastCreate(Schedule schedule, RawSchedule rawSchedule) {
         return null;
     }
 
-    public Schedule update() {
+    @Override
+    public Schedule update(Schedule schedule, RawSchedule rawSchedule) {
         return null;
     }
 
-    public boolean hide() {
-        return false;
+    @Override
+    public Schedule hide(Schedule schedule, boolean b) {
+        return null;
     }
 
-    public void delete() {
+    @Override
+    public void delete(Schedule schedule) {
 
     }
 
@@ -78,7 +83,7 @@ public class ScheduleService {
         return xml.toString();
     }
 
-    public Schedule fromXML(String text) {
+    public Schedule fromXML(String text, Schedule non) {
         Schedule schedule = new Schedule();
         schedule.setId(Xmls.extractLong("id", text));
         maxId = Math.max(maxId, schedule.getId());

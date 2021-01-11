@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Type extends Default {
+public class Type {
     // ID
     private Long id;
     // Dependency
@@ -22,7 +22,7 @@ public class Type extends Default {
     public static Comparator<Type> nameComparator = new Comparator<Type>() {
         @Override
         public int compare(Type t1, Type t2) {
-            if(t1.getName().equals(t2.getName()))
+            if (t1.getName().equals(t2.getName()))
                 return 0;
             return t1.getName().compareTo(t2.getName());
         }

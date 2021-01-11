@@ -11,6 +11,6 @@ public class GeneralXml {
 
     public static Schedule scheduleXmlUnpacking(String text){
         ScheduleService scheduleService = new ScheduleService();
-        return scheduleService.fromXML(Xmls.extractString("schedule", text));
+        return scheduleService.fromXML(Xmls.extractString("schedule", text), null);
     }
 }

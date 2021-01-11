@@ -5,11 +5,10 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
-import sey.a.rasp3.raw.RawDefault;
 
 @Setter
 @Getter
-public class Discipline extends Default {
+public class Discipline {
     // Dependency
     Schedule schedule;
     // ID

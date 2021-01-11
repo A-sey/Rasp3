@@ -153,7 +153,7 @@ public class LessonCreate extends Activity {
                     Toast.makeText(LessonCreate.this, "Неверный ввод", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                General.createLesson(raw);
+                General.create(raw);
                 finish();
             }
         });
