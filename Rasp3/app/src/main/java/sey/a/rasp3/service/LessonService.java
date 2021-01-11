@@ -14,7 +14,7 @@ import sey.a.rasp3.model.Time;
 import sey.a.rasp3.model.Type;
 import sey.a.rasp3.shell.Xmls;
 
-public class LessonService {
+public class LessonService implements CRUD<Lesson, RawLesson> {
     private static LessonDateService lessonDateService = new LessonDateService();
     private static Long maxId = 0L;
 
@@ -38,37 +38,24 @@ public class LessonService {
         }
         return lesson;
     }
-    public Lesson create(Schedule schedule, List<Calendar> dates, Discipline discipline, List<Teacher> teachers, Type type, Time time, String auditorium) {
-        Lesson lesson = new Lesson();
-        lesson.setId(++maxId);
-        lesson.setSchedule(schedule);
-        schedule.getLessons().add(lesson);
-        lesson.setDiscipline(discipline);
-        lesson.setTeachers(teachers);
-        lesson.setType(type);
-        lesson.setTime(time);
-        lesson.setAuditorium(auditorium);
-        lesson.setHide(0);
-        lesson.setLessonDates(new ArrayList<LessonDate>());
-        for (Calendar d : dates) {
-            lesson.getLessonDates().add(lessonDateService.create(lesson, d));
-        }
-        return lesson;
-    }
 
-    public Lesson fastCreate() {
+    @Override
+    public Lesson fastCreate(Schedule schedule, RawLesson rawLesson) {
         return null;
     }
 
-    public Lesson update() {
+    @Override
+    public Lesson update(Lesson lesson, RawLesson rawLesson) {
         return null;
     }
 
-    public boolean hide() {
-        return false;
+    @Override
+    public Lesson hide(Lesson lesson, boolean b) {
+        return null;
     }
 
-    public void delete() {
+    @Override
+    public void delete(Lesson lesson) {
 
     }
 

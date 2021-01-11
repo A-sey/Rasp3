@@ -56,6 +56,8 @@ public class General {
             crud = (CRUD<T, D>) timeService;
         }else if(d instanceof RawType){
             crud = (CRUD<T, D>) typeService;
+        }else if(d instanceof RawLesson){
+            crud = (CRUD<T, D>) lessonService;
         } else {
             return null;
         }
