@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import sey.a.rasp3.R;
+import sey.a.rasp3.raw.RawDiscipline;
 import sey.a.rasp3.shell.General;
 
 public class DisciplineCreate extends Activity {
@@ -34,7 +35,7 @@ public class DisciplineCreate extends Activity {
                 String sN = shortName.getText().toString();
                 String c = comment.getText().toString();
                 if (!fN.equals("") && !sN.equals("")) {
-                    General.createDiscipline(fN, sN, c);
+                    General.create(new RawDiscipline(fN, sN, c));
                     setResult(0);
                     finish();
                 } else {

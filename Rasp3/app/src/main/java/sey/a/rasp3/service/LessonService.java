@@ -7,7 +7,7 @@ import java.util.List;
 import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.LessonDate;
-import sey.a.rasp3.model.RawLesson;
+import sey.a.rasp3.raw.RawLesson;
 import sey.a.rasp3.model.Schedule;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Time;

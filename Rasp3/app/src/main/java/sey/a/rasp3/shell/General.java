@@ -7,11 +7,16 @@ import java.util.List;
 
 import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.model.Lesson;
-import sey.a.rasp3.model.RawLesson;
+import sey.a.rasp3.raw.RawDiscipline;
+import sey.a.rasp3.raw.RawLesson;
 import sey.a.rasp3.model.Schedule;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.model.Type;
+import sey.a.rasp3.raw.RawTeacher;
+import sey.a.rasp3.raw.RawTime;
+import sey.a.rasp3.raw.RawType;
+import sey.a.rasp3.service.CRUD;
 import sey.a.rasp3.service.DisciplineService;
 import sey.a.rasp3.service.GeneralXml;
 import sey.a.rasp3.service.LessonService;
@@ -41,38 +46,26 @@ public class General {
         return schedule;
     }
 
-    public static Discipline createDiscipline(String fullName, String shortName, String comment) {
-        Discipline discipline = disciplineService.create(schedule, fullName, shortName, comment);
+    public static <T, D> T create(D d){
+        CRUD<T, D> crud;
+        if(d instanceof RawTeacher){
+            crud = (CRUD<T, D>) teacherService;
+        }else if(d instanceof RawDiscipline){
+            crud = (CRUD<T, D>) disciplineService;
+        }else if(d instanceof RawTime){
+            crud = (CRUD<T, D>) timeService;
+        }else if(d instanceof RawType){
+            crud = (CRUD<T, D>) typeService;
+        } else {
+            return null;
+        }
+        T t = crud.create(schedule, d);
         files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
-        return discipline;
-    }
-
-    public static Teacher createTeacher(String fullName, String shortName, String comment) {
-        Teacher teacher = teacherService.create(schedule, fullName, shortName, comment);
-        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
-        return teacher;
-    }
-
-    public static Time createTime(String fN, Clocks sClock, Clocks eClock) {
-        Time time = timeService.create(schedule, fN, sClock, eClock);
-        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
-        return time;
-    }
-
-    public static Type createType(String fN) {
-        Type type = typeService.create(schedule, fN);
-        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
-        return type;
+        return t;
     }
 
     public static Lesson createLesson(RawLesson rawLesson) {
         Lesson lesson = lessonService.create(schedule, rawLesson);
-        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
-        return lesson;
-    }
-
-    public static Lesson createLesson(Schedule schedule, List<Calendar> dates, Discipline discipline, List<Teacher> teachers, Type type, Time time, String auditorium) {
-        Lesson lesson = lessonService.create(schedule, dates, discipline, teachers, type, time, auditorium);
         files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         return lesson;
     }

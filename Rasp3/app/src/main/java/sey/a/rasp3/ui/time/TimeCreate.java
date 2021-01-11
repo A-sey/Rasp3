@@ -9,6 +9,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import sey.a.rasp3.R;
+import sey.a.rasp3.raw.RawTime;
 import sey.a.rasp3.shell.Clocks;
 import sey.a.rasp3.shell.General;
 
@@ -56,7 +57,7 @@ public class TimeCreate extends Activity {
                 Clocks sClock = new Clocks(start.getText().toString());
                 Clocks eClock = new Clocks(end.getText().toString());
                 if (!fN.equals("") && !start.getText().toString().equals("") && !end.getText().toString().equals("")) {
-                    General.createTime(fN, sClock, eClock);
+                    General.create(new RawTime(fN, sClock, eClock));
                     setResult(0);
                     finish();
                 } else {

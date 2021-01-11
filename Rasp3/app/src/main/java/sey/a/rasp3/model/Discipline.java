@@ -14,7 +14,7 @@ public class Discipline {
     // ID
     private Long id;
     // Params
-    private String fullName;
+    private String name;
     private String shortName;
     private String comment;
     private Integer hide;
@@ -24,9 +24,9 @@ public class Discipline {
     public static Comparator<Discipline> nameComparator = new Comparator<Discipline>() {
         @Override
         public int compare(Discipline d1, Discipline d2) {
-            if(d1.getFullName().equals(d2.getFullName()))
+            if(d1.getName().equals(d2.getName()))
                 return 0;
-            return d1.getFullName().compareTo(d2.getFullName());
+            return d1.getName().compareTo(d2.getName());
         }
     };
 }

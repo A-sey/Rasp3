@@ -59,7 +59,7 @@ public class Test {
 
         Teacher teacher = new Teacher();
         teacher.setId(1L);
-        teacher.setFullName("FullName");
+        teacher.setName("FullName");
         teacher.setShortName("ShortName");
         teacher.setComment("Comment");
         teacher.setHide(0);
@@ -69,7 +69,7 @@ public class Test {
 
         Teacher t1 = new Teacher();
         t1.setId(2L);
-        t1.setFullName("Беленькая Марина Наумовна");
+        t1.setName("Беленькая Марина Наумовна");
         t1.setShortName("Беленькая М.Н.");
         t1.setComment("");
         t1.setHide(0);
@@ -79,7 +79,7 @@ public class Test {
 
         Discipline discipline = new Discipline();
         discipline.setId(1L);
-        discipline.setFullName("FullName");
+        discipline.setName("FullName");
         discipline.setShortName("ShortName");
         discipline.setComment("Comment");
         discipline.setHide(0);

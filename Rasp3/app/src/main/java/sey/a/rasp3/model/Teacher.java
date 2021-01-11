@@ -14,7 +14,7 @@ public class Teacher {
     // Dependency
     private Schedule schedule;
     // Params
-    private String fullName;
+    private String name;
     private String shortName;
     private String comment;
     private Integer hide;
@@ -24,9 +24,9 @@ public class Teacher {
     public static Comparator<Teacher> nameComparator = new Comparator<Teacher>() {
         @Override
         public int compare(Teacher t1, Teacher t2) {
-            if(t1.getFullName().equals(t2.getFullName()))
+            if(t1.getName().equals(t2.getName()))
                 return 0;
-            return t1.getFullName().compareTo(t2.getFullName());
+            return t1.getName().compareTo(t2.getName());
         }
     };
 }
