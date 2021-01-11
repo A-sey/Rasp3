@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             //startActivityForResult(intent, 2);
         }
-        if(id==R.id.action_create_lesson){
+        if (id == R.id.action_create_lesson) {
             Intent intent = new Intent(MainActivity.this, LessonCreate.class);
             startActivity(intent);
         }
