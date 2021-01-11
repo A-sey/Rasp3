@@ -2,11 +2,13 @@ package sey.a.rasp3.shell;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.model.Lesson;
+import sey.a.rasp3.raw.RawDefault;
 import sey.a.rasp3.raw.RawDiscipline;
 import sey.a.rasp3.raw.RawLesson;
 import sey.a.rasp3.model.Schedule;
@@ -46,7 +48,7 @@ public class General {
         return schedule;
     }
 
-    public static <T, D> T create(D d){
+    public static <T, D extends RawDefault> T create(D d){
         CRUD<T, D> crud;
         if(d instanceof RawTeacher){
             crud = (CRUD<T, D>) teacherService;
@@ -64,6 +66,12 @@ public class General {
         T t = crud.create(schedule, d);
         files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         return t;
+    }
+
+    public static <T, D extends RawDefault> T update(T t, D d){
+        CRUD<T, D> crud;
+        List<String> list = new ArrayList();
+        return null;
     }
 
     public static Lesson createLesson(RawLesson rawLesson) {
