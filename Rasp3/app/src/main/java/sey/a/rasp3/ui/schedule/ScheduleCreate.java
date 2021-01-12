@@ -14,21 +14,22 @@ import sey.a.rasp3.ui.defaults.DefaultCreate;
 
 public class ScheduleCreate implements DefaultCreate {
     private View root;
-    public View createForm(Context context){
+
+    public View createForm(Context context) {
         root = View.inflate(context, R.layout.fragment_schedule_create, null);
         return root;
     }
 
-    public boolean positiveClick(){
+    public boolean positiveClick() {
         EditText name = root.findViewById(R.id.name);
         EditText startDate = root.findViewById(R.id.start_date);
         EditText endDate = root.findViewById(R.id.end_date);
         Calendar sDate = Dates.parseDate(startDate.getText().toString(), "\\.");
         Calendar eDate = Dates.parseDate(endDate.getText().toString(), "\\.");
-        if(!name.getText().toString().equals("") && sDate!=null && eDate!=null) {
+        if (!name.getText().toString().equals("") && sDate != null && eDate != null) {
             General.createSchedule(new RawSchedule(name.getText().toString(), sDate, eDate));
             return true;
-        }else {
+        } else {
             return false;
         }
     }

@@ -23,31 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.disciplines.DisciplineCreate"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".ui.teacher.TeacherCreate"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".ui.time.TimeCreate"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".ui.type.TypeCreate"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".ui.schedule.ScheduleFragment"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
             android:name=".ui.lesson.LessonCreate"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">

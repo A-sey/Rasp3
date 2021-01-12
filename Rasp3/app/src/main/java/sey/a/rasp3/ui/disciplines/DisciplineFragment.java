@@ -2,7 +2,6 @@ package sey.a.rasp3.ui.disciplines;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,6 @@ import java.util.List;
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.shell.General;
-import sey.a.rasp3.ui.defaults.DefaultCreate;
 
 public class DisciplineFragment extends Fragment {
     View root;
@@ -28,15 +26,6 @@ public class DisciplineFragment extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, final Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_list, container, false);
-        Button addButton = root.findViewById(R.id.add);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DisciplineFragment.super.getContext(), DisciplineCreate.class);
-                startActivityForResult(intent, 0);
-            }
-        });
-
         setAddButtonAction((Button) root.findViewById(R.id.add));
         showList((LinearLayout) root.findViewById(R.id.layout));
         return root;
@@ -82,7 +71,7 @@ public class DisciplineFragment extends Fragment {
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         if (disciplineCreate.positiveClick()) {
-                            showList((LinearLayout)root.findViewById(R.id.layout));
+                            showList((LinearLayout) root.findViewById(R.id.layout));
                             dialog.dismiss();
                         } else {
                             Toast.makeText(getContext(), "Ошибка ввода данных", Toast.LENGTH_LONG).show();

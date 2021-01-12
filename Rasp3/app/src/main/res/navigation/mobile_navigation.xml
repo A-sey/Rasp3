@@ -15,25 +15,25 @@
         android:id="@+id/nav_teacher"
         android:name="sey.a.rasp3.ui.teacher.TeacherFragment"
         android:label="@string/menu_teachers"
-        tools:layout="@layout/fragment_teacher_list" />
+        tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/nav_discipline"
         android:name="sey.a.rasp3.ui.disciplines.DisciplineFragment"
         android:label="@string/menu_disciplines"
-        tools:layout="@layout/fragment_discipline_list" />
+        tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/nav_type"
         android:name="sey.a.rasp3.ui.type.TypeFragment"
         android:label="@string/menu_types"
-        tools:layout="@layout/fragment_type_list" />
+        tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/nav_time"
         android:name="sey.a.rasp3.ui.time.TimeFragment"
         android:label="@string/menu_times"
-        tools:layout="@layout/fragment_time_list" />
+        tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/nav_send"

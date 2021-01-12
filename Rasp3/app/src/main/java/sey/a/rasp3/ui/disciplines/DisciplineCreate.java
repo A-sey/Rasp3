@@ -1,12 +1,8 @@
 package sey.a.rasp3.ui.disciplines;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.raw.RawDiscipline;
@@ -15,11 +11,13 @@ import sey.a.rasp3.ui.defaults.DefaultCreate;
 
 public class DisciplineCreate implements DefaultCreate {
     private View root;
-    public View createForm(Context context){
+
+    public View createForm(Context context) {
         root = View.inflate(context, R.layout.fragment_discipline_create, null);
         return root;
     }
-    public boolean positiveClick(){
+
+    public boolean positiveClick() {
         final EditText fullName = root.findViewById(R.id.fullName);
         final EditText shortName = root.findViewById(R.id.shortName);
         final EditText comment = root.findViewById(R.id.comment);
