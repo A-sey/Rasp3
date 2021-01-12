@@ -2,8 +2,6 @@ package sey.a.rasp3.shell;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +36,7 @@ public class Dates {
             int year = Integer.parseInt(part[2]);
             Calendar calendar = new GregorianCalendar(year, month, day);
             return calendar;
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -51,29 +49,24 @@ public class Dates {
         return date.get(Calendar.WEEK_OF_YEAR) - offset;
     }
 
+    public static int weeksDiff(Calendar first, Calendar second) {
+        int w1 = first.get(Calendar.WEEK_OF_YEAR);
+        int y1 = first.get(Calendar.YEAR);
+        int w2 = second.get(Calendar.WEEK_OF_YEAR);
+        int y2 = second.get(Calendar.YEAR);
+        if (first.get(Calendar.MONTH) == Calendar.DECEMBER && w1 < 10) {
+            w1 += 52;
+        }
+        if (second.get(Calendar.MONTH) == Calendar.DECEMBER && w2 < 10) {
+            w2 += 52;
+        }
+        return (y2 - y1) * 52 + (w2 - w1) + 1;
+    }
+
     public Dates(Calendar start, Calendar end, Integer weekType, Integer dayOfWeek) {
         this.start = start;
         this.end = end;
         this.weekType = weekType;
         this.dayOfWeek = dayOfWeek;
-    }
-
-    private List<Calendar> periodicityToDates() {
-        List<Calendar> dates = new LinkedList<>();
-        if (scheduleStart == null || start == null || end == null || weekType == null || dayOfWeek == null) {
-            return dates;
-        }
-        int startWeek = scheduleStart.get(Calendar.WEEK_OF_YEAR);
-        if (start.get(Calendar.DAY_OF_WEEK) < dayOfWeek) {
-            start.add(Calendar.WEEK_OF_YEAR, 1);
-        }
-        start.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-        /*if(end.get(Calendar.DAY_OF_WEEK)>dayOfWeek){
-            end.add(Calendar.WEEK_OF_YEAR, -1);
-        }
-        end.set(Calendar.DAY_OF_WEEK, dayOfWeek);*/
-
-
-        return dates;
     }
 }

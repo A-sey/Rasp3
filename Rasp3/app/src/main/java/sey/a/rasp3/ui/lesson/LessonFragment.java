@@ -131,7 +131,9 @@ public class LessonFragment extends Fragment {
 
     private void writeDate(TextView weekNumber, TextView textDate) {
         textDate.setText(Dates.dateToString(date));
-        weekNumber.setText((date.get(Calendar.WEEK_OF_YEAR) - General.getSchedule().getStartDate().get(Calendar.WEEK_OF_YEAR) + 1) + " неделя");
+//        weekNumber.setText(Dates.weeksDiff(General.getSchedule().getStartDate(), date) + "неделя");
+        weekNumber.setText(String.format("%d неделя", Dates.weeksDiff(General.getSchedule().getStartDate(), date)));
+//        weekNumber.setText((date.get(Calendar.WEEK_OF_YEAR) - General.getSchedule().getStartDate().get(Calendar.WEEK_OF_YEAR) + 1) + " неделя");
     }
 
     private void drawLessons() {

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/fullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/discipline_full_name"
+        android:importantForAutofill="no"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/shortName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/discipline_short_name"
+        android:importantForAutofill="no"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/discipline_comment"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences" />
+
+    <!--<LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/cancel"
+            android:text="Отмена"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/ok"
+            android:text="OK"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>-->
+</LinearLayout>
