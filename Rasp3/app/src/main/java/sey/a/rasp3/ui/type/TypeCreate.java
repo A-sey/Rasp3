@@ -1,46 +1,31 @@
 package sey.a.rasp3.ui.type;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.raw.RawType;
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.defaults.DefaultCreate;
 
-public class TypeCreate extends Activity {
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_type_create);
+public class TypeCreate implements DefaultCreate {
+    private View root;
 
-        final EditText name = findViewById(R.id.fullName);
-        Button cancel = findViewById(R.id.cancel);
-        Button ok = findViewById(R.id.ok);
+    public View createForm(Context context) {
+        root = View.inflate(context, R.layout.fragment_type_create, null);
+        return root;
+    }
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+    public boolean positiveClick() {
+        final EditText name = root.findViewById(R.id.fullName);
 
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String fN = name.getText().toString();
-                if (!fN.equals("")) {
-                    General.create(new RawType(fN));
-                    setResult(0);
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Ошибка ввода данных", Toast.LENGTH_LONG).show();
-                    setResult(1);
-                }
-            }
-        });
-
+        String fN = name.getText().toString();
+        if (!fN.equals("")) {
+            General.create(new RawType(fN));
+            return true;
+        } else {
+            return false;
+        }
     }
 }

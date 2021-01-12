@@ -31,12 +31,16 @@ public class Dates {
     }
 
     public static Calendar parseDate(String text, String delimiter) {
-        String[] part = text.split(delimiter);
-        int day = Integer.parseInt(part[0]);
-        int month = Integer.parseInt(part[1]) - 1;
-        int year = Integer.parseInt(part[2]);
-        Calendar calendar = new GregorianCalendar(year, month, day);
-        return calendar;
+        try {
+            String[] part = text.split(delimiter);
+            int day = Integer.parseInt(part[0]);
+            int month = Integer.parseInt(part[1]) - 1;
+            int year = Integer.parseInt(part[2]);
+            Calendar calendar = new GregorianCalendar(year, month, day);
+            return calendar;
+        }catch (Exception e){
+            return null;
+        }
     }
 
     public static int getWeekOfYear(Calendar date) {

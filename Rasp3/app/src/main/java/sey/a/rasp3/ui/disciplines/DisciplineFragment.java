@@ -1,6 +1,7 @@
 package sey.a.rasp3.ui.disciplines;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,23 +25,14 @@ public class DisciplineFragment extends Fragment {
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, final Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_discipline_list, container, false);
-        Button addButton = root.findViewById(R.id.add);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DisciplineFragment.super.getContext(), DisciplineCreate.class);
-                startActivityForResult(intent, 0);
-            }
-        });
-
-        showList();
+        root = inflater.inflate(R.layout.fragment_list, container, false);
+        setAddButtonAction((Button) root.findViewById(R.id.add));
+        showList((LinearLayout) root.findViewById(R.id.layout));
         return root;
     }
 
-    private void showList() {
-        LinearLayout LL = root.findViewById(R.id.layout);
-        LL.removeAllViews();
+    private void showList(ViewGroup group) {
+        group.removeAllViews();
         if (General.getSchedule() == null) {
             return;
         }
@@ -56,14 +48,37 @@ public class DisciplineFragment extends Fragment {
                     Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
                 }
             });
-            LL.addView(b);
+            group.addView(b);
         }
     }
 
-    @Override
-    public void onActivityResult(int RequestCode, int resultCode, Intent data) {
-        if (resultCode == 0) {
-            showList();
-        }
+    private void setAddButtonAction(Button add) {
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final DisciplineCreate disciplineCreate = new DisciplineCreate();
+                final AlertDialog dialog = new AlertDialog.Builder(getContext())
+                        .setView(disciplineCreate.createForm(getContext()))
+                        .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .setPositiveButton("OK", null)
+                        .create();
+                dialog.show();
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        if (disciplineCreate.positiveClick()) {
+                            showList((LinearLayout) root.findViewById(R.id.layout));
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getContext(), "Ошибка ввода данных", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
     }
 }

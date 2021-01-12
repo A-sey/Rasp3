@@ -1,49 +1,35 @@
 package sey.a.rasp3.ui.teacher;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.raw.RawTeacher;
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.defaults.DefaultCreate;
 
-public class TeacherCreate extends Activity {
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_teacher_create);
+public class TeacherCreate implements DefaultCreate {
 
-        final EditText fullName = findViewById(R.id.fullName);
-        final EditText shortName = findViewById(R.id.shortName);
-        final EditText comment = findViewById(R.id.comment);
-        Button cancel = findViewById(R.id.cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+    private View root;
 
-        Button ok = findViewById(R.id.ok);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String fN = fullName.getText().toString();
-                String sN = shortName.getText().toString();
-                String c = comment.getText().toString();
-                if (!fN.equals("") && !sN.equals("")) {
-//                    General.createTeacher(new RawTeacher(fN, sN, c));
-                    General.create(new RawTeacher(fN, sN, c));
-                    setResult(0);
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Ошибка ввода данных", Toast.LENGTH_LONG).show();
-                    setResult(1);
-                }
-            }
-        });
+    public View createForm(Context context) {
+        root = View.inflate(context, R.layout.fragment_teacher_create, null);
+        return root;
+    }
+
+    public boolean positiveClick() {
+        final EditText fullName = root.findViewById(R.id.fullName);
+        final EditText shortName = root.findViewById(R.id.shortName);
+        final EditText comment = root.findViewById(R.id.comment);
+        String fN = fullName.getText().toString();
+        String sN = shortName.getText().toString();
+        String c = comment.getText().toString();
+        if (!fN.equals("") && !sN.equals("")) {
+            General.create(new RawTeacher(fN, sN, c));
+            return true;
+        } else {
+            return false;
+        }
     }
 }

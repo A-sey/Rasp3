@@ -17,7 +17,6 @@ import com.google.android.material.navigation.NavigationView;
 
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.lesson.LessonCreate;
-import sey.a.rasp3.ui.schedule.SelectScheduleFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,11 +60,10 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_select_schedule) {
+        /*if (id == R.id.action_select_schedule) {
             Intent intent = new Intent(MainActivity.this, SelectScheduleFragment.class);
             startActivity(intent);
-            //startActivityForResult(intent, 2);
-        }
+        }*/
         if (id == R.id.action_create_lesson) {
             Intent intent = new Intent(MainActivity.this, LessonCreate.class);
             startActivity(intent);
