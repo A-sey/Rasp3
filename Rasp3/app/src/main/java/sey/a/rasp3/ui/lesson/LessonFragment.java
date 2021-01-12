@@ -1,13 +1,16 @@
 package sey.a.rasp3.ui.lesson;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,15 +33,13 @@ import sey.a.rasp3.ui.schedule.ScheduleFragment;
 
 public class LessonFragment extends Fragment {
     View root;
-    Calendar date;
+    Calendar date = Calendar.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        date = Calendar.getInstance();
-
-        date.set(2020, 8, 29);
+//        date.set(2020, 8, 29);
 
         drawAll();
         return root;
@@ -52,8 +53,6 @@ public class LessonFragment extends Fragment {
             ftr.replace(R.id.nav_host_fragment, fragment);
             ftr.addToBackStack(null);
             ftr.commit();
-//            Intent intent = new Intent(getContext(), SelectScheduleFragment.class);
-//            startActivityForResult(intent, 0);
             return;
         }
         drawNavigate();
@@ -111,7 +110,24 @@ public class LessonFragment extends Fragment {
                 drawLessons();
             }
         });
+        dateLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                DatePickerDialog dpd = new DatePickerDialog(getContext(), dateListener,
+                        date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+                dpd.show();
+                return true;
+            }
+        });
     }
+
+    DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+            date.set(year, month, day);
+            drawAll();
+        }
+    };
 
     private void writeDate(TextView weekNumber, TextView textDate) {
         textDate.setText(Dates.dateToString(date));
