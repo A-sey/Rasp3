@@ -23,9 +23,15 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
         lesson.setSchedule(schedule);
         schedule.getLessons().add(lesson);
         lesson.setDiscipline(raw.getDiscipline());
+        raw.getDiscipline().getLessons().add(lesson);
         lesson.setTeachers(raw.getTeachers());
+        for(Teacher t: raw.getTeachers()){
+            t.getLessons().add(lesson);
+        }
         lesson.setType(raw.getType());
+        raw.getType().getLessons().add(lesson);
         lesson.setTime(raw.getTime());
+        raw.getTime().getLessons().add(lesson);
         lesson.setAuditorium(raw.getAuditorium());
         lesson.setHide(0);
         lesson.setLessonDates(new ArrayList<LessonDate>());
@@ -55,7 +61,16 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
 
     @Override
     public void delete(Lesson lesson) {
-
+        for(LessonDate ld: lesson.getLessonDates()){
+            lessonDateService.delete(ld);
+        }
+        lesson.getDiscipline().getLessons().remove(lesson);
+        lesson.getTime().getLessons().remove(lesson);
+        lesson.getType().getLessons().remove(lesson);
+        for(Teacher t: lesson.getTeachers()){
+            t.getLessons().remove(lesson);
+        }
+        lesson.getSchedule().getLessons().remove(lesson);
     }
 
     public String toXML(Lesson lesson) {

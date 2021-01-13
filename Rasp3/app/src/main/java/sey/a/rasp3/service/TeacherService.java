@@ -1,5 +1,6 @@
 package sey.a.rasp3.service;
 
+import java.time.chrono.IsoChronology;
 import java.util.ArrayList;
 
 import sey.a.rasp3.model.Lesson;
@@ -42,7 +43,10 @@ public class TeacherService implements CRUD<Teacher, RawTeacher> {
 
     @Override
     public void delete(Teacher teacher) {
-
+        for(Lesson l: teacher.getLessons()){
+            l.getTeachers().remove(teacher);
+        }
+        teacher.getSchedule().getTeachers().remove(teacher);
     }
 
     public String toXML(Teacher teacher) {

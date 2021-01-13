@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Schedule {
+public class Schedule extends Default {
     // ID
     private Long id;
     // Dependency

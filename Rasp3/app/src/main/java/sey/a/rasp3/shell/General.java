@@ -2,7 +2,13 @@ package sey.a.rasp3.shell;
 
 import android.content.Context;
 
+import sey.a.rasp3.model.Default;
+import sey.a.rasp3.model.Discipline;
+import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.Schedule;
+import sey.a.rasp3.model.Teacher;
+import sey.a.rasp3.model.Time;
+import sey.a.rasp3.model.Type;
 import sey.a.rasp3.raw.RawDiscipline;
 import sey.a.rasp3.raw.RawLesson;
 import sey.a.rasp3.raw.RawSchedule;
@@ -39,7 +45,7 @@ public class General {
         return schedule;
     }
 
-    private static <T, D> CRUD<T, D> findService(D d) {
+    private static <T extends Default, D> CRUD<T, D> findService(D d) {
         CRUD<T, D> crud;
         if (d instanceof RawTeacher) {
             crud = (CRUD<T, D>) teacherService;
@@ -57,7 +63,25 @@ public class General {
         return crud;
     }
 
-    public static <T, D> T create(D d) {
+    private static <T extends Default, D> CRUD<T, D> findService(T t) {
+        CRUD<T, D> crud;
+        if (t instanceof Teacher) {
+            crud = (CRUD<T, D>) teacherService;
+        } else if (t instanceof Discipline) {
+            crud = (CRUD<T, D>) disciplineService;
+        } else if (t instanceof Time) {
+            crud = (CRUD<T, D>) timeService;
+        } else if (t instanceof Type) {
+            crud = (CRUD<T, D>) typeService;
+        } else if (t instanceof Lesson) {
+            crud = (CRUD<T, D>) lessonService;
+        } else {
+            crud = null;
+        }
+        return crud;
+    }
+
+    public static <T extends Default, D> T create(D d) {
         CRUD<T, D> crud = findService(d);
         if (crud == null) {
             return null;
@@ -67,7 +91,7 @@ public class General {
         return t;
     }
 
-    public static <T, D> T update(T t, D d) {
+    public static <T extends Default, D> T update(T t, D d) {
         CRUD<T, D> crud = findService(d);
         if (crud == null) {
             return null;
@@ -75,6 +99,12 @@ public class General {
         T t1 = crud.update(t, d);
 
         return t1;
+    }
+
+    public static <T extends Default, D> void delete(T t) {
+        CRUD<T, D> crud = findService(t);
+        crud.delete(t);
+//        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
     }
 
     public static void setSchedule(Schedule schedule) {

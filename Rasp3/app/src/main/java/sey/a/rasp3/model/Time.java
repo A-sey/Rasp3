@@ -9,7 +9,7 @@ import sey.a.rasp3.shell.Clocks;
 
 @Setter
 @Getter
-public class Time {
+public class Time extends Default {
     // ID
     private Long id;
     // Dependency

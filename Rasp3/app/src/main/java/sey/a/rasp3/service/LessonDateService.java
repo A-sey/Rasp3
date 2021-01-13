@@ -33,7 +33,7 @@ public class LessonDateService {
         return false;
     }
 
-    public void delete() {
+    public void delete(LessonDate lessonDate) {
 
     }
 

@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Teacher {
+public class Teacher extends Default {
     // ID
     private Long id;
     // Dependency

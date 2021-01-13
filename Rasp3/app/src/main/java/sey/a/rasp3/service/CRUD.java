@@ -1,8 +1,9 @@
 package sey.a.rasp3.service;
 
+import sey.a.rasp3.model.Default;
 import sey.a.rasp3.model.Schedule;
 
-public interface CRUD<T, D> {
+public interface CRUD<T extends Default, D> {
     T create(Schedule schedule, D d);
     T fastCreate(Schedule schedule, D d);
     T update(T t, D d);

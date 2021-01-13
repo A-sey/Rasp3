@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Discipline {
+public class Discipline extends Default {
     // Dependency
     Schedule schedule;
     // ID

@@ -2,7 +2,6 @@ package sey.a.rasp3.ui.teacher;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,7 @@ import java.util.List;
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.shell.General;
-import sey.a.rasp3.ui.disciplines.DisciplineCreate;
+import sey.a.rasp3.ui.menu.NoName;
 
 public class TeacherFragment extends Fragment {
     View root;
@@ -33,21 +32,29 @@ public class TeacherFragment extends Fragment {
         return root;
     }
 
-    private void showList(ViewGroup group) {
+    private void showList(final ViewGroup group) {
         group.removeAllViews();
         if(General.getSchedule()==null){
             return;
         }
         List<Teacher> teachers = General.getSchedule().getTeachers();
         Collections.sort(teachers, Teacher.nameComparator);
-        for (Teacher t : teachers) {
+        for (final Teacher t : teachers) {
             Button b = new Button(getContext());
             b.setText(t.getName());
             final String name = t.getShortName();
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                    NoName noName = new NoName();
+                    AlertDialog dialog = noName.createDialog(getContext(), t);
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            showList(group);
+                        }
+                    });
+                    dialog.show();
                 }
             });
             group.addView(b);
