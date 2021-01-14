@@ -43,7 +43,10 @@ public class TeacherService implements CRUD<Teacher, RawTeacher> {
 
     @Override
     public Teacher update(Teacher teacher, RawTeacher rawTeacher) {
-        return null;
+        teacher.setName(rawTeacher.getName());
+        teacher.setShortName(rawTeacher.getShortName());
+        teacher.setComment(rawTeacher.getComment());
+        return teacher;
     }
 
     @Override

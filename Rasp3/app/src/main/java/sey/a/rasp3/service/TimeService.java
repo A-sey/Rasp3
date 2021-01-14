@@ -42,7 +42,10 @@ public class TimeService implements CRUD<Time, RawTime> {
 
     @Override
     public Time update(Time time, RawTime rawTime) {
-        return null;
+        time.setName(rawTime.getName());
+        time.setStartTime(rawTime.getStart());
+        time.setEndTime(rawTime.getEnd());
+        return time;
     }
 
     @Override

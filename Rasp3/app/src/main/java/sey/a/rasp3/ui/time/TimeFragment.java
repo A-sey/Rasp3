@@ -2,7 +2,6 @@ package sey.a.rasp3.ui.time;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +13,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.shell.General;
-import sey.a.rasp3.ui.disciplines.DisciplineCreate;
-import sey.a.rasp3.ui.menu.NoName;
+import sey.a.rasp3.ui.menu.PopUpMenu;
 
 public class TimeFragment extends Fragment {
     View root;
@@ -46,8 +43,8 @@ public class TimeFragment extends Fragment {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    NoName noName = new NoName();
-                    AlertDialog dialog = noName.createDialog(getContext(), t);
+                    PopUpMenu popUpMenu = new PopUpMenu();
+                    AlertDialog dialog = popUpMenu.createDialog(getContext(), t);
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialogInterface) {

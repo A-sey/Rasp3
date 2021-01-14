@@ -14,7 +14,7 @@ import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.defaults.CreateDialog;
 import sey.a.rasp3.ui.defaults.DefaultCreate;
 
-public class NoName<T extends Default, D extends RawDefault> {
+public class PopUpMenu<T extends Default, D extends RawDefault> {
     AlertDialog dialog = null;
 
     public AlertDialog createDialog(Context context, T o) {
@@ -44,10 +44,11 @@ public class NoName<T extends Default, D extends RawDefault> {
                 //////////
                 final DefaultCreate<T> create = General.findCreate(o);
                 final CreateDialog<DefaultCreate<T>, T> createDialog = new CreateDialog<>();
-                final AlertDialog dialog = createDialog.show(context, create, o);
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                final AlertDialog updateDialog = createDialog.show(context, create, o);
+                updateDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         if (create.positiveClick()) {
+                            updateDialog.dismiss();
                             dialog.dismiss();
                         } else {
                             Toast.makeText(context, "Ошибка ввода данных", Toast.LENGTH_LONG).show();

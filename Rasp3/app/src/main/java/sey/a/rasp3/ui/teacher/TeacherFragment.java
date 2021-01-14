@@ -19,7 +19,7 @@ import java.util.List;
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.shell.General;
-import sey.a.rasp3.ui.menu.NoName;
+import sey.a.rasp3.ui.menu.PopUpMenu;
 
 public class TeacherFragment extends Fragment {
     View root;
@@ -46,8 +46,8 @@ public class TeacherFragment extends Fragment {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    NoName noName = new NoName();
-                    AlertDialog dialog = noName.createDialog(getContext(), t);
+                    PopUpMenu popUpMenu = new PopUpMenu();
+                    AlertDialog dialog = popUpMenu.createDialog(getContext(), t);
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialogInterface) {

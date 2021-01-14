@@ -18,12 +18,10 @@ import java.util.List;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Discipline;
-import sey.a.rasp3.model.Lesson;
-import sey.a.rasp3.raw.RawDefault;
 import sey.a.rasp3.raw.RawDiscipline;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.defaults.CreateDialog;
-import sey.a.rasp3.ui.menu.NoName;
+import sey.a.rasp3.ui.menu.PopUpMenu;
 
 public class DisciplineFragment extends Fragment {
     View root;
@@ -50,8 +48,8 @@ public class DisciplineFragment extends Fragment {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    NoName<Discipline, RawDiscipline> noName = new NoName<>();
-                    AlertDialog dialog = noName.createDialog(getContext(), d);
+                    PopUpMenu<Discipline, RawDiscipline> popUpMenu = new PopUpMenu<>();
+                    AlertDialog dialog = popUpMenu.createDialog(getContext(), d);
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialogInterface) {
