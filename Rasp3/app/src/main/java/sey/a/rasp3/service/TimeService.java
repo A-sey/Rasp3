@@ -7,6 +7,7 @@ import sey.a.rasp3.model.Schedule;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.raw.RawTime;
 import sey.a.rasp3.shell.Clocks;
+import sey.a.rasp3.shell.General;
 import sey.a.rasp3.shell.Xmls;
 
 public class TimeService implements CRUD<Time, RawTime> {
@@ -42,7 +43,10 @@ public class TimeService implements CRUD<Time, RawTime> {
 
     @Override
     public void delete(Time time) {
-
+        while(time.getLessons().size()>0){
+            General.delete(time.getLessons().get(0));
+        }
+        time.getSchedule().getTimes().remove(time);
     }
 
     public String toXML(Time time) {

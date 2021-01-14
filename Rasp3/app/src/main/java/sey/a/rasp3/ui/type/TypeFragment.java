@@ -19,6 +19,7 @@ import java.util.List;
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Type;
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.menu.NoName;
 
 public class TypeFragment extends Fragment {
     View root;
@@ -31,21 +32,29 @@ public class TypeFragment extends Fragment {
         return root;
     }
 
-    private void showList(ViewGroup group) {
+    private void showList(final ViewGroup group) {
         group.removeAllViews();
         if (General.getSchedule() == null) {
             return;
         }
         List<Type> types = General.getSchedule().getTypes();
         Collections.sort(types, Type.nameComparator);
-        for (Type t : types) {
+        for (final Type t : types) {
             Button b = new Button(getContext());
             b.setText(t.getName());
             final String name = t.getName().toLowerCase();
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                    NoName noName = new NoName();
+                    AlertDialog dialog = noName.createDialog(getContext(), t);
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            showList(group);
+                        }
+                    });
+                    dialog.show();
                 }
             });
             group.addView(b);

@@ -13,6 +13,7 @@ import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.model.Type;
 import sey.a.rasp3.raw.RawSchedule;
+import sey.a.rasp3.shell.General;
 import sey.a.rasp3.shell.Xmls;
 
 public class ScheduleService implements CRUD<Schedule, RawSchedule> {
@@ -50,7 +51,6 @@ public class ScheduleService implements CRUD<Schedule, RawSchedule> {
 
     @Override
     public void delete(Schedule schedule) {
-
     }
 
     public String toXML(Schedule schedule) {

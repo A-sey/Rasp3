@@ -22,6 +22,7 @@ import sey.a.rasp3.R;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.disciplines.DisciplineCreate;
+import sey.a.rasp3.ui.menu.NoName;
 
 public class TimeFragment extends Fragment {
     View root;
@@ -34,18 +35,26 @@ public class TimeFragment extends Fragment {
         return root;
     }
 
-    private void showList(ViewGroup group) {
+    private void showList(final ViewGroup group) {
         group.removeAllViews();
         List<Time> times = General.getSchedule().getTimes();
         Collections.sort(times, Time.startTimeComparator);
-        for (Time t : General.getSchedule().getTimes()) {
+        for (final Time t : General.getSchedule().getTimes()) {
             Button b = new Button(getContext());
             b.setText(t.getName());
             final String name = t.getStartTime().toString();
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                    NoName noName = new NoName();
+                    AlertDialog dialog = noName.createDialog(getContext(), t);
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            showList(group);
+                        }
+                    });
+                    dialog.show();
                 }
             });
             group.addView(b);

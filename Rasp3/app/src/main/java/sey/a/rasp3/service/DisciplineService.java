@@ -6,6 +6,7 @@ import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.Schedule;
 import sey.a.rasp3.raw.RawDiscipline;
+import sey.a.rasp3.shell.General;
 import sey.a.rasp3.shell.Xmls;
 
 public class DisciplineService implements CRUD<Discipline, RawDiscipline> {
@@ -42,7 +43,10 @@ public class DisciplineService implements CRUD<Discipline, RawDiscipline> {
 
     @Override
     public void delete(Discipline discipline) {
-
+        while(discipline.getLessons().size()>0){
+            General.delete(discipline.getLessons().get(0));
+        }
+        discipline.getSchedule().getDisciplines().remove(discipline);
     }
 
     @Override

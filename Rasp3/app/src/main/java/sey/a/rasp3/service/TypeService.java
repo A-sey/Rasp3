@@ -6,6 +6,7 @@ import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.Schedule;
 import sey.a.rasp3.model.Type;
 import sey.a.rasp3.raw.RawType;
+import sey.a.rasp3.shell.General;
 import sey.a.rasp3.shell.Xmls;
 
 public class TypeService implements CRUD<Type, RawType> {
@@ -39,7 +40,10 @@ public class TypeService implements CRUD<Type, RawType> {
 
     @Override
     public void delete(Type type) {
-
+        while(type.getLessons().size()>0){
+            General.delete(type.getLessons().get(0));
+        }
+        type.getSchedule().getTypes().remove(type);
     }
 
     public String toXML(Type type) {
