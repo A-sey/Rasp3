@@ -42,6 +42,9 @@ public class DisciplineFragment extends Fragment {
         List<Discipline> disciplines = General.getSchedule().getDisciplines();
         Collections.sort(disciplines, Discipline.nameComparator);
         for (final Discipline d : disciplines) {
+            if(d.getHide()!=0){
+                continue;
+            }
             Button b = new Button(getContext());
             b.setText(d.getName());
             final String name = d.getShortName();

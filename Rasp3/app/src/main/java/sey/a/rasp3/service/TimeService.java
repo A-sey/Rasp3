@@ -50,7 +50,8 @@ public class TimeService implements CRUD<Time, RawTime> {
 
     @Override
     public Time hide(Time time, boolean b) {
-        return null;
+        time.setHide(b?1:0);
+        return time;
     }
 
     @Override

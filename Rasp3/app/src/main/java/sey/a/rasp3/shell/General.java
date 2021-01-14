@@ -51,6 +51,14 @@ public class General {
         return schedule;
     }
 
+    public static void setSchedule(Schedule schedule) {
+        General.schedule = schedule;
+    }
+
+    public static Schedule getSchedule() {
+        return schedule;
+    }
+
     private static <T extends Default, D extends RawDefault> CRUD<T, D> findService(D d) {
         CRUD<T, D> crud;
         if (d instanceof RawTeacher) {
@@ -129,22 +137,21 @@ public class General {
             return null;
         }
         T t1 = crud.update(t, d);
-
+//        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         return t1;
+    }
+
+    public static <T extends Default, D extends RawDefault> T hide(T t, boolean hide) {
+        CRUD<T, D> crud = findService(t);
+        crud.hide(t, hide);
+//        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        return t;
     }
 
     public static <T extends Default, D extends RawDefault> void delete(T t) {
         CRUD<T, D> crud = findService(t);
         crud.delete(t);
 //        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
-    }
-
-    public static void setSchedule(Schedule schedule) {
-        General.schedule = schedule;
-    }
-
-    public static Schedule getSchedule() {
-        return schedule;
     }
 
 }

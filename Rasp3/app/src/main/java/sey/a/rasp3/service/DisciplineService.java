@@ -50,7 +50,8 @@ public class DisciplineService implements CRUD<Discipline, RawDiscipline> {
 
     @Override
     public Discipline hide(Discipline discipline, boolean b) {
-        return null;
+        discipline.setHide(b?1:0);
+        return discipline;
     }
 
     @Override

@@ -51,7 +51,8 @@ public class TeacherService implements CRUD<Teacher, RawTeacher> {
 
     @Override
     public Teacher hide(Teacher teacher, boolean b) {
-        return null;
+        teacher.setHide(b?1:0);
+        return teacher;
     }
 
     @Override

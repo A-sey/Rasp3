@@ -18,6 +18,7 @@ import java.util.List;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Type;
+import sey.a.rasp3.raw.RawType;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.menu.PopUpMenu;
 
@@ -40,13 +41,16 @@ public class TypeFragment extends Fragment {
         List<Type> types = General.getSchedule().getTypes();
         Collections.sort(types, Type.nameComparator);
         for (final Type t : types) {
+            if(t.getHide()!=0){
+                continue;
+            }
             Button b = new Button(getContext());
             b.setText(t.getName());
             final String name = t.getName().toLowerCase();
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PopUpMenu popUpMenu = new PopUpMenu();
+                    PopUpMenu<Type, RawType> popUpMenu = new PopUpMenu<>();
                     AlertDialog dialog = popUpMenu.createDialog(getContext(), t);
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override

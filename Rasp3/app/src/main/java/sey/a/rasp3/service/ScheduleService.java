@@ -1,9 +1,6 @@
 package sey.a.rasp3.service;
 
-import android.util.Xml;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import sey.a.rasp3.model.Discipline;
@@ -13,7 +10,6 @@ import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.model.Type;
 import sey.a.rasp3.raw.RawSchedule;
-import sey.a.rasp3.shell.General;
 import sey.a.rasp3.shell.Xmls;
 
 public class ScheduleService implements CRUD<Schedule, RawSchedule> {
@@ -41,17 +37,25 @@ public class ScheduleService implements CRUD<Schedule, RawSchedule> {
 
     @Override
     public RawSchedule wet(Schedule schedule) {
-        return null;
+        RawSchedule raw = new RawSchedule();
+        raw.setName(schedule.getName());
+        raw.setStart(schedule.getStartDate());
+        raw.setEnd(schedule.getEndDate());
+        return raw;
     }
 
     @Override
     public Schedule update(Schedule schedule, RawSchedule rawSchedule) {
-        return null;
+        schedule.setName(rawSchedule.getName());
+        schedule.setStartDate(rawSchedule.getStart());
+        schedule.setEndDate(rawSchedule.getEnd());
+        return schedule;
     }
 
     @Override
     public Schedule hide(Schedule schedule, boolean b) {
-        return null;
+        schedule.setHide(b ? 1 : 0);
+        return schedule;
     }
 
     @Override

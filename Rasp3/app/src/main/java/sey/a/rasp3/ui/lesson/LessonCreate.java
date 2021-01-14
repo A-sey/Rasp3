@@ -30,7 +30,7 @@ public class LessonCreate extends Activity {
     private List<Teacher> teachers;
     private List<Time> times;
     private List<Type> types;
-    private String spinnerStub = " -- ";
+    private final String spinnerStub = " -- ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,22 +82,34 @@ public class LessonCreate extends Activity {
         setSpinnerText(spinnerDayOfWeek, dayOfWeek);
         List<String> timesText = new ArrayList<>();
         for (Time t : times) {
+            if(t.getHide()!=0){
+                continue;
+            }
             timesText.add(t.getName());
         }
         setSpinnerText(spinnerTime, timesText);
         spinnerTime.getSelectedItemId();
         List<String> typesText = new ArrayList<>();
         for (Type t : types) {
+            if(t.getHide()!=0){
+                continue;
+            }
             typesText.add(t.getName());
         }
         setSpinnerText(spinnerType, typesText);
         final List<String> disciplinesText = new ArrayList<>();
         for (Discipline d : disciplines) {
+            if(d.getHide()!=0){
+                continue;
+            }
             disciplinesText.add(d.getShortName());
         }
         setSpinnerText(spinnerDiscipline, disciplinesText);
         List<String> teachersText = new ArrayList<>();
         for (Teacher t : teachers) {
+            if(t.getHide()!=0){
+                continue;
+            }
             teachersText.add(t.getShortName());
         }
         setSpinnerText(spinnerTeacher, teachersText);

@@ -18,6 +18,7 @@ import java.util.List;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Time;
+import sey.a.rasp3.raw.RawTime;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.menu.PopUpMenu;
 
@@ -37,13 +38,16 @@ public class TimeFragment extends Fragment {
         List<Time> times = General.getSchedule().getTimes();
         Collections.sort(times, Time.startTimeComparator);
         for (final Time t : General.getSchedule().getTimes()) {
+            if(t.getHide()!=0){
+                continue;
+            }
             Button b = new Button(getContext());
             b.setText(t.getName());
             final String name = t.getStartTime().toString();
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PopUpMenu popUpMenu = new PopUpMenu();
+                    PopUpMenu<Time, RawTime> popUpMenu = new PopUpMenu<>();
                     AlertDialog dialog = popUpMenu.createDialog(getContext(), t);
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override

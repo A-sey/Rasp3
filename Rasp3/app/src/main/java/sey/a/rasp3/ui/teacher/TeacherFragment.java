@@ -18,6 +18,7 @@ import java.util.List;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Teacher;
+import sey.a.rasp3.raw.RawTeacher;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.menu.PopUpMenu;
 
@@ -40,13 +41,16 @@ public class TeacherFragment extends Fragment {
         List<Teacher> teachers = General.getSchedule().getTeachers();
         Collections.sort(teachers, Teacher.nameComparator);
         for (final Teacher t : teachers) {
+            if(t.getHide()!=0){
+                continue;
+            }
             Button b = new Button(getContext());
             b.setText(t.getName());
             final String name = t.getShortName();
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PopUpMenu popUpMenu = new PopUpMenu();
+                    PopUpMenu<Teacher, RawTeacher> popUpMenu = new PopUpMenu<>();
                     AlertDialog dialog = popUpMenu.createDialog(getContext(), t);
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override

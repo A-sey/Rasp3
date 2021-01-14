@@ -43,7 +43,8 @@ public class TypeService implements CRUD<Type, RawType> {
 
     @Override
     public Type hide(Type type, boolean b) {
-        return null;
+        type.setHide(b?1:0);
+        return type;
     }
 
     @Override

@@ -61,7 +61,8 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
 
     @Override
     public Lesson hide(Lesson lesson, boolean b) {
-        return null;
+        lesson.setHide(b?1:0);
+        return lesson;
     }
 
     @Override

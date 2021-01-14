@@ -31,6 +31,7 @@ public class PopUpMenu<T extends Default, D extends RawDefault> {
         ///////
         LL.addView(elementUpdate(context, o), params);
         LL.addView(elementDelete(context, o), params);
+        LL.addView(elementHide(context, o), params);
         ///////
         return LL;
     }
@@ -61,16 +62,48 @@ public class PopUpMenu<T extends Default, D extends RawDefault> {
         return button;
     }
 
-    private View elementDelete(Context context, final T o) {
+    private View elementHide(final Context context, final T o){
+        Button button = new Button(context);
+        button.setText("Скрыть");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog warning = new AlertDialog.Builder(context)
+                        .setPositiveButton("Скрыть", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                General.hide(o, true);
+                                if(dialog!=null){
+                                    dialog.dismiss();
+                                }
+                            }
+                        }).create();
+                warning.setTitle("Внимание! Объект будет скрыт!");
+                warning.show();
+            }
+        });
+        return button;
+    }
+
+    private View elementDelete(final Context context, final T o) {
         Button button = new Button(context);
         button.setText("Удалить");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                General.delete(o);
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
+                AlertDialog warning = new AlertDialog.Builder(context)
+                        .setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                General.delete(o);
+                                if (dialog != null) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                        .create();
+                warning.setTitle("Внимание! Объект и вся связанная с ним информация будут безвозвратно удалены!");
+                warning.show();
             }
         });
         return button;
