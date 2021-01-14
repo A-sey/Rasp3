@@ -14,7 +14,7 @@ import sey.a.rasp3.shell.Dates;
 
 @Getter
 @Setter
-public class RawLesson {
+public class RawLesson extends RawDefault {
     private List<Calendar> dates;
     private Calendar dateFrom;
     private Calendar dateTo;

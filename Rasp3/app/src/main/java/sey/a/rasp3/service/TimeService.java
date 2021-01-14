@@ -32,6 +32,15 @@ public class TimeService implements CRUD<Time, RawTime> {
     }
 
     @Override
+    public RawTime wet(Time time) {
+        RawTime raw = new RawTime();
+        raw.setName(time.getName());
+        raw.setStart(time.getStartTime());
+        raw.setEnd(time.getEndTime());
+        return raw;
+    }
+
+    @Override
     public Time update(Time time, RawTime rawTime) {
         return null;
     }

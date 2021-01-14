@@ -32,6 +32,15 @@ public class DisciplineService implements CRUD<Discipline, RawDiscipline> {
     }
 
     @Override
+    public RawDiscipline wet(Discipline discipline) {
+        RawDiscipline raw = new RawDiscipline();
+        raw.setName(discipline.getName());
+        raw.setShortName(discipline.getShortName());
+        raw.setComment(discipline.getComment());
+        return raw;
+    }
+
+    @Override
     public Discipline update(Discipline discipline, RawDiscipline rawDiscipline) {
         return null;
     }

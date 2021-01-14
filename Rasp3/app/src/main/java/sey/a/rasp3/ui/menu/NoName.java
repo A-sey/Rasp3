@@ -2,17 +2,18 @@ package sey.a.rasp3.ui.menu;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import sey.a.rasp3.model.Default;
+import sey.a.rasp3.raw.RawDefault;
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.defaults.DefaultCreate;
 
 public class NoName {
     AlertDialog dialog = null;
+
     public AlertDialog createDialog(Context context, Default o) {
         AlertDialog dialog = new AlertDialog.Builder(context).create();
         dialog.setView(createView(context, o));
@@ -31,26 +32,35 @@ public class NoName {
         return LL;
     }
 
-    private View elementUpdate(final Context context, Default o){
+    private View elementUpdate(final Context context, final Default o) {
         Button button = new Button(context);
         button.setText("Изменить");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Изменение не работает", Toast.LENGTH_SHORT).show();
+                RawDefault raw = General.wet(o);
+                //////////
+                DefaultCreate create = General.findCreate(o);
+                create.createForm(context, raw);
+
+                //////////
+                General.update(o, raw);
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
             }
         });
         return button;
     }
 
-    private View elementDelete(Context context, final Default o){
+    private View elementDelete(Context context, final Default o) {
         Button button = new Button(context);
         button.setText("Удалить");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 General.delete(o);
-                if(dialog!=null){
+                if (dialog != null) {
                     dialog.dismiss();
                 }
             }

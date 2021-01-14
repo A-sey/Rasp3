@@ -40,6 +40,11 @@ public class ScheduleService implements CRUD<Schedule, RawSchedule> {
     }
 
     @Override
+    public RawSchedule wet(Schedule schedule) {
+        return null;
+    }
+
+    @Override
     public Schedule update(Schedule schedule, RawSchedule rawSchedule) {
         return null;
     }

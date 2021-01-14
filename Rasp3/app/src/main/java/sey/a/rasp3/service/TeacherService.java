@@ -7,6 +7,7 @@ import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.Schedule;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.raw.RawTeacher;
+import sey.a.rasp3.raw.RawType;
 import sey.a.rasp3.shell.Xmls;
 
 public class TeacherService implements CRUD<Teacher, RawTeacher> {
@@ -29,6 +30,15 @@ public class TeacherService implements CRUD<Teacher, RawTeacher> {
     @Override
     public Teacher fastCreate(Schedule schedule, RawTeacher rawTeacher) {
         return null;
+    }
+
+    @Override
+    public RawTeacher wet(Teacher teacher) {
+        RawTeacher raw = new RawTeacher();
+        raw.setName(teacher.getName());
+        raw.setShortName(teacher.getShortName());
+        raw.setComment(teacher.getComment());
+        return raw;
     }
 
     @Override

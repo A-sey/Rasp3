@@ -50,6 +50,11 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
     }
 
     @Override
+    public RawLesson wet(Lesson lesson) {
+        return null;
+    }
+
+    @Override
     public Lesson update(Lesson lesson, RawLesson rawLesson) {
         return null;
     }

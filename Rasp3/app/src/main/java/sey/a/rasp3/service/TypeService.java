@@ -29,6 +29,13 @@ public class TypeService implements CRUD<Type, RawType> {
     }
 
     @Override
+    public RawType wet(Type type) {
+        RawType raw = new RawType();
+        raw.setName(type.getName());
+        return raw;
+    }
+
+    @Override
     public Type update(Type type, RawType rawType) {
         return null;
     }
