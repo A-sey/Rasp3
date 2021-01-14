@@ -5,16 +5,20 @@ import android.view.View;
 import android.widget.EditText;
 
 import sey.a.rasp3.R;
+import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.raw.RawDefault;
 import sey.a.rasp3.raw.RawDiscipline;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.defaults.DefaultCreate;
 
-public class DisciplineCreate implements DefaultCreate<RawDiscipline> {
+public class DisciplineCreate implements DefaultCreate<Discipline> {
     private View root;
     private boolean update = false;
+    private Discipline discipline = null;
 
-    public View createForm(Context context, RawDiscipline raw){
+    public View createForm(Context context, Discipline discipline){
+        this.discipline = discipline;
+        RawDiscipline raw = General.wet(discipline);
         root = View.inflate(context, R.layout.fragment_discipline_create, null);
         final EditText fullName = root.findViewById(R.id.fullName);
         final EditText shortName = root.findViewById(R.id.shortName);
@@ -28,6 +32,7 @@ public class DisciplineCreate implements DefaultCreate<RawDiscipline> {
 
     public View createForm(Context context) {
         root = View.inflate(context, R.layout.fragment_discipline_create, null);
+        update = false;
         return root;
     }
 
@@ -40,7 +45,7 @@ public class DisciplineCreate implements DefaultCreate<RawDiscipline> {
         String c = comment.getText().toString();
         if (!fN.equals("") && !sN.equals("")) {
             if(update){
-//                General.update()
+                General.update(discipline, new RawDiscipline(fN, sN, c));
             }else {
                 General.create(new RawDiscipline(fN, sN, c));
             }

@@ -87,23 +87,24 @@ public class General {
         return crud;
     }
 
-    public static <T extends Default, C extends DefaultCreate> C findCreate(T t){
-        DefaultCreate create;
+    public static <T extends Default, C extends DefaultCreate<T>> C findCreate(T t) {
+        C create;
         if (t instanceof Teacher) {
-            create = new TeacherCreate();
+            create = (C) new TeacherCreate();
         } else if (t instanceof Discipline) {
-            create = new DisciplineCreate();
+            create = (C) new DisciplineCreate();
         } else if (t instanceof Time) {
-            create = new TimeCreate();
+            create = (C) new TimeCreate();
         } else if (t instanceof Type) {
-            create = new TypeCreate();
+            create = (C) new TypeCreate();
         } else if (t instanceof Lesson) {
-            create = new TeacherCreate();
+            create = (C) new TeacherCreate();
         } else {
             create = null;
         }
-        return (C)create;
+        return create;
     }
+
     public static <T extends Default, D extends RawDefault> T create(D d) {
         CRUD<T, D> crud = findService(d);
         if (crud == null) {
@@ -114,9 +115,9 @@ public class General {
         return t;
     }
 
-    public static <T extends Default, D extends RawDefault> D wet(T t){
+    public static <T extends Default, D extends RawDefault> D wet(T t) {
         CRUD<T, D> crud = findService(t);
-        if(crud==null){
+        if (crud == null) {
             return null;
         }
         return crud.wet(t);

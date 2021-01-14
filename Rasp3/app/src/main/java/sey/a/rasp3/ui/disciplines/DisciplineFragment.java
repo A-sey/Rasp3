@@ -18,7 +18,11 @@ import java.util.List;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Discipline;
+import sey.a.rasp3.model.Lesson;
+import sey.a.rasp3.raw.RawDefault;
+import sey.a.rasp3.raw.RawDiscipline;
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.defaults.CreateDialog;
 import sey.a.rasp3.ui.menu.NoName;
 
 public class DisciplineFragment extends Fragment {
@@ -46,7 +50,7 @@ public class DisciplineFragment extends Fragment {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    NoName noName = new NoName();
+                    NoName<Discipline, RawDiscipline> noName = new NoName<>();
                     AlertDialog dialog = noName.createDialog(getContext(), d);
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
@@ -66,17 +70,8 @@ public class DisciplineFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 final DisciplineCreate disciplineCreate = new DisciplineCreate();
-                final AlertDialog dialog = new AlertDialog.Builder(getContext())
-                        .setView(disciplineCreate.createForm(getContext()))
-                        .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .setPositiveButton("OK", null)
-                        .create();
-                dialog.show();
+                final CreateDialog<DisciplineCreate, Discipline> createDialog = new CreateDialog<>();
+                final AlertDialog dialog = createDialog.show(getContext(), disciplineCreate);
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         if (disciplineCreate.positiveClick()) {

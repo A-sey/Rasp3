@@ -3,17 +3,33 @@ package sey.a.rasp3.ui.time;
 import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TimePicker;
 
 import sey.a.rasp3.R;
+import sey.a.rasp3.model.Time;
 import sey.a.rasp3.raw.RawTime;
 import sey.a.rasp3.shell.Clocks;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.defaults.DefaultCreate;
 
-public class TimeCreate implements DefaultCreate {
+public class TimeCreate implements DefaultCreate<Time> {
 
     private View root;
+    private boolean update = false;
+    private Time time = null;
+
+    public View createForm(Context context, Time time) {
+        this.time = time;
+        RawTime raw = General.wet(time);
+        root = View.inflate(context, R.layout.fragment_time_create, null);
+        final EditText name = root.findViewById(R.id.name);
+        final EditText start = root.findViewById(R.id.startText);
+        final EditText end = root.findViewById(R.id.endText);
+        name.setText(raw.getName());
+        name.setText(raw.getStart().toString());
+        name.setText(raw.getEnd().toString());
+        update = true;
+        return root;
+    }
 
     public View createForm(Context context) {
         root = View.inflate(context, R.layout.fragment_time_create, null);
@@ -38,6 +54,7 @@ public class TimeCreate implements DefaultCreate {
                 end.setText(text);
             }
         });*/
+        update = false;
         return root;
     }
 
@@ -50,7 +67,11 @@ public class TimeCreate implements DefaultCreate {
         Clocks sClock = new Clocks(start.getText().toString());
         Clocks eClock = new Clocks(end.getText().toString());
         if (!fN.equals("") && !start.getText().toString().equals("") && !end.getText().toString().equals("")) {
-            General.create(new RawTime(fN, sClock, eClock));
+            if (update) {
+                General.update(time, new RawTime(fN, sClock, eClock));
+            } else {
+                General.create(new RawTime(fN, sClock, eClock));
+            }
             return true;
         } else {
             return false;
