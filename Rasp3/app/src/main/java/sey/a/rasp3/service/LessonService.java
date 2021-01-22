@@ -65,6 +65,7 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
             dates.add(ld.getDate());
         }
         raw.setDates(dates);
+        datesToReg(raw, lesson.getSchedule().getStartDate());
         return raw;
     }
 
@@ -79,7 +80,7 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
         Calendar start = dates.get(0);
         Calendar end = dates.get(dates.size() - 1);
         int step = -1;
-        for (int i = 1; i < dates.size() - 1; i++) {
+        for (int i = 1; i < dates.size(); i++) {
             if (step == -1) {
                 step = Dates.daysDiff(dates.get(i - 1), dates.get(i));
             } else if (step != Dates.daysDiff(dates.get(i - 1), dates.get(i))) {
@@ -90,7 +91,7 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
         if(step == 7){
             weekType = 0;
         }else if(step ==14){
-            if(Dates.weeksDiff(start, scheduleStart) %2 == 0){
+            if(Dates.weeksDiff(start, scheduleStart) %2 != 0){
                 weekType = 1;
             } else {
                 weekType = 2;
@@ -107,7 +108,56 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
 
     @Override
     public Lesson update(Lesson lesson, RawLesson rawLesson) {
-        return null;
+        lesson.setAuditorium(rawLesson.getAuditorium());
+        if(!lesson.getDiscipline().equals(rawLesson.getDiscipline())){
+            lesson.getDiscipline().getLessons().remove(lesson);
+            lesson.setDiscipline(rawLesson.getDiscipline());
+            lesson.getDiscipline().getLessons().add(lesson);
+        }
+        if(!lesson.getType().equals(rawLesson.getType())){
+            lesson.getType().getLessons().remove(lesson);
+            lesson.setType(rawLesson.getType());
+            lesson.getType().getLessons().add(lesson);
+        }
+        if(!lesson.getTime().equals(rawLesson.getTime())){
+            lesson.getTime().getLessons().remove(lesson);
+            lesson.setTime(rawLesson.getTime());
+            lesson.getTime().getLessons().add(lesson);
+        }
+        List<Teacher> teachers = lesson.getTeachers();
+        List<Teacher> rawTeachers = rawLesson.getTeachers();
+        for(int i = teachers.size()-1; i>=0; i--){
+            if(!rawTeachers.contains(teachers.get(i))){
+                teachers.get(i).getLessons().remove(lesson);
+                teachers.remove(i);
+            }
+        }
+        for(int i = 0; i < rawTeachers.size(); i++){
+            if(!teachers.contains(rawTeachers.get(i))){
+                teachers.add(rawTeachers.get(i));
+                rawTeachers.get(i).getLessons().add(lesson);
+            }
+        }
+        if (rawLesson.getDates().size() == 0) {
+            rawLesson.generateDates(lesson.getSchedule().getStartDate());
+        }
+        List<Calendar> rawDates = rawLesson.getDates();
+        List<LessonDate> lessonDates = lesson.getLessonDates();
+        for(int i = lessonDates.size()-1; i>=0; i--){
+            if(!rawDates.contains(lessonDates.get(i).getDate())){
+                lessonDates.remove(i);
+            }
+        }
+        List<Calendar> dates = new ArrayList<>();
+        for(LessonDate ld: lessonDates){
+            dates.add(ld.getDate());
+        }
+        for(int i = 0; i<rawDates.size(); i++){
+            if(!dates.contains(rawDates.get(i))){
+                lessonDates.add(lessonDateService.create(lesson,rawDates.get(i)));
+            }
+        }
+        return lesson;
     }
 
     @Override

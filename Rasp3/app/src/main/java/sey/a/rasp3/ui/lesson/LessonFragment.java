@@ -27,6 +27,7 @@ import sey.a.rasp3.R;
 import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.LessonDate;
 import sey.a.rasp3.model.Teacher;
+import sey.a.rasp3.raw.RawLesson;
 import sey.a.rasp3.shell.Dates;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.schedule.ScheduleFragment;
@@ -154,10 +155,17 @@ public class LessonFragment extends Fragment {
             }
         }
         Collections.sort(lessonDates, LessonDate.startTimeComparator);
-        for(LessonDate ld: lessonDates){
-            LL.addView(drawLesson(ld));
+        for(final LessonDate ld: lessonDates){
+            View lessonView = drawLesson(ld);
+            lessonView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    RawLesson raw = General.wet(ld.getLesson());
+                    raw.getTime();
+                }
+            });
+            LL.addView(lessonView);
         }
-
     }
 
     private View drawLesson(LessonDate lessonDate) {

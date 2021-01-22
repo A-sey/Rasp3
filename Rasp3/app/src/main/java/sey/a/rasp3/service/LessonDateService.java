@@ -34,7 +34,7 @@ public class LessonDateService {
     }
 
     public void delete(LessonDate lessonDate) {
-
+        lessonDate.getLesson().getLessonDates().remove(lessonDate);
     }
 
     public String toXml(LessonDate lessonDate) {
