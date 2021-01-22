@@ -63,6 +63,11 @@ public class Dates {
         return (y2 - y1) * 52 + (w2 - w1) + 1;
     }
 
+    public static int daysDiff(Calendar first, Calendar second){
+        long milliseconds = second.getTime().getTime() - first.getTime().getTime();
+        return (int) (milliseconds/(24*60*60*1000));
+    }
+
     public Dates(Calendar start, Calendar end, Integer weekType, Integer dayOfWeek) {
         this.start = start;
         this.end = end;

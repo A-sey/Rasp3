@@ -9,7 +9,32 @@
         android:id="@+id/nav_schedule"
         android:name="sey.a.rasp3.ui.lesson.LessonFragment"
         android:label="@string/menu_schedule"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_schedule">
+        <action
+            android:id="@+id/action_nav_schedule_to_nav_lesson_create"
+            app:destination="@id/nav_lesson_create" />
+        <action
+            android:id="@+id/action_nav_schedule_to_nav_teacher"
+            app:destination="@id/nav_teacher" />
+        <action
+            android:id="@+id/action_nav_schedule_to_nav_discipline"
+            app:destination="@id/nav_discipline" />
+        <action
+            android:id="@+id/action_nav_schedule_to_nav_type"
+            app:destination="@id/nav_type" />
+        <action
+            android:id="@+id/action_nav_schedule_to_nav_time"
+            app:destination="@id/nav_time" />
+        <action
+            android:id="@+id/action_nav_schedule_to_nav_send"
+            app:destination="@id/nav_send" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_lesson_create"
+        android:name="sey.a.rasp3.ui.lesson.LessonCreateFragment"
+        android:label="@string/lesson_create"
+        tools:layout="@layout/fragment_lesson_create" />
 
     <fragment
         android:id="@+id/nav_teacher"
@@ -44,5 +69,9 @@
     <fragment
         android:id="@+id/nav_schedule_select"
         android:name="sey.a.rasp3.ui.schedule.ScheduleFragment"
-        android:label="Выбрать расписание" />
+        android:label="Выбрать расписание">
+        <action
+            android:id="@+id/action_nav_schedule_select_to_nav_schedule"
+            app:destination="@id/nav_schedule" />
+    </fragment>
 </navigation>

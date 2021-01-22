@@ -2,6 +2,8 @@ package sey.a.rasp3.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.model.Lesson;
@@ -11,6 +13,7 @@ import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.model.Type;
 import sey.a.rasp3.raw.RawLesson;
+import sey.a.rasp3.shell.Dates;
 import sey.a.rasp3.shell.Xmls;
 
 public class LessonService implements CRUD<Lesson, RawLesson> {
@@ -25,7 +28,7 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
         lesson.setDiscipline(raw.getDiscipline());
         raw.getDiscipline().getLessons().add(lesson);
         lesson.setTeachers(raw.getTeachers());
-        for(Teacher t: raw.getTeachers()){
+        for (Teacher t : raw.getTeachers()) {
             t.getLessons().add(lesson);
         }
         lesson.setType(raw.getType());
@@ -51,7 +54,55 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
 
     @Override
     public RawLesson wet(Lesson lesson) {
-        return null;
+        RawLesson raw = new RawLesson();
+        raw.setDiscipline(lesson.getDiscipline());
+        raw.setTeachers(lesson.getTeachers());
+        raw.setType(lesson.getType());
+        raw.setTime(lesson.getTime());
+        raw.setAuditorium(lesson.getAuditorium());
+        List<Calendar> dates = new ArrayList<>();
+        for (LessonDate ld : lesson.getLessonDates()) {
+            dates.add(ld.getDate());
+        }
+        raw.setDates(dates);
+        return raw;
+    }
+
+    private boolean datesToReg(RawLesson raw, Calendar scheduleStart) {
+        if (raw == null || raw.getDates() == null || raw.getDates().size() == 0) {
+            return false;
+        }
+        List<Calendar> dates = raw.getDates();
+        Collections.sort(dates);
+        int dayOfWeek;
+        int weekType;
+        Calendar start = dates.get(0);
+        Calendar end = dates.get(dates.size() - 1);
+        int step = -1;
+        for (int i = 1; i < dates.size() - 1; i++) {
+            if (step == -1) {
+                step = Dates.daysDiff(dates.get(i - 1), dates.get(i));
+            } else if (step != Dates.daysDiff(dates.get(i - 1), dates.get(i))) {
+                return false;
+            }
+        }
+        dayOfWeek = start.get(Calendar.DAY_OF_WEEK);
+        if(step == 7){
+            weekType = 0;
+        }else if(step ==14){
+            if(Dates.weeksDiff(start, scheduleStart) %2 == 0){
+                weekType = 1;
+            } else {
+                weekType = 2;
+            }
+        } else {
+            return false;
+        }
+        raw.setDateFrom(start);
+        raw.setDateTo(end);
+        raw.setWeekType(weekType);
+        raw.setDayOfWeek(dayOfWeek);
+        return true;
     }
 
     @Override
@@ -61,19 +112,19 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
 
     @Override
     public Lesson hide(Lesson lesson, boolean b) {
-        lesson.setHide(b?1:0);
+        lesson.setHide(b ? 1 : 0);
         return lesson;
     }
 
     @Override
     public void delete(Lesson lesson) {
-        for(LessonDate ld: lesson.getLessonDates()){
+        for (LessonDate ld : lesson.getLessonDates()) {
             lessonDateService.delete(ld);
         }
         lesson.getDiscipline().getLessons().remove(lesson);
         lesson.getTime().getLessons().remove(lesson);
         lesson.getType().getLessons().remove(lesson);
-        for(Teacher t: lesson.getTeachers()){
+        for (Teacher t : lesson.getTeachers()) {
             t.getLessons().remove(lesson);
         }
         lesson.getSchedule().getLessons().remove(lesson);

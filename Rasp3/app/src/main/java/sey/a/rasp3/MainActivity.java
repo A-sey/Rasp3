@@ -64,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SelectScheduleFragment.class);
             startActivity(intent);
         }*/
-        if (id == R.id.action_create_lesson) {
+        /*if (id == R.id.action_create_lesson) {
             Intent intent = new Intent(MainActivity.this, LessonCreate.class);
             startActivity(intent);
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 
