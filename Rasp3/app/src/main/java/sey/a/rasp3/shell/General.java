@@ -26,6 +26,7 @@ import sey.a.rasp3.service.TimeService;
 import sey.a.rasp3.service.TypeService;
 import sey.a.rasp3.ui.defaults.DefaultCreate;
 import sey.a.rasp3.ui.disciplines.DisciplineCreate;
+import sey.a.rasp3.ui.menu.MenuItems;
 import sey.a.rasp3.ui.teacher.TeacherCreate;
 import sey.a.rasp3.ui.time.TimeCreate;
 import sey.a.rasp3.ui.type.TypeCreate;
@@ -111,6 +112,14 @@ public class General {
             create = null;
         }
         return create;
+    }
+
+    public static <T extends Default, D extends RawDefault> MenuItems getMenuItems(T t) {
+        CRUD<T, D> crud = findService(t);
+        if (crud == null) {
+            return null;
+        }
+        return crud.getMenuItems(t);
     }
 
     public static <T extends Default, D extends RawDefault> T create(D d) {

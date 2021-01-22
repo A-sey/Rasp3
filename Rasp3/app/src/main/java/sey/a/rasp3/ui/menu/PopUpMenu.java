@@ -28,10 +28,19 @@ public class PopUpMenu<T extends Default, D extends RawDefault> {
         LinearLayout LL = new LinearLayout(context);
         LL.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        MenuItems items = General.getMenuItems(o);
+        if (items == null) {
+            return null;
+        }
         ///////
-        LL.addView(elementUpdate(context, o), params);
-        LL.addView(elementDelete(context, o), params);
-        LL.addView(elementHide(context, o), params);
+        if (items.getUpdate() == MenuItems.UPDATE_ON)
+            LL.addView(elementUpdate(context, o), params);
+        if (items.getDelete() == MenuItems.DELETE_ON)
+            LL.addView(elementDelete(context, o), params);
+        if (items.getHide() == MenuItems.HIDE_ON)
+            LL.addView(elementHide(context, o), params);
+        if (items.getShow() == MenuItems.SHOW_ON)
+            LL.addView(elementShow(context, o));
         ///////
         return LL;
     }
@@ -62,7 +71,7 @@ public class PopUpMenu<T extends Default, D extends RawDefault> {
         return button;
     }
 
-    private View elementHide(final Context context, final T o){
+    private View elementHide(final Context context, final T o) {
         Button button = new Button(context);
         button.setText("Скрыть");
         button.setOnClickListener(new View.OnClickListener() {
@@ -73,12 +82,35 @@ public class PopUpMenu<T extends Default, D extends RawDefault> {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 General.hide(o, true);
-                                if(dialog!=null){
+                                if (dialog != null) {
                                     dialog.dismiss();
                                 }
                             }
                         }).create();
                 warning.setTitle("Внимание! Объект будет скрыт!");
+                warning.show();
+            }
+        });
+        return button;
+    }
+
+    private View elementShow(final Context context, final T o) {
+        Button button = new Button(context);
+        button.setText("Показать");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog warning = new AlertDialog.Builder(context)
+                        .setPositiveButton("Показать", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                General.hide(o, false);
+                                if (dialog != null) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        }).create();
+                warning.setTitle("Объект будет возвращён в общий список");
                 warning.show();
             }
         });

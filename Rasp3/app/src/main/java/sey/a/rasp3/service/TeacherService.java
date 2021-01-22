@@ -9,9 +9,26 @@ import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.raw.RawTeacher;
 import sey.a.rasp3.raw.RawType;
 import sey.a.rasp3.shell.Xmls;
+import sey.a.rasp3.ui.menu.MenuItems;
 
 public class TeacherService implements CRUD<Teacher, RawTeacher> {
     private static Long maxId = 0L;
+
+    @Override
+    public MenuItems getMenuItems(Teacher teacher) {
+        MenuItems items = new MenuItems();
+        items.setMoreDetails(MenuItems.MORE_DETAILS_OFF)
+                .setUpdate(MenuItems.UPDATE_ON)
+                .setDelete(MenuItems.DELETE_ON);
+        if(teacher.getHide()==0){
+            items.setHide(MenuItems.HIDE_ON)
+                    .setShow(MenuItems.SHOW_OFF);
+        }else {
+            items.setHide(MenuItems.HIDE_OFF)
+                    .setShow(MenuItems.SHOW_ON);
+        }
+        return items;
+    }
 
     @Override
     public Teacher create(Schedule schedule, RawTeacher raw) {

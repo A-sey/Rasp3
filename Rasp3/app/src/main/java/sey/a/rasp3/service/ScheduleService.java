@@ -11,9 +11,21 @@ import sey.a.rasp3.model.Time;
 import sey.a.rasp3.model.Type;
 import sey.a.rasp3.raw.RawSchedule;
 import sey.a.rasp3.shell.Xmls;
+import sey.a.rasp3.ui.menu.MenuItems;
 
 public class ScheduleService implements CRUD<Schedule, RawSchedule> {
     private static Long maxId = 0L;
+
+    @Override
+    public MenuItems getMenuItems(Schedule schedule) {
+        MenuItems items = new MenuItems();
+        items.setMoreDetails(MenuItems.MORE_DETAILS_OFF)
+                .setUpdate(MenuItems.UPDATE_ON)
+                .setDelete(MenuItems.DELETE_ON);
+        items.setHide(MenuItems.HIDE_OFF)
+                .setShow(MenuItems.SHOW_OFF);
+        return items;
+    }
 
     public Schedule create(Schedule non, RawSchedule raw) {
         Schedule schedule = new Schedule();

@@ -9,9 +9,26 @@ import sey.a.rasp3.raw.RawTime;
 import sey.a.rasp3.shell.Clocks;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.shell.Xmls;
+import sey.a.rasp3.ui.menu.MenuItems;
 
 public class TimeService implements CRUD<Time, RawTime> {
     private static Long maxId = 0L;
+
+    @Override
+    public MenuItems getMenuItems(Time time) {
+        MenuItems items = new MenuItems();
+        items.setMoreDetails(MenuItems.MORE_DETAILS_OFF)
+                .setUpdate(MenuItems.UPDATE_ON)
+                .setDelete(MenuItems.DELETE_ON);
+        if(time.getHide()==0){
+            items.setHide(MenuItems.HIDE_ON)
+                    .setShow(MenuItems.SHOW_OFF);
+        }else {
+            items.setHide(MenuItems.HIDE_OFF)
+                    .setShow(MenuItems.SHOW_ON);
+        }
+        return items;
+    }
 
     public Time create(Schedule schedule, RawTime raw) {
         Time time = new Time();

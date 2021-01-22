@@ -8,9 +8,26 @@ import sey.a.rasp3.model.Type;
 import sey.a.rasp3.raw.RawType;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.shell.Xmls;
+import sey.a.rasp3.ui.menu.MenuItems;
 
 public class TypeService implements CRUD<Type, RawType> {
     private static Long maxId = 0L;
+
+    @Override
+    public MenuItems getMenuItems(Type type) {
+        MenuItems items = new MenuItems();
+        items.setMoreDetails(MenuItems.MORE_DETAILS_OFF)
+                .setUpdate(MenuItems.UPDATE_ON)
+                .setDelete(MenuItems.DELETE_ON);
+        if(type.getHide()==0){
+            items.setHide(MenuItems.HIDE_ON)
+                    .setShow(MenuItems.SHOW_OFF);
+        }else {
+            items.setHide(MenuItems.HIDE_OFF)
+                    .setShow(MenuItems.SHOW_ON);
+        }
+        return items;
+    }
 
     public Type create(Schedule schedule, RawType raw) {
         Type type = new Type();
