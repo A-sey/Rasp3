@@ -33,6 +33,7 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void showList(ViewGroup group) {
+        group.removeAllViews();
         final Files files = new Files(getContext());
         for (final String s : files.getFilesList()) {
             Button b = new Button(getContext());
@@ -44,7 +45,8 @@ public class ScheduleFragment extends Fragment {
                     String xml = files.readFile(s);
                     Schedule schedule = GeneralXml.scheduleXmlUnpacking(xml);
                     General.setSchedule(schedule);
-                    requireActivity().getSupportFragmentManager().popBackStack();
+                    requireActivity().onBackPressed();
+//                    requireActivity().getSupportFragmentManager().popBackStack();
                 }
             });
             group.addView(b);

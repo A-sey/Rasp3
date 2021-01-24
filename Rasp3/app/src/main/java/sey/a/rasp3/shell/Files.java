@@ -62,4 +62,10 @@ public class Files {
         }
         return list;
     }
+
+    public void removeFile(String name){
+        File dir = context.getExternalFilesDir(path);
+        File file = new File(dir, name);
+        file.delete();
+    }
 }

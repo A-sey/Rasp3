@@ -50,7 +50,7 @@ public class ScheduleCreate implements DefaultCreate<Schedule> {
             if(update){
                 General.update(schedule, new RawSchedule(name.getText().toString(), sDate, eDate));
             }else {
-                General.createSchedule(new RawSchedule(name.getText().toString(), sDate, eDate));
+                General.create(new RawSchedule(name.getText().toString(), sDate, eDate));
             }
             return true;
         } else {

@@ -10,6 +10,7 @@ import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.model.Time;
 import sey.a.rasp3.model.Type;
 import sey.a.rasp3.raw.RawSchedule;
+import sey.a.rasp3.shell.General;
 import sey.a.rasp3.shell.Xmls;
 import sey.a.rasp3.ui.menu.MenuItems;
 
@@ -39,6 +40,7 @@ public class ScheduleService implements CRUD<Schedule, RawSchedule> {
         schedule.setTypes(new ArrayList<Type>());
         schedule.setTimes(new ArrayList<Time>());
         schedule.setLessons(new ArrayList<Lesson>());
+        General.getFiles().writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         return schedule;
     }
 
@@ -72,6 +74,7 @@ public class ScheduleService implements CRUD<Schedule, RawSchedule> {
 
     @Override
     public void delete(Schedule schedule) {
+        General.getFiles().removeFile(schedule.getName());
     }
 
     public String toXML(Schedule schedule) {

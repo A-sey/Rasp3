@@ -28,6 +28,7 @@ import sey.a.rasp3.ui.defaults.DefaultCreate;
 import sey.a.rasp3.ui.disciplines.DisciplineCreate;
 import sey.a.rasp3.ui.lesson.LessonCreate;
 import sey.a.rasp3.ui.menu.MenuItems;
+import sey.a.rasp3.ui.schedule.ScheduleCreate;
 import sey.a.rasp3.ui.teacher.TeacherCreate;
 import sey.a.rasp3.ui.time.TimeCreate;
 import sey.a.rasp3.ui.type.TypeCreate;
@@ -46,9 +47,13 @@ public class General {
         files = new Files(context);
     }
 
+    public static Files getFiles() {
+        return files;
+    }
+
     public static Schedule createSchedule(RawSchedule raw) {
         Schedule schedule = scheduleService.create(null, raw);
-        General.schedule = schedule;
+//        General.schedule = schedule;
         files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         return schedule;
     }
@@ -63,7 +68,9 @@ public class General {
 
     private static <T extends Default, D extends RawDefault> CRUD<T, D> findService(D d) {
         CRUD<T, D> crud;
-        if (d instanceof RawTeacher) {
+        if (d instanceof RawSchedule) {
+            crud = (CRUD<T, D>) scheduleService;
+        } else if (d instanceof RawTeacher) {
             crud = (CRUD<T, D>) teacherService;
         } else if (d instanceof RawDiscipline) {
             crud = (CRUD<T, D>) disciplineService;
@@ -81,7 +88,9 @@ public class General {
 
     private static <T extends Default, D extends RawDefault> CRUD<T, D> findService(T t) {
         CRUD<T, D> crud;
-        if (t instanceof Teacher) {
+        if (t instanceof Schedule) {
+            crud = (CRUD<T, D>) scheduleService;
+        } else if (t instanceof Teacher) {
             crud = (CRUD<T, D>) teacherService;
         } else if (t instanceof Discipline) {
             crud = (CRUD<T, D>) disciplineService;
@@ -99,7 +108,9 @@ public class General {
 
     public static <T extends Default, C extends DefaultCreate<T>> C findCreate(T t) {
         C create;
-        if (t instanceof Teacher) {
+        if (t instanceof Schedule) {
+            create = (C) new ScheduleCreate();
+        } else if (t instanceof Teacher) {
             create = (C) new TeacherCreate();
         } else if (t instanceof Discipline) {
             create = (C) new DisciplineCreate();
@@ -129,7 +140,9 @@ public class General {
             return null;
         }
         T t = crud.create(schedule, d);
-        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        if(schedule!=null) {
+            files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        }
         return t;
     }
 
@@ -147,21 +160,23 @@ public class General {
             return null;
         }
         T t1 = crud.update(t, d);
-//        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         return t1;
     }
 
     public static <T extends Default, D extends RawDefault> T hide(T t, boolean hide) {
         CRUD<T, D> crud = findService(t);
         crud.hide(t, hide);
-//        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         return t;
     }
 
     public static <T extends Default, D extends RawDefault> void delete(T t) {
         CRUD<T, D> crud = findService(t);
         crud.delete(t);
-//        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        if (!t.equals(schedule)) {
+            files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        }
     }
 
 }
