@@ -26,6 +26,7 @@ import sey.a.rasp3.service.TimeService;
 import sey.a.rasp3.service.TypeService;
 import sey.a.rasp3.ui.defaults.DefaultCreate;
 import sey.a.rasp3.ui.disciplines.DisciplineCreate;
+import sey.a.rasp3.ui.lesson.LessonCreate;
 import sey.a.rasp3.ui.menu.MenuItems;
 import sey.a.rasp3.ui.teacher.TeacherCreate;
 import sey.a.rasp3.ui.time.TimeCreate;
@@ -107,7 +108,7 @@ public class General {
         } else if (t instanceof Type) {
             create = (C) new TypeCreate();
         } else if (t instanceof Lesson) {
-            create = (C) new TeacherCreate();
+            create = (C) new LessonCreate();
         } else {
             create = null;
         }

@@ -1,6 +1,8 @@
 package sey.a.rasp3.ui.lesson;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.raw.RawLesson;
 import sey.a.rasp3.shell.Dates;
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.menu.PopUpMenu;
 import sey.a.rasp3.ui.schedule.ScheduleFragment;
 
 public class LessonFragment extends Fragment {
@@ -160,8 +164,15 @@ public class LessonFragment extends Fragment {
             lessonView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    RawLesson raw = General.wet(ld.getLesson());
-                    raw.getTime();
+                    PopUpMenu<Lesson, RawLesson> menu = new PopUpMenu<>();
+                    AlertDialog dialog = menu.createDialog(getContext(), ld.getLesson());
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            drawLessons();
+                        }
+                    });
+                    dialog.show();
                 }
             });
             LL.addView(lessonView);

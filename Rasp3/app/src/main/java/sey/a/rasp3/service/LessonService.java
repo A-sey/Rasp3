@@ -100,7 +100,7 @@ public class LessonService implements CRUD<Lesson, RawLesson> {
             }
         }
         dayOfWeek = start.get(Calendar.DAY_OF_WEEK);
-        if (step == 7) {
+        if (step == 7 || step == -1) {
             weekType = 0;
         } else if (step == 14) {
             if (Dates.weeksDiff(start, scheduleStart) % 2 != 0) {

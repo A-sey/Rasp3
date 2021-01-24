@@ -41,14 +41,15 @@ public class RawLesson extends RawDefault {
         if (teachers == null)
             return false;
         if (dates == null || dates.size() == 0) {
-            if (weekType < 0 || weekType > 2)
+            /*if (weekType < 0 || weekType > 2)
                 return false;
             if (dayOfWeek < 1 || dayOfWeek > 7)
                 return false;
             if (dateFrom == null || dateTo == null)
                 return false;
             if (dateTo.before(dateFrom))
-                return false;
+                return false;*/
+            return false;
         }
         return true;
     }
