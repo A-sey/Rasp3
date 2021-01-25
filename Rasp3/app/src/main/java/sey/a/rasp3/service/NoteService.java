@@ -1,15 +1,28 @@
 package sey.a.rasp3.service;
 
+import java.util.Calendar;
+
 import sey.a.rasp3.model.LessonDate;
 import sey.a.rasp3.model.Note;
+import sey.a.rasp3.raw.RawNote;
 import sey.a.rasp3.shell.Xmls;
 
 public class NoteService {
-    public Note create(LessonDate lessonDate, int activity, String value, String text){
-        return null;
+    private static Long maxId = 0L;
+
+    public Note create(LessonDate lessonDate, RawNote raw) {
+        Note note = new Note();
+        note.setId(++maxId);
+        note.setActivity(raw.getActivity());
+        note.setLessonDate(lessonDate);
+        note.setValue(raw.getValue());
+        note.setText(raw.getText());
+        note.setHide(0);
+        note.setDateTime(Calendar.getInstance());
+        return note;
     }
 
-    public Note fastCreate(){
+    /*public Note fastCreate(){
         return null;
     }
 
@@ -22,8 +35,7 @@ public class NoteService {
     }
 
     public void delete(){
-
-    }
+    }*/
 
     public String toXML(Note note) {
         StringBuilder xml = new StringBuilder();
@@ -37,11 +49,11 @@ public class NoteService {
         return xml.toString();
     }
 
-    public Note fromXML(String text, LessonDate parent){
+    public Note fromXML(String text, LessonDate parent) {
         Note note = new Note();
         note.setId(Long.getLong(Xmls.extractString("id", text)));
         note.setLessonDate(parent);
-        note.setDateTime(Xmls.extractDate("dateTime",text));
+        note.setDateTime(Xmls.extractDate("dateTime", text));
         return note;
     }
 }

@@ -161,9 +161,9 @@ public class LessonFragment extends Fragment {
         Collections.sort(lessonDates, LessonDate.startTimeComparator);
         for(final LessonDate ld: lessonDates){
             View lessonView = drawLesson(ld);
-            lessonView.setOnClickListener(new View.OnClickListener() {
+            lessonView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View view) {
+                public boolean onLongClick(View view) {
                     PopUpMenu<Lesson, RawLesson> menu = new PopUpMenu<>();
                     AlertDialog dialog = menu.createDialog(getContext(), ld.getLesson());
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -173,6 +173,13 @@ public class LessonFragment extends Fragment {
                         }
                     });
                     dialog.show();
+                    return true;
+                }
+            });
+            lessonView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getContext(), "Click", Toast.LENGTH_SHORT).show();
                 }
             });
             LL.addView(lessonView);
