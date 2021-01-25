@@ -63,12 +63,14 @@ public class ScheduleService implements CRUD<Schedule, RawSchedule> {
         schedule.setName(rawSchedule.getName());
         schedule.setStartDate(rawSchedule.getStart());
         schedule.setEndDate(rawSchedule.getEnd());
+        General.getFiles().writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         return schedule;
     }
 
     @Override
     public Schedule hide(Schedule schedule, boolean b) {
         schedule.setHide(b ? 1 : 0);
+        General.getFiles().writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         return schedule;
     }
 

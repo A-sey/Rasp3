@@ -140,7 +140,7 @@ public class General {
             return null;
         }
         T t = crud.create(schedule, d);
-        if(schedule!=null) {
+        if (schedule != null) {
             files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         }
         return t;
@@ -160,21 +160,25 @@ public class General {
             return null;
         }
         T t1 = crud.update(t, d);
-        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        if (schedule != null) {
+            files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        }
         return t1;
     }
 
     public static <T extends Default, D extends RawDefault> T hide(T t, boolean hide) {
         CRUD<T, D> crud = findService(t);
         crud.hide(t, hide);
-        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        if (schedule != null) {
+            files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+        }
         return t;
     }
 
     public static <T extends Default, D extends RawDefault> void delete(T t) {
         CRUD<T, D> crud = findService(t);
         crud.delete(t);
-        if (!t.equals(schedule)) {
+        if (schedule != null) {
             files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         }
     }
