@@ -27,7 +27,8 @@ public class PopUpMenu<T extends Default, D extends RawDefault> {
     public View createView(Context context, T o) {
         LinearLayout LL = new LinearLayout(context);
         LL.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
         MenuItems items = General.getMenuItems(o);
         if (items == null) {
             return null;

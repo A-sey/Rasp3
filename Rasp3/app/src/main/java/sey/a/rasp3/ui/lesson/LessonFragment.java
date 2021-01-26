@@ -33,6 +33,7 @@ import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.raw.RawLesson;
 import sey.a.rasp3.shell.Dates;
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.menu.NoteMenu;
 import sey.a.rasp3.ui.menu.PopUpMenu;
 import sey.a.rasp3.ui.schedule.ScheduleFragment;
 
@@ -179,7 +180,15 @@ public class LessonFragment extends Fragment {
             lessonView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), "Click", Toast.LENGTH_SHORT).show();
+                    NoteMenu menu = new NoteMenu();
+                    AlertDialog dialog = menu.createDialog(getContext(), ld);
+                    dialog.show();
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            drawLessons();
+                        }
+                    });
                 }
             });
             LL.addView(lessonView);

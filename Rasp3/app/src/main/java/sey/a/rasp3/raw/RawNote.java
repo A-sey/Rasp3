@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RawNote {
     private int activity;
-    private String value;
-    private String text;
+    private String value = "";
+    private String text = "";
 }

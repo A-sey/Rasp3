@@ -20,6 +20,7 @@ import sey.a.rasp3.service.CRUD;
 import sey.a.rasp3.service.DisciplineService;
 import sey.a.rasp3.service.GeneralXml;
 import sey.a.rasp3.service.LessonService;
+import sey.a.rasp3.service.NoteService;
 import sey.a.rasp3.service.ScheduleService;
 import sey.a.rasp3.service.TeacherService;
 import sey.a.rasp3.service.TimeService;
@@ -42,6 +43,7 @@ public class General {
     private static TypeService typeService = new TypeService();
     private static TimeService timeService = new TimeService();
     private static LessonService lessonService = new LessonService();
+    private static NoteService noteService = new NoteService();
 
     public static void createFiles(Context context) {
         files = new Files(context);
@@ -51,19 +53,16 @@ public class General {
         return files;
     }
 
-    public static Schedule createSchedule(RawSchedule raw) {
-        Schedule schedule = scheduleService.create(null, raw);
-//        General.schedule = schedule;
-        files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
-        return schedule;
-    }
-
     public static void setSchedule(Schedule schedule) {
         General.schedule = schedule;
     }
 
     public static Schedule getSchedule() {
         return schedule;
+    }
+
+    public static NoteService getNoteService(){
+        return noteService;
     }
 
     private static <T extends Default, D extends RawDefault> CRUD<T, D> findService(D d) {
@@ -140,9 +139,7 @@ public class General {
             return null;
         }
         T t = crud.create(schedule, d);
-        if (schedule != null) {
-            files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
-        }
+        saveSchedule();
         return t;
     }
 
@@ -160,24 +157,24 @@ public class General {
             return null;
         }
         T t1 = crud.update(t, d);
-        if (schedule != null) {
-            files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
-        }
+        saveSchedule();
         return t1;
     }
 
     public static <T extends Default, D extends RawDefault> T hide(T t, boolean hide) {
         CRUD<T, D> crud = findService(t);
         crud.hide(t, hide);
-        if (schedule != null) {
-            files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
-        }
+        saveSchedule();
         return t;
     }
 
     public static <T extends Default, D extends RawDefault> void delete(T t) {
         CRUD<T, D> crud = findService(t);
         crud.delete(t);
+        saveSchedule();
+    }
+
+    public static void saveSchedule(){
         if (schedule != null) {
             files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         }

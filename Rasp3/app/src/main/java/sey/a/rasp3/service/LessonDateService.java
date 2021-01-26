@@ -2,6 +2,7 @@ package sey.a.rasp3.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.LessonDate;
@@ -10,6 +11,7 @@ import sey.a.rasp3.shell.Xmls;
 
 public class LessonDateService {
     private static Long maxId = 0L;
+    NoteService noteService = new NoteService();
 
     public LessonDate create(Lesson lesson, Calendar date) {
         LessonDate ld = new LessonDate();
@@ -38,7 +40,6 @@ public class LessonDateService {
     }
 
     public String toXml(LessonDate lessonDate) {
-        NoteService noteService = new NoteService();
         StringBuilder xml = new StringBuilder();
         xml.append(Xmls.stringToXml("id", lessonDate.getId().toString()));
         xml.append(Xmls.dateToXml("date", lessonDate.getDate()));
@@ -56,7 +57,11 @@ public class LessonDateService {
         maxId = Math.max(maxId, ld.getId());
         ld.setHide(Xmls.extractInteger("hide", text));
         ld.setDate(Xmls.extractDate("date", text));
-        ld.setNotes(new ArrayList<Note>());
+        List<Note> notes = new ArrayList<>();
+        for(String n: Xmls.extractStringList("note", text)){
+            notes.add(noteService.fromXML(n, ld));
+        }
+        ld.setNotes(notes);
         return ld;
     }
 }

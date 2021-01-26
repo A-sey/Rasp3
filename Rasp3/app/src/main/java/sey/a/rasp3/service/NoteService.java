@@ -51,9 +51,18 @@ public class NoteService {
 
     public Note fromXML(String text, LessonDate parent) {
         Note note = new Note();
-        note.setId(Long.getLong(Xmls.extractString("id", text)));
         note.setLessonDate(parent);
+        note.setId(Xmls.extractLong("id", text));
+        if(note.getId()<=maxId){
+            note.setId(++maxId);
+        }else {
+            maxId = note.getId();
+        }
         note.setDateTime(Xmls.extractDate("dateTime", text));
+        note.setActivity(Xmls.extractInteger("activity", text));
+        note.setValue(Xmls.extractString("value", text));
+        note.setText(Xmls.extractString("text", text));
+        note.setHide(Xmls.extractInteger("hide", text));
         return note;
     }
 }
