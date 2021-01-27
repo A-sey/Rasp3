@@ -7,6 +7,10 @@ import java.util.List;
 import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.LessonDate;
 import sey.a.rasp3.model.Note;
+import sey.a.rasp3.model.Teacher;
+import sey.a.rasp3.raw.RawLessonDate;
+import sey.a.rasp3.shell.Clocks;
+import sey.a.rasp3.shell.Dates;
 import sey.a.rasp3.shell.Xmls;
 
 public class LessonDateService {
@@ -25,6 +29,60 @@ public class LessonDateService {
 
     public LessonDate fastCreate() {
         return null;
+    }
+
+    public RawLessonDate wet(LessonDate ld) {
+        Lesson lesson = ld.getLesson();
+        Note lastStatusNote = ld.getLastStatusNote();
+        Note lastTypeNote = ld.getLastNoteWithActivity(Note.TYPE);
+        Note lastDisciplineNote = ld.getLastNoteWithActivity(Note.DISCIPLINE);
+        Note lastTeachersNote = ld.getLastNoteWithActivity(Note.TEACHER);
+        Note lastAuditoriumNote = ld.getLastNoteWithActivity(Note.AUDITORIUM);
+
+        RawLessonDate raw = new RawLessonDate();
+        if (lastStatusNote == null || lastStatusNote.getActivity() == Note.PLANNED) {
+            Calendar thisTime = Calendar.getInstance();
+            if(Dates.daysDiff(thisTime, ld.getDate())>=0) {
+                Clocks now = new Clocks(thisTime.get(Calendar.HOUR_OF_DAY), thisTime.get(Calendar.MINUTE));
+                if (Dates.daysDiff(thisTime, ld.getDate()) == 0 && now.isBefore(lesson.getTime().getStartTime()) && now.isAfter(lesson.getTime().getEndTime())) {
+                    raw.setCondition("Идёт");
+                } else {
+                    raw.setCondition("Будет");
+                }
+            }else {
+                raw.setCondition("Была");
+            }
+        } else {
+            raw.setCondition("Не будет");
+        }
+        raw.setLessonTime(lesson.getTime().getName());
+        raw.setStartTime(lesson.getTime().getStartTime().toString());
+        raw.setEndTime(lesson.getTime().getEndTime().toString());
+        if (lastTypeNote == null) {
+            raw.setLessonType(lesson.getType().getName());
+        } else {
+            raw.setLessonType(lastTypeNote.getValue());
+        }
+        if (lastDisciplineNote == null) {
+            raw.setLessonDiscipline(lesson.getDiscipline().getShortName());
+        } else {
+            raw.setLessonDiscipline(lastDisciplineNote.getValue());
+        }
+        if (lastTeachersNote == null) {
+            StringBuilder teachersText = new StringBuilder();
+            for (Teacher t : lesson.getTeachers()) {
+                teachersText.append(t.getShortName()).append("\n");
+            }
+            raw.setTeachers(teachersText.toString().trim());
+        } else {
+            raw.setTeachers(lastTeachersNote.getValue());
+        }
+        if (lastAuditoriumNote == null) {
+            raw.setAuditorium(lesson.getAuditorium());
+        } else {
+            raw.setAuditorium(lastAuditoriumNote.getValue());
+        }
+        return raw;
     }
 
     public LessonDate update() {
@@ -58,7 +116,7 @@ public class LessonDateService {
         ld.setHide(Xmls.extractInteger("hide", text));
         ld.setDate(Xmls.extractDate("date", text));
         List<Note> notes = new ArrayList<>();
-        for(String n: Xmls.extractStringList("note", text)){
+        for (String n : Xmls.extractStringList("note", text)) {
             notes.add(noteService.fromXML(n, ld));
         }
         ld.setNotes(notes);

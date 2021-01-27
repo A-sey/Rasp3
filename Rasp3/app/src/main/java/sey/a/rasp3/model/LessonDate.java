@@ -1,6 +1,7 @@
 package sey.a.rasp3.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
@@ -20,6 +21,34 @@ public class LessonDate {
     private Integer hide;
     // Depended
     private List<Note> notes;
+
+    public List<Note> getNotesWithActivity(int activity){
+        List<Note> notes = new ArrayList<>();
+        for(Note n: this.notes){
+            if(n.getActivity() == activity){
+                notes.add(n);
+            }
+        }
+        return notes;
+    }
+
+    public Note getLastNoteWithActivity(int activity){
+        for(int i = notes.size()-1; i>=0; i--){
+            if(notes.get(i).getActivity()==activity){
+                return notes.get(i);
+            }
+        }
+        return null;
+    }
+
+    public Note getLastStatusNote(){
+        for(int i = notes.size()-1; i>=0; i--){
+            if(notes.get(i).getActivity()==Note.CANCELED || notes.get(i).getActivity()==Note.PLANNED){
+                return notes.get(i);
+            }
+        }
+        return null;
+    }
 
     public static Comparator<LessonDate> startTimeComparator = new Comparator<LessonDate>() {
         @Override

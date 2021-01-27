@@ -31,6 +31,8 @@ import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.LessonDate;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.raw.RawLesson;
+import sey.a.rasp3.raw.RawLessonDate;
+import sey.a.rasp3.service.LessonDateService;
 import sey.a.rasp3.shell.Dates;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.menu.NoteMenu;
@@ -44,9 +46,6 @@ public class LessonFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_schedule, container, false);
-
-//        date.set(2020, 8, 29);
-
         drawAll();
         return root;
     }
@@ -196,6 +195,32 @@ public class LessonFragment extends Fragment {
     }
 
     private View drawLesson(LessonDate lessonDate) {
+        LinearLayout common = (LinearLayout) getLayoutInflater().inflate(R.layout.fragment_lesson, null, false);
+        TextView condition = common.findViewById(R.id.condition);
+        TextView lessonTime = common.findViewById(R.id.lesson_time);
+        TextView startTime = common.findViewById(R.id.start_time);
+        TextView endTime = common.findViewById(R.id.end_time);
+        TextView lessonType = common.findViewById(R.id.lesson_type);
+        TextView lessonDiscipline = common.findViewById(R.id.lesson_discipline);
+        TextView lessonTeachers = common.findViewById(R.id.lesson_teachers);
+        TextView auditorium = common.findViewById(R.id.auditorium);
+
+        LessonDateService service = new LessonDateService();
+        RawLessonDate raw = service.wet(lessonDate);
+
+        condition.setText(raw.getCondition());
+        lessonTime.setText(raw.getLessonTime());
+        startTime.setText(raw.getStartTime());
+        endTime.setText(raw.getEndTime());
+        lessonType.setText(raw.getLessonType());
+        lessonDiscipline.setText(raw.getLessonDiscipline());
+        lessonTeachers.setText(raw.getTeachers());
+        auditorium.setText(raw.getAuditorium());
+
+        return common;
+    }
+
+        private View drawLesson1(LessonDate lessonDate) {
         Lesson l = lessonDate.getLesson();
         LinearLayout common = (LinearLayout) getLayoutInflater().inflate(R.layout.fragment_lesson, null, false);
         TextView lessonTime = common.findViewById(R.id.lesson_time);
@@ -216,7 +241,7 @@ public class LessonFragment extends Fragment {
         for (Teacher t : l.getTeachers()) {
             teachers.append(t.getShortName()).append("\n");
         }
-        lessonTeachers.setText(teachers.toString().trim());
+        lessonTeachers.setText(teachers.toString()/*.trim()*/);
         auditorium.setText(l.getAuditorium());
         return common;
     }
