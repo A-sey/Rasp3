@@ -34,9 +34,15 @@ public class NoteMenu {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         LL.setOrientation(LinearLayout.VERTICAL);
 
-        LL.addView(canceled(context, ld), params);
-        LL.addView(planned(context, ld), params);
+        if(ld.getLastStatusNote()==null || ld.getLastStatusNote().getActivity()==Note.PLANNED) {
+            LL.addView(canceled(context, ld), params);
+        }else if(ld.getLastStatusNote().getActivity()==Note.CANCELED) {
+            LL.addView(planned(context, ld), params);
+        }
         LL.addView(type(context, ld), params);
+        LL.addView(discipline(context, ld));
+        LL.addView(teachers(context, ld));
+        LL.addView(auditorium(context, ld));
 
         return LL;
     }
@@ -85,6 +91,48 @@ public class NoteMenu {
             }
         });
         return button;
+    }
+
+    private View discipline(final Context context, final LessonDate ld){
+        Button view = new Button(context);
+        view.setText("Изменить дисциплину");
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RawNote raw = new RawNote();
+                raw.setActivity(Note.DISCIPLINE);
+                printDialog(context, ld, raw);
+            }
+        });
+        return view;
+    }
+
+    private View teachers(final Context context, final LessonDate ld){
+        Button view = new Button(context);
+        view.setText("Изменить преподавателей");
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RawNote raw = new RawNote();
+                raw.setActivity(Note.TEACHER);
+                printDialog(context, ld, raw);
+            }
+        });
+        return view;
+    }
+
+    private View auditorium(final Context context, final LessonDate ld){
+        Button view = new Button(context);
+        view.setText("Изменить аудиторию");
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RawNote raw = new RawNote();
+                raw.setActivity(Note.AUDITORIUM);
+                printDialog(context, ld, raw);
+            }
+        });
+        return view;
     }
 
     private void printDialog(final Context context, final LessonDate ld, RawNote raw) {
