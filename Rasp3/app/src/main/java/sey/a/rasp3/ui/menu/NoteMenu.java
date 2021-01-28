@@ -55,6 +55,7 @@ public class NoteMenu {
             public void onClick(View view) {
                 RawNote raw = new RawNote();
                 raw.setActivity(Note.CANCELED);
+                raw.setValue("Пара отменена");
                 ld.getNotes().add(service.create(ld, raw));
                 General.saveSchedule();
                 dialog.dismiss();
@@ -87,6 +88,7 @@ public class NoteMenu {
             public void onClick(View view) {
                 RawNote raw = new RawNote();
                 raw.setActivity(Note.TYPE);
+                raw.setValue("Пара запланирована");
                 printDialog(context, ld, raw);
             }
         });
