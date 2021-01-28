@@ -1,8 +1,10 @@
 package sey.a.rasp3.shell;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -67,5 +69,21 @@ public class Files {
         File dir = context.getExternalFilesDir(path);
         File file = new File(dir, name);
         file.delete();
+    }
+
+    public void saveImage(Bitmap bitmap){
+        File dir = context.getExternalFilesDir(null);
+        File file = new File(dir, "image.png");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 85, bytes);
+            fos.write(bytes.toByteArray());
+            fos.flush();
+            fos.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

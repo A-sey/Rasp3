@@ -61,12 +61,12 @@ public class LessonDate {
         }
     };
 
-    /*public static Comparator<LessonDate> dateComparator = new Comparator<LessonDate>() {
+    public static Comparator<LessonDate> dateComparator = new Comparator<LessonDate>() {
         @Override
         public int compare(LessonDate ld1, LessonDate ld2) {
             Calendar d1 = ld1.getDate();
             Calendar d2 = ld2.getDate();
             return d1.compareTo(d2);
         }
-    };*/
+    };
 }

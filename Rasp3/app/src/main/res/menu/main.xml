@@ -9,4 +9,8 @@
         android:title="Добавить пару"
         android:orderInCategory="200"
         app:showAsAction="never" />-->
+    <item android:id="@+id/action_create_image"
+        android:title="Сделать картинку"
+        android:orderInCategory="300"
+        app:showAsAction="never" />
 </menu>

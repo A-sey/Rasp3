@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,7 +67,7 @@ public class LessonFragment extends Fragment {
     }
 
     private void drawNavigate() {
-        LinearLayout layout = root.findViewById(R.id.date_navigation);
+        final LinearLayout layout = root.findViewById(R.id.date_navigation);
         getLayoutInflater().inflate(R.layout.fragment_lesson_navigation, layout);
         Button left = layout.findViewById(R.id.left_button);
         Button right = layout.findViewById(R.id.right_button);
@@ -124,6 +126,17 @@ public class LessonFragment extends Fragment {
                 return true;
             }
         });
+        /*dateLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Bitmap bitmap = Bitmap.createBitmap(layout.getWidth(), layout.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                layout.draw(canvas);
+                General.getFiles().saveImage(bitmap);
+
+                return true;
+            }
+        });*/
     }
 
     DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
@@ -220,32 +233,6 @@ public class LessonFragment extends Fragment {
         return common;
     }
 
-        private View drawLesson1(LessonDate lessonDate) {
-        Lesson l = lessonDate.getLesson();
-        LinearLayout common = (LinearLayout) getLayoutInflater().inflate(R.layout.fragment_lesson, null, false);
-        TextView lessonTime = common.findViewById(R.id.lesson_time);
-        TextView condition = common.findViewById(R.id.condition);
-        TextView startTime = common.findViewById(R.id.start_time);
-        TextView endTime = common.findViewById(R.id.end_time);
-        TextView lessonType = common.findViewById(R.id.lesson_type);
-        TextView lessonDiscipline = common.findViewById(R.id.lesson_discipline);
-        TextView lessonTeachers = common.findViewById(R.id.lesson_teachers);
-        TextView auditorium = common.findViewById(R.id.auditorium);
-
-        lessonTime.setText(l.getTime().getName());
-        startTime.setText(l.getTime().getStartTime().toString());
-        endTime.setText(l.getTime().getEndTime().toString());
-        lessonType.setText(l.getType().getName());
-        lessonDiscipline.setText(l.getDiscipline().getShortName());
-        StringBuilder teachers = new StringBuilder();
-        for (Teacher t : l.getTeachers()) {
-            teachers.append(t.getShortName()).append("\n");
-        }
-        lessonTeachers.setText(teachers.toString()/*.trim()*/);
-        auditorium.setText(l.getAuditorium());
-        return common;
-    }
-
     @Override
     public void onActivityResult(int RequestCode, int resultCode, Intent data) {
         if (RequestCode == 0) {
@@ -253,8 +240,7 @@ public class LessonFragment extends Fragment {
         }
     }
 
-
-    private void test() {
+//    private void test() {
 //        Files service = new Files(getContext());
 //        Schedule schedule = Test.generateSchedule();
 //        String result = GeneralXml.scheduleXmlPacking(schedule);
@@ -263,5 +249,5 @@ public class LessonFragment extends Fragment {
 //        Schedule reverse = GeneralXml.scheduleXmlUnpacking(result);
 //        General.setSchedule(reverse);
 //        System.out.println(service.getFilesList());
-    }
+//    }
 }

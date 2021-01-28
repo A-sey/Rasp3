@@ -1,13 +1,22 @@
 package sey.a.rasp3;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,6 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.lesson.LessonCreate;
+import sey.a.rasp3.ui.lesson.LessonWeek;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +70,18 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id == R.id.action_create_image){
+            if(General.getSchedule()==null){
+                Toast.makeText(this, "Выберите расписание", Toast.LENGTH_SHORT).show();
+                return super.onOptionsItemSelected(item);
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment fragment = new LessonWeek();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.nav_host_fragment, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
         /*if (id == R.id.action_select_schedule) {
             Intent intent = new Intent(MainActivity.this, SelectScheduleFragment.class);
             startActivity(intent);
