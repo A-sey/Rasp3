@@ -17,9 +17,12 @@ import java.util.Collections;
 import java.util.List;
 
 import sey.a.rasp3.R;
+import sey.a.rasp3.model.Discipline;
 import sey.a.rasp3.model.Teacher;
 import sey.a.rasp3.raw.RawTeacher;
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.defaults.CreateDialog;
+import sey.a.rasp3.ui.disciplines.DisciplineCreate;
 import sey.a.rasp3.ui.menu.PopUpMenu;
 
 public class TeacherFragment extends Fragment {
@@ -70,21 +73,12 @@ public class TeacherFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 final TeacherCreate teacherCreate = new TeacherCreate();
-                final AlertDialog dialog = new AlertDialog.Builder(getContext())
-                        .setView(teacherCreate.createForm(getContext()))
-                        .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .setPositiveButton("OK", null)
-                        .create();
-                dialog.show();
+                final CreateDialog<TeacherCreate, Teacher> createDialog = new CreateDialog<>();
+                final AlertDialog dialog = createDialog.show(getContext(), teacherCreate);
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         if (teacherCreate.positiveClick()) {
-                            showList((LinearLayout)root.findViewById(R.id.layout));
+                            showList((LinearLayout) root.findViewById(R.id.layout));
                             dialog.dismiss();
                         } else {
                             Toast.makeText(getContext(), "Ошибка ввода данных", Toast.LENGTH_LONG).show();

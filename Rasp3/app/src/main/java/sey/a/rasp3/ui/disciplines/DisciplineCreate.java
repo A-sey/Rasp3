@@ -20,7 +20,7 @@ public class DisciplineCreate implements DefaultCreate<Discipline> {
         this.discipline = discipline;
         RawDiscipline raw = General.wet(discipline);
         root = View.inflate(context, R.layout.fragment_discipline_create, null);
-        setActions();
+        autoFillShortName();
         final EditText fullName = root.findViewById(R.id.fullName);
         final EditText shortName = root.findViewById(R.id.shortName);
         final EditText comment = root.findViewById(R.id.comment);
@@ -33,39 +33,43 @@ public class DisciplineCreate implements DefaultCreate<Discipline> {
 
     public View createForm(Context context) {
         root = View.inflate(context, R.layout.fragment_discipline_create, null);
-        setActions();
+        autoFillShortName();
         update = false;
         return root;
     }
 
-    private void setActions() {
+    private void autoFillShortName() {
         final EditText fullName = root.findViewById(R.id.fullName);
         final EditText shortName = root.findViewById(R.id.shortName);
         fullName.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                shortName.setHint(fullNameToShort(fullName.getText().toString()));
+                shortName.setHint(trimName(fullName.getText().toString()));
                 return true;
             }
         });
-        shortName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        fullName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                shortName.setHint(fullNameToShort(fullName.getText().toString()));
+                if (fullName.getText().toString().equals("")) {
+                    shortName.setHint("Сокращённое название");
+                } else {
+                    shortName.setHint(trimName(fullName.getText().toString()));
+                }
             }
         });
     }
 
-    private String fullNameToShort(String fN) {
-        if (fN.length() < 1) {
+    private String trimName(String fullName) {
+        if (fullName.length() < 1) {
             return "";
         }
-        StringBuilder sN = new StringBuilder();
-        String[] words = fN.split(" ");
+        StringBuilder shortName = new StringBuilder();
+        String[] words = fullName.split(" ");
         for (String word : words) {
-            sN.append(word.substring(0, 1));
+            shortName.append(word.substring(0, 1));
         }
-        return sN.toString();
+        return shortName.toString();
     }
 
     public boolean positiveClick() {
@@ -74,8 +78,8 @@ public class DisciplineCreate implements DefaultCreate<Discipline> {
         final EditText comment = root.findViewById(R.id.comment);
         String fN = fullName.getText().toString();
         String sN = shortName.getText().toString();
-        if(sN.equals("")){
-            sN = fullNameToShort(fN);
+        if (sN.equals("")) {
+            sN = trimName(fN);
         }
         String c = comment.getText().toString();
         if (!fN.equals("") && !sN.equals("")) {
