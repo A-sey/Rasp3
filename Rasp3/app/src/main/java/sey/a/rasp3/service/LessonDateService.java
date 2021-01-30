@@ -42,15 +42,20 @@ public class LessonDateService {
         RawLessonDate raw = new RawLessonDate();
         if (lastStatusNote == null || lastStatusNote.getActivity() == Note.PLANNED) {
             Calendar thisTime = Calendar.getInstance();
-            if(Dates.daysDiff(thisTime, ld.getDate())>=0) {
-                Clocks now = new Clocks(thisTime.get(Calendar.HOUR_OF_DAY), thisTime.get(Calendar.MINUTE));
-                if (Dates.daysDiff(thisTime, ld.getDate()) == 0 && now.isBefore(lesson.getTime().getStartTime()) && now.isAfter(lesson.getTime().getEndTime())) {
-                    raw.setCondition("Идёт");
-                } else {
-                    raw.setCondition("Будет");
-                }
-            }else {
+            int daysDiff = Dates.daysDiff(thisTime, ld.getDate());
+            if (daysDiff < 0) {
                 raw.setCondition("Была");
+            } else if (daysDiff > 0) {
+                raw.setCondition("Будет");
+            } else {
+                Clocks now = new Clocks(thisTime.get(Calendar.HOUR_OF_DAY), thisTime.get(Calendar.MINUTE));
+                if (now.isAfter(lesson.getTime().getStartTime())) {
+                    raw.setCondition("Будет");
+                } else if (now.isBefore(lesson.getTime().getEndTime())) {
+                    raw.setCondition("Была");
+                } else {
+                    raw.setCondition("Идёт");
+                }
             }
         } else {
             raw.setCondition("Не будет");

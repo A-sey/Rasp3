@@ -63,9 +63,15 @@ public class Dates {
         return (y2 - y1) * 52 + (w2 - w1) + 1;
     }
 
-    public static int daysDiff(Calendar first, Calendar second){
-        long milliseconds = second.getTime().getTime() - first.getTime().getTime();
-        return (int) (milliseconds/(24*60*60*1000));
+    public static int daysDiff(Calendar first, Calendar second) {
+        Calendar f = new GregorianCalendar();
+        f.set(Calendar.YEAR, first.get(Calendar.YEAR));
+        f.set(Calendar.DAY_OF_YEAR, first.get(Calendar.DAY_OF_YEAR));
+        Calendar s = new GregorianCalendar();
+        s.set(Calendar.YEAR, second.get(Calendar.YEAR));
+        s.set(Calendar.DAY_OF_YEAR, second.get(Calendar.DAY_OF_YEAR));
+        long milliseconds = s.getTime().getTime() - f.getTime().getTime();
+        return (int) (milliseconds / (24 * 60 * 60 * 1000));
     }
 
     public Dates(Calendar start, Calendar end, Integer weekType, Integer dayOfWeek) {

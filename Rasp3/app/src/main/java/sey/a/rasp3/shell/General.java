@@ -61,7 +61,7 @@ public class General {
         return schedule;
     }
 
-    public static NoteService getNoteService(){
+    public static NoteService getNoteService() {
         return noteService;
     }
 
@@ -174,7 +174,7 @@ public class General {
         saveSchedule();
     }
 
-    public static void saveSchedule(){
+    public static void saveSchedule() {
         if (schedule != null) {
             files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
         }
