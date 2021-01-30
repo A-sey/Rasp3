@@ -31,6 +31,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_lesson_week"
+        android:name="sey.a.rasp3.ui.lesson.LessonWeek"
+        android:label="@string/lesson_week"
+        tools:layout="@layout/fragment_lesson_week" />
+
+    <fragment
         android:id="@+id/nav_lesson_create"
         android:name="sey.a.rasp3.ui.lesson.LessonCreateFragment"
         android:label="@string/lesson_create"

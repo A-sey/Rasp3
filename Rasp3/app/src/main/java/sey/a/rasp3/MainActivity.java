@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_schedule, R.id.nav_teacher, R.id.nav_discipline,
+                R.id.nav_schedule, R.id.nav_lesson_week, R.id.nav_teacher, R.id.nav_discipline,
                 R.id.nav_type, R.id.nav_time, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id == R.id.action_create_image){
+        /*if(id == R.id.action_create_image){
             if(General.getSchedule()==null){
                 Toast.makeText(this, "Выберите расписание", Toast.LENGTH_SHORT).show();
                 return super.onOptionsItemSelected(item);
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             transaction.replace(R.id.nav_host_fragment, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
-        }
+        }*/
         /*if (id == R.id.action_select_schedule) {
             Intent intent = new Intent(MainActivity.this, SelectScheduleFragment.class);
             startActivity(intent);

@@ -8,6 +8,9 @@
             android:id="@+id/nav_schedule"
             android:title="@string/menu_schedule" />
         <item
+            android:id="@+id/nav_lesson_week"
+            android:title="@string/lesson_week" />
+        <item
             android:id="@+id/nav_lesson_create"
             android:title="@string/lesson_create" />
         <item

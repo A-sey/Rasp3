@@ -1,13 +1,12 @@
 package sey.a.rasp3.ui.lesson;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,13 +31,15 @@ import sey.a.rasp3.shell.General;
 
 public class LessonWeek extends Fragment {
     private Schedule schedule;
-    List<LessonDate> lessonDates;
-    View root;
+    private List<LessonDate> lessonDates;
+    private View root;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = getTwoWeeksSchedule(getContext(), 1);
+        root = View.inflate(getContext(), R.layout.fragment_lesson_week, null);
+        int week = Dates.weeksDiff(General.getSchedule().getStartDate(), Calendar.getInstance());
+        drawTwoWeeksSchedule(week);
         return root;
     }
 
@@ -51,33 +52,45 @@ public class LessonWeek extends Fragment {
         Collections.sort(lessonDates, LessonDate.dateComparator);
     }
 
-    public View getTwoWeeksSchedule(Context context, int weekNumber){
+    public void drawTwoWeeksSchedule(final int weekNumber) {
         List<LessonDate> lessonDates1 = getPairsForWeek(weekNumber);
-        List<LessonDate> lessonDates2 = getPairsForWeek(weekNumber+1);
-        View view = View.inflate(context, R.layout.fragment_lesson_week, null);
-        LinearLayout field = view.findViewById(R.id.lessons_field);
-        TextView weekName1 = view.findViewById(R.id.week_name1);
-        weekName1.setText(weekNumber + " неделя");
-        TextView weekName2 = view.findViewById(R.id.week_name2);
-        weekName2.setText(weekNumber+1 + " неделя");
+        List<LessonDate> lessonDates2 = getPairsForWeek(weekNumber + 1);
+        LinearLayout field = root.findViewById(R.id.lessons_field);
+        field.removeAllViews();
+        TextView weekName1 = root.findViewById(R.id.week_name1);
+        weekName1.setText("◄  " + weekNumber + " неделя");
+        weekName1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawTwoWeeksSchedule(weekNumber - 1);
+            }
+        });
+        TextView weekName2 = root.findViewById(R.id.week_name2);
+        weekName2.setText(weekNumber + 1 + " неделя  ►");
+        weekName2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawTwoWeeksSchedule(weekNumber + 1);
+            }
+        });
         List<String> days = new ArrayList<>(Arrays.asList("Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"));
-        for(int i = 0; i<7; i++){
-            int numb = (i+1)%7+1;
-            LinearLayout FL = new LinearLayout(context);
+        for (int i = 0; i < 7; i++) {
+            int numb = (i + 1) % 7 + 1;
+            LinearLayout FL = new LinearLayout(getContext());
             FL.setOrientation(LinearLayout.VERTICAL);
 
-            TextView day = new TextView(context);
+            TextView day = new TextView(getContext());
             day.setText(days.get(i));
             day.setGravity(Gravity.CENTER);
-            day.setTextSize(3*context.getResources().getDisplayMetrics().density);
+            day.setTextSize(3 * requireContext().getResources().getDisplayMetrics().density);
             FL.addView(day);
 
-            LinearLayout dayLayout = new LinearLayout(context);
+            LinearLayout dayLayout = new LinearLayout(getContext());
             dayLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-            LinearLayout VL1 = new LinearLayout(context);
+            LinearLayout VL1 = new LinearLayout(getContext());
             VL1.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout VL2 = new LinearLayout(context);
+            LinearLayout VL2 = new LinearLayout(getContext());
             VL2.setOrientation(LinearLayout.VERTICAL);
             dayLayout.setWeightSum(2);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -90,28 +103,28 @@ public class LessonWeek extends Fragment {
 
             List<LessonDate> oneDay1 = new ArrayList<>();
             List<LessonDate> oneDay2 = new ArrayList<>();
-            for(LessonDate ld: lessonDates1){
-                if(ld.getDate().get(Calendar.DAY_OF_WEEK)==numb){
+            for (LessonDate ld : lessonDates1) {
+                if (ld.getDate().get(Calendar.DAY_OF_WEEK) == numb) {
                     oneDay1.add(ld);
                 }
             }
-            for(LessonDate ld: lessonDates2){
-                if(ld.getDate().get(Calendar.DAY_OF_WEEK)==numb){
+            for (LessonDate ld : lessonDates2) {
+                if (ld.getDate().get(Calendar.DAY_OF_WEEK) == numb) {
                     oneDay2.add(ld);
                 }
             }
             Collections.sort(oneDay1, LessonDate.startTimeComparator);
             Collections.sort(oneDay2, LessonDate.startTimeComparator);
-            for(LessonDate ld: oneDay1){
-                VL1.addView(drawLesson(context,ld));
+            for (LessonDate ld : oneDay1) {
+                VL1.addView(drawLesson(getContext(), ld));
             }
-            /*if(oneDay1.size()==0 && oneDay2.size()!=0){
-                View none = new View(context);
+            if(oneDay1.size()==0 && oneDay2.size()!=0){
+                View none = View.inflate(getContext(), R.layout.fragment_lesson1, null);
                 none.setVisibility(View.INVISIBLE);
                 VL1.addView(none);
-            }*/
-            for(LessonDate ld: oneDay2){
-                VL2.addView(drawLesson(context, ld));
+            }
+            for (LessonDate ld : oneDay2) {
+                VL2.addView(drawLesson(getContext(), ld));
             }
             /*if(oneDay1.size()!=0 && oneDay2.size()==0){
                 VL2.addView(new View(context));
@@ -119,7 +132,6 @@ public class LessonWeek extends Fragment {
             FL.addView(dayLayout);
             field.addView(FL);
         }
-        return view;
     }
 
     public View drawLesson(Context context, LessonDate lessonDate) {
