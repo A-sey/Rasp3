@@ -1,12 +1,12 @@
 package sey.a.rasp3.ui.disciplines;
 
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Discipline;
-import sey.a.rasp3.raw.RawDefault;
 import sey.a.rasp3.raw.RawDiscipline;
 import sey.a.rasp3.shell.General;
 import sey.a.rasp3.ui.defaults.DefaultCreate;
@@ -16,10 +16,11 @@ public class DisciplineCreate implements DefaultCreate<Discipline> {
     private boolean update = false;
     private Discipline discipline = null;
 
-    public View createForm(Context context, Discipline discipline){
+    public View createForm(final Context context, Discipline discipline) {
         this.discipline = discipline;
         RawDiscipline raw = General.wet(discipline);
         root = View.inflate(context, R.layout.fragment_discipline_create, null);
+        setActions();
         final EditText fullName = root.findViewById(R.id.fullName);
         final EditText shortName = root.findViewById(R.id.shortName);
         final EditText comment = root.findViewById(R.id.comment);
@@ -32,8 +33,39 @@ public class DisciplineCreate implements DefaultCreate<Discipline> {
 
     public View createForm(Context context) {
         root = View.inflate(context, R.layout.fragment_discipline_create, null);
+        setActions();
         update = false;
         return root;
+    }
+
+    private void setActions() {
+        final EditText fullName = root.findViewById(R.id.fullName);
+        final EditText shortName = root.findViewById(R.id.shortName);
+        fullName.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                shortName.setHint(fullNameToShort(fullName.getText().toString()));
+                return true;
+            }
+        });
+        shortName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                shortName.setHint(fullNameToShort(fullName.getText().toString()));
+            }
+        });
+    }
+
+    private String fullNameToShort(String fN) {
+        if (fN.length() < 1) {
+            return "";
+        }
+        StringBuilder sN = new StringBuilder();
+        String[] words = fN.split(" ");
+        for (String word : words) {
+            sN.append(word.substring(0, 1));
+        }
+        return sN.toString();
     }
 
     public boolean positiveClick() {
@@ -42,11 +74,14 @@ public class DisciplineCreate implements DefaultCreate<Discipline> {
         final EditText comment = root.findViewById(R.id.comment);
         String fN = fullName.getText().toString();
         String sN = shortName.getText().toString();
+        if(sN.equals("")){
+            sN = fullNameToShort(fN);
+        }
         String c = comment.getText().toString();
         if (!fN.equals("") && !sN.equals("")) {
-            if(update){
+            if (update) {
                 General.update(discipline, new RawDiscipline(fN, sN, c));
-            }else {
+            } else {
                 General.create(new RawDiscipline(fN, sN, c));
             }
             return true;
