@@ -126,9 +126,11 @@ public class LessonWeek extends Fragment {
             for (LessonDate ld : oneDay2) {
                 VL2.addView(drawLesson(getContext(), ld));
             }
-            /*if(oneDay1.size()!=0 && oneDay2.size()==0){
-                VL2.addView(new View(context));
-            }*/
+            if(oneDay1.size()!=0 && oneDay2.size()==0){
+                View none = View.inflate(getContext(), R.layout.fragment_lesson1, null);
+                none.setVisibility(View.INVISIBLE);
+                VL2.addView(none);
+            }
             FL.addView(dayLayout);
             field.addView(FL);
         }
