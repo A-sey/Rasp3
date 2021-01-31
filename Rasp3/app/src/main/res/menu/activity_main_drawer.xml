@@ -40,4 +40,14 @@
         </menu>
     </item>
 
+
+<!--    <item android:title="Скрыто"
+        android:visible="false">
+        <menu>
+            <item
+                android:id="@+id/nav_lesson_details"
+                android:title="@string/lesson_details" />
+        </menu>
+    </item>-->
+
 </menu>

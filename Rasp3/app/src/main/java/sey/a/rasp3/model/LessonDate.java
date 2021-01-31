@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class LessonDate {
+public class LessonDate extends Default {
     // ID
     private Long id;
     // Dependency

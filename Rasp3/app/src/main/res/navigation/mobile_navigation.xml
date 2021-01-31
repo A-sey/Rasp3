@@ -67,12 +67,6 @@
         tools:layout="@layout/fragment_list" />
 
     <fragment
-        android:id="@+id/nav_send"
-        android:name="sey.a.rasp3.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
-
-    <fragment
         android:id="@+id/nav_schedule_select"
         android:name="sey.a.rasp3.ui.schedule.ScheduleFragment"
         android:label="Выбрать расписание">
@@ -80,4 +74,10 @@
             android:id="@+id/action_nav_schedule_select_to_nav_schedule"
             app:destination="@id/nav_schedule" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_send"
+        android:name="sey.a.rasp3.ui.send.SendFragment"
+        android:label="@string/menu_send"
+        tools:layout="@layout/fragment_send" />
 </navigation>

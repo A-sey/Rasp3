@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
+
 import java.util.Calendar;
 
 import sey.a.rasp3.model.LessonDate;
@@ -15,11 +17,13 @@ import sey.a.rasp3.model.Note;
 import sey.a.rasp3.raw.RawNote;
 import sey.a.rasp3.service.NoteService;
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.defaults.CreateDetails;
 import sey.a.rasp3.ui.defaults.CreateDialog;
 import sey.a.rasp3.ui.note.NoteCreate;
 
 public class NoteMenu {
     private NoteService service = General.getNoteService();
+    private FragmentManager fragmentManager = null;
     AlertDialog dialog = null;
 
     public AlertDialog createDialog(Context context, LessonDate ld) {
@@ -34,6 +38,7 @@ public class NoteMenu {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         LL.setOrientation(LinearLayout.VERTICAL);
 
+        LL.addView(details(context, ld), params);
         if(ld.getLastStatusNote()==null || ld.getLastStatusNote().getActivity()==Note.PLANNED) {
             LL.addView(canceled(context, ld), params);
         }else if(ld.getLastStatusNote().getActivity()==Note.CANCELED) {
@@ -45,6 +50,20 @@ public class NoteMenu {
         LL.addView(auditorium(context, ld));
 
         return LL;
+    }
+
+    private View details(final Context context, final LessonDate ld) {
+        final Button button = new Button(context);
+        button.setText("Подробнее");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateDetails<LessonDate> createDetails = new CreateDetails<>();
+                createDetails.show(context, fragmentManager, ld);
+                dialog.dismiss();
+            }
+        });
+        return button;
     }
 
     private View canceled(final Context context, final LessonDate ld) {
@@ -156,5 +175,9 @@ public class NoteMenu {
                 }
             }
         });
+    }
+
+    public void setFragmentManager(FragmentManager fragmentManager) {
+        this.fragmentManager = fragmentManager;
     }
 }

@@ -24,4 +24,5 @@
     <string name="name">Название</string>
     <string name="lesson_create">Добавить пару</string>
     <string name="lesson_week">Расписание на неделю</string>
+    <string name="lesson_details">Подробности о паре</string>
 </resources>

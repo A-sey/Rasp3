@@ -42,7 +42,7 @@ public class LessonWeek extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = View.inflate(getContext(), R.layout.fragment_lesson_week, null);
+        root = inflater.inflate(R.layout.fragment_lesson_week, null);
         int week = Dates.weeksDiff(General.getSchedule().getStartDate(), Calendar.getInstance());
         drawTwoWeeksSchedule(week);
         return root;

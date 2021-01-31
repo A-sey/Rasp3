@@ -126,17 +126,6 @@ public class LessonFragment extends Fragment {
                 return true;
             }
         });
-        /*dateLayout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Bitmap bitmap = Bitmap.createBitmap(layout.getWidth(), layout.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                layout.draw(canvas);
-                General.getFiles().saveImage(bitmap);
-
-                return true;
-            }
-        });*/
     }
 
     DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
@@ -193,6 +182,7 @@ public class LessonFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     NoteMenu menu = new NoteMenu();
+                    menu.setFragmentManager(getParentFragmentManager());
                     AlertDialog dialog = menu.createDialog(getContext(), ld);
                     dialog.show();
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
