@@ -1,12 +1,16 @@
 package sey.a.rasp3.ui.lesson;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -118,7 +122,7 @@ public class LessonWeek extends Fragment {
             for (LessonDate ld : oneDay1) {
                 VL1.addView(drawLesson(getContext(), ld));
             }
-            if(oneDay1.size()==0 && oneDay2.size()!=0){
+            if (oneDay1.size() == 0 && oneDay2.size() != 0) {
                 View none = View.inflate(getContext(), R.layout.fragment_lesson1, null);
                 none.setVisibility(View.INVISIBLE);
                 VL1.addView(none);
@@ -126,7 +130,7 @@ public class LessonWeek extends Fragment {
             for (LessonDate ld : oneDay2) {
                 VL2.addView(drawLesson(getContext(), ld));
             }
-            if(oneDay1.size()!=0 && oneDay2.size()==0){
+            if (oneDay1.size() != 0 && oneDay2.size() == 0) {
                 View none = View.inflate(getContext(), R.layout.fragment_lesson1, null);
                 none.setVisibility(View.INVISIBLE);
                 VL2.addView(none);
@@ -149,12 +153,15 @@ public class LessonWeek extends Fragment {
 
         LessonDateService service = new LessonDateService();
         RawLessonDate raw = service.wet(lessonDate);
+        Resources res = requireContext().getResources();
 
         condition.setText(raw.getCondition());
         lessonTime.setText(raw.getLessonTime());
         startTime.setText(raw.getStartTime());
         endTime.setText(raw.getEndTime());
         lessonType.setText(raw.getLessonType());
+        setShape(lessonType, 2, res.getColor(R.color.colorPrimary),
+                res.getColor(R.color.design_default_color_background));
         lessonDiscipline.setText(raw.getLessonDiscipline());
         lessonTeachers.setText(raw.getTeachers());
         auditorium.setText(raw.getAuditorium());
@@ -162,6 +169,14 @@ public class LessonWeek extends Fragment {
         return common;
     }
 
+
+    private void setShape(View view, int strokeWidth, int strokeColor, int backColor){
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(backColor);
+        int borderWidth = (int) (strokeWidth * requireContext().getResources().getDisplayMetrics().density);
+        gd.setStroke(borderWidth, strokeColor);
+        view.setBackgroundDrawable(gd);
+    }
     public List<LessonDate> getPairsForWeek(int weekNumber) {
         List<LessonDate> list = new ArrayList<>();
         for (LessonDate ld : lessonDates) {
