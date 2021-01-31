@@ -3,6 +3,7 @@ package sey.a.rasp3.ui.lesson;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
@@ -155,27 +156,39 @@ public class LessonWeek extends Fragment {
         RawLessonDate raw = service.wet(lessonDate);
         Resources res = requireContext().getResources();
 
-        condition.setText(raw.getCondition());
-        lessonTime.setText(raw.getLessonTime());
-        startTime.setText(raw.getStartTime());
-        endTime.setText(raw.getEndTime());
-        lessonType.setText(raw.getLessonType());
-        setShape(lessonType, 2, res.getColor(R.color.colorPrimary),
+        Drawable d0 = createDrawable(0, res.getColor(R.color.colorPrimary),
+                res.getColor(R.color.colorPrimary));
+        Drawable d1 = createDrawable(2, res.getColor(R.color.colorPrimary),
                 res.getColor(R.color.design_default_color_background));
+
+        lessonTime.setText(raw.getLessonTime());
+        lessonTime.setBackgroundDrawable(d0);
+        lessonTime.setTextColor(Color.rgb(240, 240, 240));
+        condition.setText(raw.getCondition());
+        condition.setBackgroundDrawable(d1);
+        startTime.setText(raw.getStartTime());
+        startTime.setBackgroundDrawable(d1);
+        endTime.setText(raw.getEndTime());
+        endTime.setBackgroundDrawable(d1);
+        lessonType.setText(raw.getLessonType());
+        lessonType.setBackgroundDrawable(d1);
         lessonDiscipline.setText(raw.getLessonDiscipline());
+        lessonDiscipline.setBackgroundDrawable(d1);
         lessonTeachers.setText(raw.getTeachers());
+        lessonTeachers.setBackgroundDrawable(d1);
         auditorium.setText(raw.getAuditorium());
+        auditorium.setBackgroundDrawable(d1);
 
         return common;
     }
 
 
-    private void setShape(View view, int strokeWidth, int strokeColor, int backColor){
+    private Drawable createDrawable(int strokeWidth, int strokeColor, int backColor){
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(backColor);
         int borderWidth = (int) (strokeWidth * requireContext().getResources().getDisplayMetrics().density);
         gd.setStroke(borderWidth, strokeColor);
-        view.setBackgroundDrawable(gd);
+        return gd;
     }
     public List<LessonDate> getPairsForWeek(int weekNumber) {
         List<LessonDate> list = new ArrayList<>();
