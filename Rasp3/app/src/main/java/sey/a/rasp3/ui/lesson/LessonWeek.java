@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +34,7 @@ import sey.a.rasp3.raw.RawLessonDate;
 import sey.a.rasp3.service.LessonDateService;
 import sey.a.rasp3.shell.Dates;
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.ui.defaults.CreateDetails;
 
 public class LessonWeek extends Fragment {
     private Schedule schedule;
@@ -122,8 +124,18 @@ public class LessonWeek extends Fragment {
             }
             Collections.sort(oneDay1, LessonDate.startTimeComparator);
             Collections.sort(oneDay2, LessonDate.startTimeComparator);
-            for (LessonDate ld : oneDay1) {
-                VL1.addView(drawLesson(getContext(), ld));
+//            final FragmentManager fragmentManager = getParentFragmentManager();
+            for (final LessonDate ld : oneDay1) {
+                View drawingLesson = drawLesson(getContext(), ld);
+                /*drawingLesson.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        CreateDetails<LessonDate> createDetails = new CreateDetails<>();
+                        createDetails.show(getContext(), fragmentManager, ld);
+                        return true;
+                    }
+                });*/
+                VL1.addView(drawingLesson);
             }
             if (oneDay1.size() == 0 && oneDay2.size() != 0) {
                 View none = View.inflate(getContext(), R.layout.fragment_lesson1, null);
