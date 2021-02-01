@@ -64,6 +64,7 @@ public class LessonWeek extends Fragment {
         field.removeAllViews();
         TextView weekName1 = root.findViewById(R.id.week_name1);
         weekName1.setText("◄  " + weekNumber + " неделя");
+        weekName1.setTextSize(6 * requireContext().getResources().getDisplayMetrics().density);
         weekName1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +73,7 @@ public class LessonWeek extends Fragment {
         });
         TextView weekName2 = root.findViewById(R.id.week_name2);
         weekName2.setText(weekNumber + 1 + " неделя  ►");
+        weekName2.setTextSize(6 * requireContext().getResources().getDisplayMetrics().density);
         weekName2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +89,7 @@ public class LessonWeek extends Fragment {
             TextView day = new TextView(getContext());
             day.setText(days.get(i));
             day.setGravity(Gravity.CENTER);
-            day.setTextSize(3 * requireContext().getResources().getDisplayMetrics().density);
+            day.setTextSize(5 * requireContext().getResources().getDisplayMetrics().density);
             FL.addView(day);
 
             LinearLayout dayLayout = new LinearLayout(getContext());

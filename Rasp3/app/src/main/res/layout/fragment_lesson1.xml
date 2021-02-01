@@ -42,6 +42,7 @@
                 android:background="@drawable/border"
                 android:padding="5dp"
                 android:text="План"
+                android:textColor="@android:color/primary_text_light"
                 android:textSize="8dp" />
 
             <TextView
@@ -53,6 +54,7 @@
                 android:gravity="start"
                 android:padding="5dp"
                 android:text="00:00"
+                android:textColor="@android:color/primary_text_light"
                 android:textSize="8dp" />
 
             <TextView
@@ -64,6 +66,7 @@
                 android:gravity="end"
                 android:padding="5dp"
                 android:text="23:59"
+                android:textColor="@android:color/primary_text_light"
                 android:textSize="8dp" />
 
         </LinearLayout>
@@ -83,6 +86,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Тип"
+                android:textColor="@android:color/primary_text_light"
                 android:textSize="8dp" />
 
             <TextView
@@ -94,6 +98,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Предмет"
+                android:textColor="@android:color/primary_text_light"
                 android:textSize="8dp" />
 
             <TextView
@@ -105,6 +110,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Преподаватель"
+                android:textColor="@android:color/primary_text_light"
                 android:textSize="8dp" />
 
         </LinearLayout>
@@ -119,6 +125,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="Аудитория"
+        android:textColor="@android:color/primary_text_light"
         android:textSize="8dp" />
 
 </LinearLayout>

@@ -1,10 +1,14 @@
 package sey.a.rasp3.model;
 
+import androidx.annotation.NonNull;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
 
 import lombok.Getter;
 import lombok.Setter;
+import sey.a.rasp3.shell.Dates;
 import sey.a.rasp3.shell.Xmls;
 
 @Setter
@@ -41,4 +45,32 @@ public class Note extends Default{
             return n1.getDateTime().compareTo(n2.getDateTime());
         }
     };
+
+    @NonNull
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        String s = sdf.format(dateTime.getTime());
+        s+= "; \t" + getActivityText();
+        if(value!=null && !value.equals("")) {
+            s += ": \t" + value;
+        }
+        if(text!=null && !text.equals("")){
+            s+=";\n \t" + text;
+        }
+        return s;
+    }
+
+    public String getActivityText(){
+        switch (activity){
+            case CANCELED: return "Пара отменена";
+            case PLANNED: return "Пара запланирована";
+            case TYPE: return "Изменён тип";
+            case DISCIPLINE: return "Изменён предмет";
+            case TEACHER: return "Изменён преподаватель";
+            case TIME: return "Изменено время";
+            case AUDITORIUM: return "Изменена аудитория";
+            default: return "";
+        }
+    }
 }
