@@ -55,13 +55,17 @@ public class General {
 
     public static void setSchedule(Schedule schedule) {
         General.schedule = schedule;
-        Settings.setSelectedSchedule(schedule.getName());
+        if (schedule != null) {
+            Settings.setSelectedSchedule(schedule.getName());
+        } else {
+            Settings.setSelectedSchedule("");
+        }
     }
 
     public static Schedule getSchedule() {
-        if(schedule==null){
+        if (schedule == null) {
             String name = Settings.getSelectedSchedule();
-            if(name == null || name.equals("")){
+            if (name == null || name.equals("")) {
                 return null;
             }
             String xml = files.readFile(name, Files.SCHEDULE);

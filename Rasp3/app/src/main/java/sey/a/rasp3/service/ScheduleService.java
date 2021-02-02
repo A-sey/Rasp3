@@ -61,10 +61,14 @@ public class ScheduleService implements CRUD<Schedule, RawSchedule> {
 
     @Override
     public Schedule update(Schedule schedule, RawSchedule rawSchedule) {
+        String oldName = schedule.getName();
         schedule.setName(rawSchedule.getName());
         schedule.setStartDate(rawSchedule.getStart());
         schedule.setEndDate(rawSchedule.getEnd());
         General.getFiles().writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule), Files.SCHEDULE);
+        if(!oldName.equals(schedule.getName())){
+            General.getFiles().removeFile(oldName, Files.SCHEDULE);
+        }
         return schedule;
     }
 
@@ -78,6 +82,7 @@ public class ScheduleService implements CRUD<Schedule, RawSchedule> {
     @Override
     public void delete(Schedule schedule) {
         General.getFiles().removeFile(schedule.getName(), Files.SCHEDULE);
+        General.setSchedule(null);
     }
 
     public String toXML(Schedule schedule) {

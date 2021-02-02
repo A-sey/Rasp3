@@ -77,7 +77,11 @@ public class Files {
     public void removeFile(String name, int folder){
         File dir = context.getExternalFilesDir(getFolderByParam(folder));
         File file = new File(dir, name);
-        file.delete();
+        if(file.delete()){
+            Toast.makeText(context, "Файл удалён", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context, "Удаление не получилось", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void saveImage(Bitmap bitmap){
