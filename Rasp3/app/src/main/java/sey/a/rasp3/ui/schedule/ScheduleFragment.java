@@ -38,10 +38,18 @@ public class ScheduleFragment extends Fragment {
 
     private void showList(final ViewGroup group) {
         group.removeAllViews();
-        final Files files = new Files(getContext());
+        final Files files = General.getFiles();
+        Schedule selectedSchedule = General.getSchedule();
+        String schName = "";
+        if(selectedSchedule != null){
+            schName = selectedSchedule.getName();
+        }
         for (final String s : files.getFilesList(Files.SCHEDULE)) {
             Button b = new Button(getContext());
             b.setText(s);
+            if(schName.equals(s)){
+                b.setBackgroundColor(requireContext().getResources().getColor(R.color.colorPrimary));
+            }
             b.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
