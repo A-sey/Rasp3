@@ -13,12 +13,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import sey.a.rasp3.R;
+import sey.a.rasp3.shell.General;
 
 public class LessonCreateFragment extends Fragment {
     View root;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (General.getSchedule() == null) {
+            return super.onCreateView(inflater, container, savedInstanceState);
+        }
         final LessonCreate lessonCreate = new LessonCreate();
         root = lessonCreate.createForm(getContext());
         LinearLayout buttons = root.findViewById(R.id.buttons);
