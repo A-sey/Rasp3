@@ -39,14 +39,14 @@ public class ScheduleFragment extends Fragment {
     private void showList(final ViewGroup group) {
         group.removeAllViews();
         final Files files = new Files(getContext());
-        for (final String s : files.getFilesList()) {
+        for (final String s : files.getFilesList(Files.SCHEDULE)) {
             Button b = new Button(getContext());
             b.setText(s);
             b.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void onClick(View view) {
-                    String xml = files.readFile(s);
+                    String xml = files.readFile(s, Files.SCHEDULE);
                     Schedule schedule = GeneralXml.scheduleXmlUnpacking(xml);
                     General.setSchedule(schedule);
                     requireActivity().onBackPressed();
@@ -57,7 +57,7 @@ public class ScheduleFragment extends Fragment {
                 @Override
                 public boolean onLongClick(View view) {
                     PopUpMenu<Schedule, RawSchedule> popUpMenu = new PopUpMenu<>();
-                    String xml = files.readFile(s);
+                    String xml = files.readFile(s, Files.SCHEDULE);
                     AlertDialog dialog = popUpMenu.createDialog(getContext(), GeneralXml.scheduleXmlUnpacking(xml));
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override

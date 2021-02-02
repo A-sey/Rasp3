@@ -15,17 +15,26 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Files {
-    private final String path = "rasp";
+    public static final int SCHEDULE = 0;
+    public static final int SETTING = 1;
     private String name;
     private Context context;
+
+    private String getFolderByParam(int param){
+        switch (param){
+            case SCHEDULE: return "rasp";
+            case SETTING: return "settings";
+            default: return null;
+        }
+    }
 
     public Files(Context context) {
         this.context = context;
     }
 
-    public void writeFile(String name, String text) {
+    public void writeFile(String name, String text, int folder) {
         try {
-            File dir = context.getExternalFilesDir(path);
+            File dir = context.getExternalFilesDir(getFolderByParam(folder));
             File file = new File(dir, name);
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(text.getBytes());
@@ -37,10 +46,10 @@ public class Files {
         }
     }
 
-    public String readFile(String name) {
+    public String readFile(String name, int folder) {
         StringBuilder text = new StringBuilder();
         try {
-            File dir = context.getExternalFilesDir(path);
+            File dir = context.getExternalFilesDir(getFolderByParam(folder));
             File file = new File(dir, name);
             FileInputStream fis = new FileInputStream(file);
             Scanner scanner = new Scanner(fis);
@@ -56,8 +65,8 @@ public class Files {
         return text.toString().trim().replace("\n", "").replace("\t", "");
     }
 
-    public List<String> getFilesList() {
-        File dir = context.getExternalFilesDir(path);
+    public List<String> getFilesList(int folder) {
+        File dir = context.getExternalFilesDir(getFolderByParam(folder));
         List<String> list = new ArrayList<>();
         for (File f : dir.listFiles()) {
             list.add(f.getName());
@@ -65,8 +74,8 @@ public class Files {
         return list;
     }
 
-    public void removeFile(String name){
-        File dir = context.getExternalFilesDir(path);
+    public void removeFile(String name, int folder){
+        File dir = context.getExternalFilesDir(getFolderByParam(folder));
         File file = new File(dir, name);
         file.delete();
     }

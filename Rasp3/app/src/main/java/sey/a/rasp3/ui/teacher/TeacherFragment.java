@@ -31,16 +31,15 @@ public class TeacherFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_list, container, false);
-        setAddButtonAction((Button) root.findViewById(R.id.add));
-        showList((LinearLayout) root.findViewById(R.id.layout));
+        if (General.getSchedule() != null) {
+            setAddButtonAction((Button) root.findViewById(R.id.add));
+            showList((LinearLayout) root.findViewById(R.id.layout));
+        }
         return root;
     }
 
     private void showList(final ViewGroup group) {
         group.removeAllViews();
-        if(General.getSchedule()==null){
-            return;
-        }
         List<Teacher> teachers = General.getSchedule().getTeachers();
         Collections.sort(teachers, Teacher.nameComparator);
         for (final Teacher t : teachers) {

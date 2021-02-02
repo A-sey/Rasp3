@@ -29,16 +29,15 @@ public class DisciplineFragment extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, final Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_list, container, false);
-        setAddButtonAction((Button) root.findViewById(R.id.add));
-        showList((LinearLayout) root.findViewById(R.id.layout));
+        if (General.getSchedule() != null) {
+            setAddButtonAction((Button) root.findViewById(R.id.add));
+            showList((LinearLayout) root.findViewById(R.id.layout));
+        }
         return root;
     }
 
     private void showList(final ViewGroup group) {
         group.removeAllViews();
-        if (General.getSchedule() == null) {
-            return;
-        }
         List<Discipline> disciplines = General.getSchedule().getDisciplines();
         Collections.sort(disciplines, Discipline.nameComparator);
         for (final Discipline d : disciplines) {

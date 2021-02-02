@@ -55,9 +55,18 @@ public class General {
 
     public static void setSchedule(Schedule schedule) {
         General.schedule = schedule;
+        Settings.setSelectedSchedule(schedule.getName());
     }
 
     public static Schedule getSchedule() {
+        if(schedule==null){
+            String name = Settings.getSelectedSchedule();
+            if(name == null || name.equals("")){
+                return null;
+            }
+            String xml = files.readFile(name, Files.SCHEDULE);
+            schedule = GeneralXml.scheduleXmlUnpacking(xml);
+        }
         return schedule;
     }
 
@@ -176,7 +185,7 @@ public class General {
 
     public static void saveSchedule() {
         if (schedule != null) {
-            files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule));
+            files.writeFile(schedule.getName(), GeneralXml.scheduleXmlPacking(schedule), Files.SCHEDULE);
         }
     }
 

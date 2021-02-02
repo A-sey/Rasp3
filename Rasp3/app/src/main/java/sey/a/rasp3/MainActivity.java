@@ -25,6 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 
 import sey.a.rasp3.shell.General;
+import sey.a.rasp3.shell.Settings;
 import sey.a.rasp3.ui.lesson.LessonCreate;
 import sey.a.rasp3.ui.lesson.LessonWeek;
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         General.createFiles(getBaseContext());
+        Settings.setFiles(General.getFiles());
     }
 
     @Override

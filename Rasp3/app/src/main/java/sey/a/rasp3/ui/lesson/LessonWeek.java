@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,18 +46,22 @@ public class LessonWeek extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_lesson_week, null);
-        int week = Dates.weeksDiff(General.getSchedule().getStartDate(), Calendar.getInstance());
-        drawTwoWeeksSchedule(week);
+        if (General.getSchedule() != null) {
+            int week = Dates.weeksDiff(General.getSchedule().getStartDate(), Calendar.getInstance());
+            drawTwoWeeksSchedule(week);
+        }
         return root;
     }
 
     public LessonWeek() {
         schedule = General.getSchedule();
         lessonDates = new ArrayList<>();
-        for (Lesson l : schedule.getLessons()) {
-            lessonDates.addAll(l.getLessonDates());
+        if(schedule!=null) {
+            for (Lesson l : schedule.getLessons()) {
+                lessonDates.addAll(l.getLessonDates());
+            }
+            Collections.sort(lessonDates, LessonDate.dateComparator);
         }
-        Collections.sort(lessonDates, LessonDate.dateComparator);
     }
 
     public void drawTwoWeeksSchedule(final int weekNumber) {
