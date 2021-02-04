@@ -65,7 +65,13 @@ public class Xmls {
     }
 
     public static Integer extractInteger(String fieldName, String text){
-        return Integer.parseInt(extractString(fieldName, text));
+        int result;
+        try {
+            result = Integer.parseInt(extractString(fieldName, text));
+        }catch (NumberFormatException e){
+            result = 0;
+        }
+        return result;
     }
 
     public static Long extractLong(String fieldName, String text){

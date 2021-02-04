@@ -11,4 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RawType extends RawDefault {
     private String name;
+    private int color;
 }

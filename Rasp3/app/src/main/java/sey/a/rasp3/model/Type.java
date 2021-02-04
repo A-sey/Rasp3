@@ -1,5 +1,7 @@
 package sey.a.rasp3.model;
 
+import android.graphics.Color;
+
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class Type extends Default {
     // Params
     private String name;
     private Integer hide;
+    private Integer color;
     // Depended
     private List<Lesson> lessons;
 

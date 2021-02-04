@@ -12,6 +12,15 @@
         android:importantForAutofill="no"
         android:inputType="textCapSentences" />
 
+    <EditText
+        android:id="@+id/type_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Цвет"
+        android:inputType="textPersonName"
+        android:text="#55000000" />
+
     <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

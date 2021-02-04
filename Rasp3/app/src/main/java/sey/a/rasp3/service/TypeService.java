@@ -1,5 +1,7 @@
 package sey.a.rasp3.service;
 
+import android.graphics.Color;
+
 import java.util.ArrayList;
 
 import sey.a.rasp3.model.Lesson;
@@ -37,6 +39,7 @@ public class TypeService implements CRUD<Type, RawType> {
         type.setName(raw.getName());
         type.setHide(0);
         type.setLessons(new ArrayList<Lesson>());
+        type.setColor(raw.getColor());
         return type;
     }
 
@@ -49,12 +52,14 @@ public class TypeService implements CRUD<Type, RawType> {
     public RawType wet(Type type) {
         RawType raw = new RawType();
         raw.setName(type.getName());
+        raw.setColor(type.getColor());
         return raw;
     }
 
     @Override
     public Type update(Type type, RawType rawType) {
         type.setName(rawType.getName());
+        type.setColor(rawType.getColor());
         return type;
     }
 
@@ -77,6 +82,7 @@ public class TypeService implements CRUD<Type, RawType> {
         xml.append(Xmls.stringToXml("id", type.getId().toString()));
         xml.append(Xmls.stringToXml("name", type.getName()));
         xml.append(Xmls.stringToXml("hide", type.getHide().toString()));
+        xml.append(Xmls.stringToXml("color", type.getColor().toString()));
         return xml.toString();
     }
 
@@ -87,6 +93,7 @@ public class TypeService implements CRUD<Type, RawType> {
         maxId = Math.max(maxId, type.getId());
         type.setName(Xmls.extractString("name", text));
         type.setHide(Xmls.extractInteger("hide", text));
+        type.setColor(Xmls.extractInteger("color", text));
         type.setLessons(new ArrayList<Lesson>());
         return type;
     }
