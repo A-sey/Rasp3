@@ -4,8 +4,12 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -138,9 +142,7 @@ public class LessonFragment extends Fragment {
 
     private void writeDate(TextView weekNumber, TextView textDate) {
         textDate.setText(Dates.dateToString(date));
-//        weekNumber.setText(Dates.weeksDiff(General.getSchedule().getStartDate(), date) + "неделя");
         weekNumber.setText(String.format("%d неделя", Dates.weeksDiff(General.getSchedule().getStartDate(), date)));
-//        weekNumber.setText((date.get(Calendar.WEEK_OF_YEAR) - General.getSchedule().getStartDate().get(Calendar.WEEK_OF_YEAR) + 1) + " неделя");
     }
 
     private void drawLessons() {
@@ -210,17 +212,40 @@ public class LessonFragment extends Fragment {
 
         LessonDateService service = new LessonDateService();
         RawLessonDate raw = service.wet(lessonDate);
+        Resources res = requireContext().getResources();
 
-        condition.setText(raw.getCondition());
+        Drawable d0 = createDrawable(0, res.getColor(R.color.colorPrimary),
+                res.getColor(R.color.colorPrimary));
+        Drawable d1 = createDrawable(3, res.getColor(R.color.colorPrimary),
+                lessonDate.getLesson().getType().getColor());
+
         lessonTime.setText(raw.getLessonTime());
+        lessonTime.setBackgroundDrawable(d0);
+        lessonTime.setTextColor(Color.rgb(240,240,240));
+        condition.setText(raw.getCondition());
+        condition.setBackgroundDrawable(d1);
         startTime.setText(raw.getStartTime());
+        startTime.setBackgroundDrawable(d1);
         endTime.setText(raw.getEndTime());
+        endTime.setBackgroundDrawable(d1);
         lessonType.setText(raw.getLessonType());
+        lessonType.setBackgroundDrawable(d1);
         lessonDiscipline.setText(raw.getLessonDiscipline());
+        lessonDiscipline.setBackgroundDrawable(d1);
         lessonTeachers.setText(raw.getTeachers());
+        lessonTeachers.setBackgroundDrawable(d1);
         auditorium.setText(raw.getAuditorium());
+        auditorium.setBackgroundDrawable(d1);
 
         return common;
+    }
+
+    private Drawable createDrawable(int strokeWidth, int strokeColor, int backColor) {
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(backColor);
+        int borderWidth = (int) (strokeWidth * requireContext().getResources().getDisplayMetrics().density);
+        gd.setStroke(borderWidth, strokeColor);
+        return gd;
     }
 
     @Override
@@ -229,15 +254,4 @@ public class LessonFragment extends Fragment {
             drawAll();
         }
     }
-
-//    private void test() {
-//        Files service = new Files(getContext());
-//        Schedule schedule = Test.generateSchedule();
-//        String result = GeneralXml.scheduleXmlPacking(schedule);
-//        service.writeFile("Schedule", result);
-//
-//        Schedule reverse = GeneralXml.scheduleXmlUnpacking(result);
-//        General.setSchedule(reverse);
-//        System.out.println(service.getFilesList());
-//    }
 }
