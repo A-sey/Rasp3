@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,12 +23,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import sey.a.rasp3.R;
 import sey.a.rasp3.model.Lesson;
 import sey.a.rasp3.model.LessonDate;
 import sey.a.rasp3.model.Schedule;
+import sey.a.rasp3.model.Time;
 import sey.a.rasp3.raw.RawLessonDate;
 import sey.a.rasp3.service.LessonDateService;
 import sey.a.rasp3.shell.Dates;
@@ -82,9 +89,23 @@ public class LessonWeek extends Fragment {
                 drawTwoWeeksSchedule(weekNumber + 1);
             }
         });
+
         List<String> days = new ArrayList<>(Arrays.asList("Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"));
         for (int i = 0; i < 7; i++) {
             int numb = (i + 1) % 7 + 1;
+            List<LessonDate> dayLessons1 = new ArrayList<>();
+            List<LessonDate> dayLessons2 = new ArrayList<>();
+            for(LessonDate ld: lessonDates1){
+                if(ld.getDate().get(Calendar.DAY_OF_WEEK)==numb){
+                    dayLessons1.add(ld);
+                }
+            }
+            for(LessonDate ld: lessonDates2){
+                if(ld.getDate().get(Calendar.DAY_OF_WEEK)==numb){
+                    dayLessons2.add(ld);
+                }
+            }
+
             LinearLayout FL = new LinearLayout(getContext());
             FL.setOrientation(LinearLayout.VERTICAL);
 
@@ -94,64 +115,48 @@ public class LessonWeek extends Fragment {
             day.setTextSize(5 * requireContext().getResources().getDisplayMetrics().density);
             FL.addView(day);
 
-            LinearLayout dayLayout = new LinearLayout(getContext());
-            dayLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-            LinearLayout VL1 = new LinearLayout(getContext());
-            VL1.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout VL2 = new LinearLayout(getContext());
-            VL2.setOrientation(LinearLayout.VERTICAL);
-            dayLayout.setWeightSum(2);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1
-            );
-            dayLayout.addView(VL1, params);
-            dayLayout.addView(VL2, params);
-
-            List<LessonDate> oneDay1 = new ArrayList<>();
-            List<LessonDate> oneDay2 = new ArrayList<>();
-            for (LessonDate ld : lessonDates1) {
-                if (ld.getDate().get(Calendar.DAY_OF_WEEK) == numb) {
-                    oneDay1.add(ld);
-                }
+            TableLayout dayLayout = new TableLayout(getContext());
+            SortedSet<Time> dateTimes = new TreeSet<>(Time.startTimeComparator);
+            for(LessonDate ld: dayLessons1){
+                dateTimes.add(ld.getLesson().getTime());
             }
-            for (LessonDate ld : lessonDates2) {
-                if (ld.getDate().get(Calendar.DAY_OF_WEEK) == numb) {
-                    oneDay2.add(ld);
-                }
+            for(LessonDate ld: dayLessons2){
+                dateTimes.add(ld.getLesson().getTime());
             }
-            Collections.sort(oneDay1, LessonDate.startTimeComparator);
-            Collections.sort(oneDay2, LessonDate.startTimeComparator);
-//            final FragmentManager fragmentManager = getParentFragmentManager();
-            for (final LessonDate ld : oneDay1) {
-                View drawingLesson = drawLesson(getContext(), ld);
-                /*drawingLesson.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        CreateDetails<LessonDate> createDetails = new CreateDetails<>();
-                        createDetails.show(getContext(), fragmentManager, ld);
-                        return true;
-                    }
-                });*/
-                VL1.addView(drawingLesson);
-            }
-            if (oneDay1.size() == 0 && oneDay2.size() != 0) {
-                View none = View.inflate(getContext(), R.layout.fragment_lesson1, null);
-                none.setVisibility(View.INVISIBLE);
-                VL1.addView(none);
-            }
-            for (LessonDate ld : oneDay2) {
-                VL2.addView(drawLesson(getContext(), ld));
-            }
-            if (oneDay1.size() != 0 && oneDay2.size() == 0) {
-                View none = View.inflate(getContext(), R.layout.fragment_lesson1, null);
-                none.setVisibility(View.INVISIBLE);
-                VL2.addView(none);
+            for(Time time: dateTimes){
+                TableRow row = new TableRow(getContext());
+                row.setGravity(Gravity.CENTER);
+                dayLayout.addView(row);
+                row.addView(fillDayTime(dayLessons1, time));
+                row.addView(fillDayTime(dayLessons2, time));
             }
             FL.addView(dayLayout);
             field.addView(FL);
+        }
+    }
+
+    private View fillDayTime(List<LessonDate> lessonDates, Time time){
+        List<LessonDate> lds = new ArrayList<>();
+        for(LessonDate ld: lessonDates){
+            if(ld.getLesson().getTime().equals(time)){
+                lds.add(ld);
+            }
+        }
+        if(lds.size()==0){
+//            View empty = View.inflate(getContext(), R.layout.fragment_lesson1, null);
+//            empty.setVisibility(View.INVISIBLE);
+//            return empty;
+            return  new View(getContext());
+        } else if(lds.size()==1){
+            View view = drawLesson(getContext(), lds.get(0));
+            return view;
+        } else {
+            LinearLayout LL = new LinearLayout(getContext());
+            LL.setOrientation(LinearLayout.VERTICAL);
+            for(LessonDate ld: lds){
+                LL.addView(drawLesson(getContext(), ld));
+            }
+            return LL;
         }
     }
 
