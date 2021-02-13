@@ -224,7 +224,9 @@ public class LessonFragment extends Fragment {
         int backgroundColor;
         if(raw.getCondition().equals("Идёт")){
             borderColor = res.getColor(R.color.colorAccent);
-        }else {
+        }else if(raw.getCondition().equals("Не будет")){
+            borderColor = res.getColor(R.color.colorDisabled);
+        } else{
             borderColor = res.getColor(R.color.colorPrimary);
         }
         backgroundColor = lessonDate.getLesson().getType().getColor();
