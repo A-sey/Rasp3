@@ -214,10 +214,19 @@ public class LessonFragment extends Fragment {
         RawLessonDate raw = service.wet(lessonDate);
         Resources res = requireContext().getResources();
 
-        Drawable d0 = createDrawable(0, res.getColor(R.color.colorPrimary),
-                res.getColor(R.color.colorPrimary));
-        Drawable d1 = createDrawable(3, res.getColor(R.color.colorPrimary),
-                lessonDate.getLesson().getType().getColor());
+        int borderColor;
+        int backgroundColor;
+        if(raw.getCondition().equals("Идёт")){
+            borderColor = res.getColor(R.color.colorAccent);
+        }else {
+            borderColor = res.getColor(R.color.colorPrimary);
+        }
+        backgroundColor = lessonDate.getLesson().getType().getColor();
+
+        Drawable d0 = createDrawable(0, borderColor,
+                borderColor);
+        Drawable d1 = createDrawable(3, borderColor,
+                backgroundColor);
 
         lessonTime.setText(raw.getLessonTime());
         lessonTime.setBackgroundDrawable(d0);

@@ -25,8 +25,8 @@ public class TimeCreate implements DefaultCreate<Time> {
         final EditText start = root.findViewById(R.id.startText);
         final EditText end = root.findViewById(R.id.endText);
         name.setText(raw.getName());
-        name.setText(raw.getStart().toString());
-        name.setText(raw.getEnd().toString());
+        start.setText(raw.getStart().toString());
+        end.setText(raw.getEnd().toString());
         update = true;
         return root;
     }

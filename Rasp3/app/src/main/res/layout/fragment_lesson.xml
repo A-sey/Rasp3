@@ -12,11 +12,9 @@
         android:id="@+id/lesson_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         android:gravity="center"
         android:padding="2dp"
-        android:text="Время пары"
-        android:textColor="#eeeeee" />
+        android:text="Время пары" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +36,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/border"
                 android:padding="5dp"
                 android:text="План"
                 android:textColor="@android:color/primary_text_light" />
@@ -48,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/border"
                 android:gravity="start"
                 android:padding="5dp"
                 android:text="00:00"
@@ -59,7 +55,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/border"
                 android:gravity="end"
                 android:padding="5dp"
                 android:text="23:59"
@@ -79,7 +74,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/border"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Тип"
@@ -90,7 +84,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/border"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Предмет"
@@ -101,7 +94,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/border"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Преподаватель"
@@ -115,7 +107,6 @@
         android:id="@+id/auditorium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border"
         android:gravity="center"
         android:padding="5dp"
         android:text="Аудитория"
