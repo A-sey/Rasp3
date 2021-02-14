@@ -99,6 +99,7 @@ public class LessonWeek extends Fragment {
         });
 
         List<String> days = new ArrayList<>(Arrays.asList("Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"));
+        TableRow.LayoutParams cellLayoutParam = new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
         for (int i = 0; i < 7; i++) {
             int numb = (i + 1) % 7 + 1;
             List<LessonDate> dayLessons1 = new ArrayList<>();
@@ -135,8 +136,8 @@ public class LessonWeek extends Fragment {
                 TableRow row = new TableRow(getContext());
                 row.setGravity(Gravity.CENTER);
                 dayLayout.addView(row);
-                row.addView(fillDayTime(dayLessons1, time));
-                row.addView(fillDayTime(dayLessons2, time));
+                row.addView(fillDayTime(dayLessons1, time), cellLayoutParam);
+                row.addView(fillDayTime(dayLessons2, time), cellLayoutParam);
             }
             FL.addView(dayLayout);
             field.addView(FL);
@@ -151,10 +152,10 @@ public class LessonWeek extends Fragment {
             }
         }
         if (lds.size() == 0) {
-//            View empty = View.inflate(getContext(), R.layout.fragment_lesson1, null);
-//            empty.setVisibility(View.INVISIBLE);
-//            return empty;
-            return new View(getContext());
+            View empty = View.inflate(getContext(), R.layout.fragment_lesson1, null);
+            empty.setVisibility(View.INVISIBLE);
+            return empty;
+//            return new View(getContext());
         } else if (lds.size() == 1) {
             View view = drawLesson(getContext(), lds.get(0));
             return view;
